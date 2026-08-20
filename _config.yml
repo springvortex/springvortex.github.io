@@ -15,8 +15,8 @@ kramdown:
   syntax_highlighter: rouge
 exclude: ['CNAME', 'README.md', 'LICENSE', '_site', 'dist', 'source-assets', 'Gemfile', 'Gemfile.lock', 'blog.sh', 'package.json', 'package-lock.json', 'scripts', 'node_modules']
 
-url: 'https://maver.cn'
-domainUrl: 'https://maver.cn'
+url: 'https://uhaiin.com'
+domainUrl: 'https://uhaiin.com'
 baseurl: ''
 
 # 搜索平台站点验证码；留空时不输出验证标签
