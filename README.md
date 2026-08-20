@@ -269,7 +269,7 @@ baiduSiteVerification: ''
 | Bing Webmaster Tools | `<meta name="msvalidate.01">` |
 | 百度搜索资源平台 | `<meta name="baidu-site-verification">` |
 
-Google 更推荐在阿里云 DNS 添加 TXT 记录，使用 Domain 属性验证 `maver.cn`，这样可以覆盖所有子域名和 HTTP / HTTPS 变体。Bing 支持从 Google Search Console 导入站点，通常最省事。
+Google 更推荐在阿里云 DNS 添加 TXT 记录，使用 Domain 属性验证 `uhaiin.com`，这样可以覆盖所有子域名和 HTTP / HTTPS 变体。Bing 支持从 Google Search Console 导入站点，通常最省事。
 
 ## 文章 MD5 链接
 
@@ -356,7 +356,7 @@ Actions -> Build and deploy Pages -> Run workflow
 <用户名>.github.io
 ```
 
-这是 GitHub Pages 的默认用户站点域名规则。使用这个仓库名后，GitHub 会把站点发布到 `https://<用户名>.github.io/`，根路径不需要追加子路径；绑定自定义域名 `maver.cn` 后，GitHub Pages 会根据仓库中的 `CNAME` 文件自动应用域名。
+这是 GitHub Pages 的默认用户站点域名规则。使用这个仓库名后，GitHub 会把站点发布到 `https://<用户名>.github.io/`，根路径不需要追加子路径；绑定自定义域名 `uhaiin.com` 后，GitHub Pages 会根据仓库中的 `CNAME` 文件自动应用域名。
 
 项目仓库（例如 `blog`）也可以启用 Pages，但默认地址会带仓库路径，例如 `https://<用户名>.github.io/blog/`，需要额外处理 `baseurl` 和静态资源路径。当前站点配置为根路径部署，最省心的方式是使用 `<用户名>.github.io` 用户仓库。
 
