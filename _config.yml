@@ -3,9 +3,9 @@ encoding: utf-8
 # SEO相关信息
 title: 知行合一
 description: 知行合一
-keywords: runtao.zhong,Blog,Java,Html,JavaScript,Jekyll
+keywords: zjc,Blog,Java,Html,JavaScript,Jekyll
 author: zjc
-footerText: '联系我（email）: <a href="mailto:runtao.zhong@email.cn">runtao.zhong@email.cn</a>'
+footerText: '联系我: <a href="mailto:jiancai.zhong.1997@gmail.com">jiancai.zhong.1997@gmail.com</a>'
 
 # 这些不要动
 permalink: /posts/:year/:month/:day/:title
