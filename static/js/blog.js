@@ -2,7 +2,7 @@
 ;(function () {
   const style1 = 'background:#4BB596;color:#ffffff;border-radius: 2px;'
   const style2 = 'color:auto;'
-  const author = ' runtao.zhong'
+  const author = ' zjc'
   console.info('%c Author %c' + author, style1, style2)
 })()
 

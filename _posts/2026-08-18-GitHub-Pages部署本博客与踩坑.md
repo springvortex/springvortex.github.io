@@ -130,7 +130,7 @@ https://<用户名>.github.io
 https://<用户名>.github.io/<仓库名>/
 ```
 
-如果要使用自己的域名，例如 `maver.cn`，在仓库里配置：
+如果要使用自己的域名，例如 `uhaiin.com`，在仓库里配置：
 
 ```text
 Settings -> Pages -> Custom domain
@@ -159,10 +159,10 @@ domainUrl: ''
 baseurl: ''
 ```
 
-如果绑定根域名，例如 `maver.cn`，建议这样配置：
+如果绑定根域名，例如 `uhaiin.com`，建议这样配置：
 
 ```yaml
-domainUrl: 'https://maver.cn'
+domainUrl: 'https://uhaiin.com'
 baseurl: ''
 ```
 
