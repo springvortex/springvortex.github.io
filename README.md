@@ -25,7 +25,7 @@
 ## 质量快照
 
 2026-08-18 使用 Lighthouse 13.4.1 测试线上文章
-[MathJax 与 Mermaid 加载测试](https://maver.cn/20240e78eee91e4b4eee4a2c62ca0738/)：
+[MathJax 与 Mermaid 加载测试](https://uhaiin.com/20240e78eee91e4b4eee4a2c62ca0738/)：
 
 | 客户端 | Performance | Accessibility | Best Practices | SEO |
 |---|---:|---:|---:|---:|
@@ -99,9 +99,9 @@ npm ci
 ```yaml
 title: 知行合一
 description: 知行合一
-keywords: runtao.zhong,Blog,Java,Html,JavaScript,Jekyll
-author: runtao.zhong
-footerText: '联系我（email）: <a href="mailto:runtao.zhong@email.cn">runtao.zhong@email.cn</a>'
+keywords: zjc,Blog,Java,Html,JavaScript,Jekyll
+author: zjc
+footerText: '联系我（email）: <a href="mailto:jiancai.zhong.1997@gmail.com">jiancai.zhong.1997@gmail.com</a>'
 ```
 
 `footerText` 支持 HTML，可用于 `mailto:` 链接。
