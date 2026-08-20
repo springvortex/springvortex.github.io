@@ -1,0 +1,110 @@
+<!-- MathJax数学公式支持：检测到公式时才加载 -->
+<style>
+  .has-jax {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: transparent !important;
+    line-height: normal !important;
+    word-break: normal !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .has-jax * {
+    outline: 0;
+  }
+</style>
+<script>
+  ;(function () {
+    const mathPattern = /\$\$[\s\S]+?\$\$|\\\([\s\S]+?\\\)|\\\[[\s\S]+?\\\]|\$(?!\s)(?:\\[\s\S]|[A-Za-z(](?:[^$]*?[^\s$])?)?\$/
+    const legacyMathSelector = 'script[type^="math/tex"]'
+
+    function hasMath() {
+      const post = document.querySelector('.page-post .post')
+      if (!post) {
+        return false
+      }
+
+      if (post.querySelector(legacyMathSelector)) {
+        return true
+      }
+
+      const walker = document.createTreeWalker(post, NodeFilter.SHOW_TEXT, {
+        acceptNode: function (node) {
+          const parent = node.parentElement
+          if (!parent || parent.closest('pre, code, script, style, textarea')) {
+            return NodeFilter.FILTER_REJECT
+          }
+          return NodeFilter.FILTER_ACCEPT
+        }
+      })
+
+      let node
+      while ((node = walker.nextNode())) {
+        if (mathPattern.test(node.nodeValue)) {
+          return true
+        }
+      }
+      return false
+    }
+
+    function normalizeLegacyMath() {
+      const post = document.querySelector('.page-post .post')
+      if (!post) {
+        return
+      }
+
+      // Kramdown 输出 MathJax 2 的 script 格式，MathJax 3 需先转回 TeX 分隔符
+      post.querySelectorAll(legacyMathSelector).forEach(function (script) {
+        const displayMode = /mode=display/i.test(script.type)
+        const source = script.textContent
+          .replace(/%\s*<!\[CDATA\[/g, '')
+          .replace(/%\s*\]\]>/g, '')
+          .trim()
+        const wrapper = document.createElement(displayMode ? 'div' : 'span')
+
+        wrapper.className = displayMode ? 'math-display' : 'math-inline'
+        wrapper.textContent = displayMode ? `\\[${source}\\]` : `\\(${source}\\)`
+        script.replaceWith(wrapper)
+      })
+    }
+
+    if (!hasMath()) {
+      return
+    }
+
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'a']
+      },
+      svg: { fontCache: 'global' },
+      startup: {
+        pageReady: function () {
+          normalizeLegacyMath()
+          return MathJax.startup.defaultPageReady().then(function () {
+            // 父级元素添加类名，便于css控制
+            document.querySelectorAll('mjx-container').forEach(function (el) {
+              el.parentNode.classList.add('has-jax')
+            })
+          })
+        }
+      }
+    }
+
+    const script = document.createElement('script')
+    script.id = 'MathJax-script'
+    script.async = true
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js'
+    script.integrity =
+      'sha384-4kE/rQ11E8xT9QgrCBTyvenkuPfQo8rXYQvJZuMgxyPOoUfpatjQPlgdv6V5yhUK'
+    script.crossOrigin = 'anonymous'
+    script.onerror = function () {
+      console.error('MathJax加载失败')
+    }
+    document.head.appendChild(script)
+  })()
+</script>

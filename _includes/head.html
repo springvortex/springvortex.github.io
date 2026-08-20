@@ -1,0 +1,124 @@
+{%- assign buildAt = site.buildAt -%}
+{%- assign canonical_url = site.domainUrl | append: site.baseurl | append: page.url -%}
+{%- assign is_article = false -%}
+{%- if page.date -%}
+  {%- assign is_article = true -%}
+{%- endif -%}
+{%- assign has_cdn_feature = site.extMath or site.extMermaid -%}
+{%- assign meta_description = page.description | default: '' -%}
+{%- if meta_description == '' and page.excerpt -%}
+  {%- assign meta_description = page.excerpt | strip_html | strip_newlines | strip | truncate: 150 -%}
+{%- endif -%}
+{%- if meta_description == '' -%}
+  {%- assign meta_description = site.description -%}
+{%- endif -%}
+<head>
+  <title>{{ page.title }}|{{ site.title }}</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="content-language" content="zh-CN" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="supported-color-schemes" content="light dark">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="author" content="{{ site.author }}" />
+  {%- if site.googleSiteVerification %}
+  <meta name="google-site-verification" content="{{ site.googleSiteVerification | escape }}" />
+  {%- endif %}
+  {%- if site.bingSiteVerification %}
+  <meta name="msvalidate.01" content="{{ site.bingSiteVerification | escape }}" />
+  {%- endif %}
+  {%- if site.baiduSiteVerification %}
+  <meta name="baidu-site-verification" content="{{ site.baiduSiteVerification | escape }}" />
+  {%- endif %}
+  <meta name="description" content="{{ meta_description | escape }}"/>
+  {%- if page.categories %}
+  <meta name="keywords" content="{{ site.author }}{% for category in page.categories %},{{ category }}{% endfor %}"/>
+  {% else %}
+  <meta name="keywords" content="{{ site.keywords }}"/>
+  {% endif -%}
+  <link rel="canonical" href="{{ canonical_url | escape }}" />
+  <meta property="og:site_name" content="{{ site.title | escape }}" />
+  <meta property="og:title" content="{{ page.title | escape }}" />
+  <meta property="og:description" content="{{ meta_description | escape }}" />
+  <meta property="og:url" content="{{ canonical_url | escape }}" />
+  <meta property="og:image" content="{{ site.domainUrl | append: site.baseurl | append: '/static/img/logo.jpg' | escape }}" />
+  <meta property="og:locale" content="zh_CN" />
+  {%- if is_article %}
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}" />
+  {%- else %}
+  <meta property="og:type" content="website" />
+  {%- endif %}
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="{{ page.title | escape }}" />
+  <meta name="twitter:description" content="{{ meta_description | escape }}" />
+  <meta name="twitter:image" content="{{ site.domainUrl | append: site.baseurl | append: '/static/img/logo.jpg' | escape }}" />
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ site.domainUrl | append: site.baseurl | append: '/static/xml/rss.xml' }}" />
+  <link rel="icon" href="{{site.baseurl}}/static/img/favicon.ico" />
+  <link rel="manifest" href="{{site.baseurl}}/static/manifest.webmanifest" />
+  <link rel="preload" as="image" href="{{site.baseurl}}/static/img/logo.webp" fetchpriority="high" />
+  <link rel="apple-touch-icon" href="{{site.baseurl}}/static/img/logo.jpg" />
+  {%- if is_article and has_cdn_feature %}
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+  {%- endif %}
+  <link rel="stylesheet" href="{{site.baseurl}}/static/css/common.css?t={{buildAt}}">
+  <link rel="stylesheet" href="{{site.baseurl}}/static/css/theme-dark.css?t={{buildAt}}">
+  {%- if page.layout == "mypost" %}
+  <link rel="stylesheet" href="{{site.baseurl}}/static/css/post.css?t={{buildAt}}">
+  <link rel="stylesheet" href="{{site.baseurl}}/static/css/code-dark.css?t={{buildAt}}">
+  <link rel="stylesheet" href="{{site.baseurl}}/static/css/code-light.css?t={{buildAt}}">
+  {%- endif %}
+  {%- if page.layout == "page" %}
+  <link rel="stylesheet" href="{{site.baseurl}}/static/css/page.css?t={{buildAt}}">
+  {%- endif %}
+  {%- if page.search -%}
+  <link rel="prefetch" href="{{site.baseurl}}/static/xml/search.xml?t={{ buildAt }}">
+  <link rel="prefetch" href="{{site.baseurl}}/static/js/search.js?t={{ buildAt }}">
+  {%- endif -%}
+  <script>
+    function readThemePreference() {
+      try {
+        return localStorage.getItem('darkTheme')
+      } catch (error) {
+        return null
+      }
+    }
+
+    const storedThemePreference = readThemePreference()
+
+    window.blog = {
+      baseurl:"{{site.baseurl}}",
+      buildAt:"{{buildAt}}",
+      darkTheme: false,
+      getStoredTheme: function () {
+        return storedThemePreference
+      },
+      setStoredTheme: function (dark) {
+        storedThemePreference = dark ? 'true' : 'false'
+        try {
+          localStorage.setItem('darkTheme', storedThemePreference)
+        } catch (error) {
+          // 隐私模式或存储不可用时，仅本次会话内生效
+        }
+      },
+      setDarkTheme: function (dark) {
+        this.darkTheme = Boolean(dark);
+        document.documentElement.className = this.darkTheme ? 'dark': '';
+        document.querySelector('meta[name=theme-color]').setAttribute('content', this.darkTheme ? '#2D2E32': '#FFFFFF');
+      }
+    }
+    if (blog.getStoredTheme() !== null) {
+      blog.setDarkTheme(blog.getStoredTheme() === 'true'); // 记忆值，持久化保存
+    } else {
+      blog.setDarkTheme(window.matchMedia('(prefers-color-scheme: dark)').matches); // 跟随系统
+    }
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const mediaListener = function (ev) {
+      if (blog.getStoredTheme() === null) {
+        blog.setDarkTheme(ev.currentTarget.matches);
+      }
+    };
+    media.addEventListener('change', mediaListener)
+  </script>
+</head>

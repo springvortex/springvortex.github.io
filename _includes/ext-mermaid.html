@@ -1,0 +1,87 @@
+<script type="module">
+  const mermaidUrl = 'https://cdn.jsdelivr.net/npm/mermaid@11.16.1/dist/mermaid.min.js'
+  const mermaidIntegrity =
+    'sha384-aBQXj4hK6Jm05i7aQAsUV3bLdSUrHX1BGYfMB0166TtWt/RRaw+h0Eelme9OCOvy'
+
+  function loadMermaid() {
+    if (window.mermaid) {
+      return Promise.resolve(window.mermaid)
+    }
+
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = mermaidUrl
+      script.integrity = mermaidIntegrity
+      script.crossOrigin = 'anonymous'
+      script.onload = () => resolve(window.mermaid)
+      script.onerror = () => reject(new Error('Mermaid load fail'))
+      document.head.appendChild(script)
+    })
+  }
+
+  function reservePlaceholder(pre, source) {
+    const lineCount = source.split('\n').length
+    const estimatedHeight = Math.min(420, lineCount * 38 + 80)
+    const reservedHeight = Math.max(pre.offsetHeight, estimatedHeight, 240)
+    pre.style.minHeight = `${reservedHeight}px`
+    return reservedHeight
+  }
+
+  function measureRenderedHeight(svgHtml, availableWidth) {
+    const viewBox = svgHtml.match(/viewBox="([-\d.]+)\s+([-\d.]+)\s+([\d.]+)\s+([\d.]+)"/)
+    const maxWidth = svgHtml.match(/max-width:\s*([\d.]+)px/)
+    if (!viewBox) {
+      return 0
+    }
+
+    const intrinsicWidth = maxWidth ? Number(maxWidth[1]) : Number(viewBox[3])
+    const width = Math.min(availableWidth, intrinsicWidth || Number(viewBox[3]))
+    const height = Number(viewBox[4])
+    return width && height ? Math.ceil(width * height / Number(viewBox[3])) : 0
+  }
+
+  const blocks = document.querySelectorAll('.page-post pre code.language-mermaid');
+  const reservedHeights = new Map();
+
+  blocks.forEach((block) => {
+    const source = block.textContent.trim();
+    reservedHeights.set(block, reservePlaceholder(block.closest('pre'), source));
+  });
+
+  if (blocks.length) {
+    window.addEventListener('load', async () => {
+      let mermaid;
+      try {
+        mermaid = await loadMermaid();
+      } catch (error) {
+        console.error('Mermaid load fail', error);
+        return;
+      }
+
+      mermaid.initialize({
+        startOnLoad: false,
+        securityLevel: 'strict',
+        theme: window.blog && window.blog.darkTheme ? 'dark' : 'default'
+      });
+
+      for (let i = 0; i < blocks.length; i++) {
+        const block = blocks[i];
+        const source = block.textContent.trim();
+        const pre = block.closest('pre');
+        const reservedHeight = reservedHeights.get(block) || reservePlaceholder(pre, source);
+
+        try {
+          const result = await mermaid.render(`mermaid-diagram-${i}`, source);
+          const container = document.createElement('div');
+          container.className = 'mermaid-diagram';
+          container.innerHTML = result.svg;
+          const renderedHeight = measureRenderedHeight(result.svg, pre.clientWidth);
+          container.style.minHeight = `${Math.max(reservedHeight, renderedHeight)}px`;
+          pre.replaceWith(container);
+        } catch (error) {
+          console.error('Mermaid render fail', error);
+        }
+      }
+    });
+  }
+</script>

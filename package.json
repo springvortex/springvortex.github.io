@@ -1,0 +1,11 @@
+{
+  "name": "blog-build",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "minify": "node scripts/minify.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.0"
+  }
+}

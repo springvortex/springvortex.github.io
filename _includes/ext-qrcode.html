@@ -1,0 +1,140 @@
+<script>
+;(function () {
+  const toggle = document.getElementById('qrcode-toggle')
+  const actions = document.getElementById('footer-actions')
+  if (!document.querySelector('.page-post') || !toggle || !actions) {
+    return
+  }
+
+  toggle.hidden = false
+  actions.className += ' has-qrcode'
+
+  let overlay = null
+  let loadingScript = false
+
+  function closeQrcode() {
+    if (!overlay) {
+      return
+    }
+    document.body.removeChild(overlay)
+    overlay = null
+    toggle.focus()
+  }
+
+  function showQrcode() {
+    if (window.qrcode) {
+      renderQrcode()
+      return
+    }
+
+    if (loadingScript) {
+      return
+    }
+
+    openOverlay('<span class="qrcode-loading">二维码生成中...</span>', '')
+
+    loadingScript = true
+    const script = document.createElement('script')
+    script.src = blog.baseurl + '/static/js/vendor/qrcode-generator-1.4.4.min.js?t=' + blog.buildAt
+    script.onload = function () {
+      loadingScript = false
+      if (overlay) {
+        renderQrcode()
+      }
+    }
+    script.onerror = function () {
+      loadingScript = false
+      if (overlay) {
+        renderError()
+      }
+    }
+    document.head.appendChild(script)
+  }
+
+  function renderQrcode() {
+    if (!window.qrcode) {
+      renderError()
+      return
+    }
+    if (window.qrcode.stringToBytesFuncs) {
+      window.qrcode.stringToBytes = window.qrcode.stringToBytesFuncs['UTF-8']
+    }
+
+    const url = location.origin + location.pathname + location.search
+    const qr = window.qrcode(0, 'M')
+    qr.addData(url)
+    qr.make()
+
+    openOverlay(qr.createSvgTag({
+      cellSize: 5,
+      margin: 4,
+      scalable: true,
+      title: '当前文章二维码',
+      alt: '扫描后打开当前文章'
+    }), url)
+  }
+
+  function renderError() {
+    openOverlay('<span class="qrcode-error">二维码加载失败</span>', '')
+  }
+
+  function openOverlay(qrHtml, url) {
+    if (overlay) {
+      document.body.removeChild(overlay)
+    }
+    overlay = document.createElement('div')
+    overlay.className = 'qrcode-overlay'
+
+    const dialog = document.createElement('div')
+    dialog.className = 'qrcode-dialog'
+    dialog.setAttribute('role', 'dialog')
+    dialog.setAttribute('aria-modal', 'true')
+    dialog.setAttribute('aria-label', '文章二维码')
+
+    const image = document.createElement('div')
+    image.className = 'qrcode-image'
+    image.innerHTML = qrHtml
+
+    const text = document.createElement('div')
+    text.className = 'qrcode-text'
+    text.innerText = '扫码在手机上阅读'
+
+    const link = document.createElement('a')
+    link.className = 'qrcode-link'
+    link.href = url
+    link.innerText = url
+
+    const close = document.createElement('button')
+    close.type = 'button'
+    close.className = 'qrcode-close'
+    close.setAttribute('aria-label', '关闭二维码')
+    close.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>'
+    close.onclick = closeQrcode
+
+    dialog.appendChild(close)
+    dialog.appendChild(image)
+    dialog.appendChild(text)
+    if (url) {
+      dialog.appendChild(link)
+    }
+    overlay.appendChild(dialog)
+    overlay.onclick = function (event) {
+      if (event.target === overlay) {
+        closeQrcode()
+      }
+    }
+    document.body.appendChild(overlay)
+    close.focus()
+  }
+
+  blog.addEvent(toggle, 'click', function () {
+    showQrcode()
+  })
+
+  blog.addEvent(document, 'keydown', function (event) {
+    if (event.key === 'Escape') {
+      closeQrcode()
+    }
+  })
+})()
+</script>
