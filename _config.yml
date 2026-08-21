@@ -5,7 +5,7 @@ title: SpringVortex Notes
 description: SpringVortex Notes，zjc 的个人技术博客
 keywords: SpringVortex,zjc,Blog,Java,Html,JavaScript,Jekyll
 author: zjc
-footerText: 'Contact me: <a href="mailto:jiancai.zhong.1997@gmail.com">jiancai.zhong.1997@gmail.com</a>'
+footerText: '联系我: <a href="mailto:jiancai.zhong.1997@gmail.com">jiancai.zhong.1997@gmail.com</a>'
 
 # 这些不要动
 permalink: /posts/:year/:month/:day/:title
