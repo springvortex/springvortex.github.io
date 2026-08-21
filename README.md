@@ -45,7 +45,7 @@
 ├── _includes/          # head、header、footer 和扩展功能组件
 ├── _layouts/           # page / mypost 页面布局
 ├── _plugins/           # Jekyll 插件，当前负责 MD5 链接和资源路径改写
-├── _posts/             # 文章 Markdown 源文件
+├── _posts/             # 文章 Markdown，按 年/月/日 目录存放，文件名保留日期前缀
 ├── pages/              # 关于、分类、搜索、书签等独立页面
 ├── posts/              # 文章资源，按 年/月/日 目录存放
 ├── static/             # CSS、JS、字体、图标和 XML 索引
@@ -158,7 +158,7 @@ frames[0].save("static/img/favicon.ico", format="ICO")
 
 ## 写文章
 
-文章放在 `_posts`，命名格式：
+文章放在 `_posts/yyyy/MM/dd` 目录，目录日期和文件名日期保持一致。文件名仍然必须带日期前缀，Jekyll 会用它识别文章日期：
 
 ```text
 yyyy-MM-dd-文章名.md
@@ -167,8 +167,10 @@ yyyy-MM-dd-文章名.md
 示例：
 
 ```text
-_posts/2026-08-17-my-post.md
+_posts/2026/08/17/2026-08-17-my-post.md
 ```
+
+文章内的相对资源放在 `posts/yyyy/MM/dd`，正文可直接写 `![图片](001.webp)`，构建时会自动映射到 `/posts/yyyy/MM/dd/001.webp`。
 
 Front Matter 示例：
 
@@ -190,7 +192,7 @@ date: 2026-08-17
 | `author`     | 否   | 默认使用 `site.author`       |
 | `date`       | 否   | 默认取文件名日期             |
 
-Markdown 语法示例可参考 [_posts/2025-01-01-md的使用.md](_posts/2025-01-01-md的使用.md)。
+Markdown 语法示例可参考 [_posts/2026/08/13/2026-08-13-vmware-ubuntu24-static-ip.md](_posts/2026/08/13/2026-08-13-vmware-ubuntu24-static-ip.md)。
 
 ### 代码块
 
