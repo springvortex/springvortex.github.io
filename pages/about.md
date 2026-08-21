@@ -1,6 +1,7 @@
 ---
 layout: mypost
 title: 关于
+body_class: page-about
 ---
 
 ### 关于我
