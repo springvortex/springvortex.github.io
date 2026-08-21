@@ -2,10 +2,10 @@
 layout: mypost
 title: GitHub Pages 部署本博客与踩坑
 categories: [ github, jekyll ]
-author: zjc
 ---
 
-这篇博客已经内置 GitHub Pages 自动部署工作流：只要代码推送到 `main` 分支，Actions 会自动完成 Jekyll 构建、JS/CSS 压缩和站点发布。下面按实际部署顺序走一遍，最后是我踩过或者最容易踩的坑。
+这篇博客已经内置 GitHub Pages 自动部署工作流：只要代码推送到 `main` 分支，Actions 会自动完成 Jekyll 构建、JS/CSS
+压缩和站点发布。下面按实际部署顺序走一遍，最后是我踩过或者最容易踩的坑。
 
 ### 一、准备仓库
 
@@ -48,7 +48,8 @@ https://<username>.github.io/blog/
 2. 仓库的 `Actions` 页面有没有被禁用，需要手动点击 `Enable workflows`。
 3. `.github/workflows/pages.yml`、`Gemfile`、`package.json`、`package-lock.json` 是否都存在。
 
-> 本博客不是纯默认 Jekyll 站点，它包含 `_plugins/md5_permalink.rb` 自定义插件和 Node 压缩脚本，所以部署必须走仓库里的 GitHub Actions 工作流。
+> 本博客不是纯默认 Jekyll 站点，它包含 `_plugins/md5_permalink.rb` 自定义插件和 Node 压缩脚本，所以部署必须走仓库里的
+> GitHub Actions 工作流。
 
 ### 二、开启 GitHub Pages
 
@@ -98,6 +99,7 @@ steps:
     npm ci
     npm run minify -- _site
 ```
+
 它的执行顺序是：
 
 1. 检出 `main` 分支代码。
@@ -136,7 +138,8 @@ https://<用户名>.github.io/<仓库名>/
 Settings -> Pages -> Custom domain
 ```
 
-填写域名后，GitHub 会提示需要添加的 DNS 记录。以根域名绑定 Pages 为例，通常需要给域名服务商配置 GitHub Pages 的 `A` 记录；如果绑定 `www` 或其他子域名，则配置 `CNAME` 记录到：
+填写域名后，GitHub 会提示需要添加的 DNS 记录。以根域名绑定 Pages 为例，通常需要给域名服务商配置 GitHub Pages 的 `A` 记录；如果绑定
+`www` 或其他子域名，则配置 `CNAME` 记录到：
 
 ```text
 <用户名>.github.io
@@ -233,15 +236,18 @@ permissions:
   id-token: write
 ```
 
-如果组织或仓库策略把 `pages: write`、`id-token: write` 禁掉，部署会在上传或发布阶段失败。需要在仓库或组织层面允许 Pages 写入和 OIDC 认证。
+如果组织或仓库策略把 `pages: write`、`id-token: write` 禁掉，部署会在上传或发布阶段失败。需要在仓库或组织层面允许 Pages 写入和
+OIDC 认证。
 
 #### 4. 使用默认 Jekyll 构建，MD5 链接失效
 
-这个博客的文章 URL 由 `_plugins/md5_permalink.rb` 生成。如果绕过仓库里的工作流，让 GitHub 使用默认 Jekyll 构建流程，自定义插件不会执行，文章链接就会退回日期路径，首页、RSS、sitemap 和二维码对应关系都会乱掉。
+这个博客的文章 URL 由 `_plugins/md5_permalink.rb` 生成。如果绕过仓库里的工作流，让 GitHub 使用默认 Jekyll
+构建流程，自定义插件不会执行，文章链接就会退回日期路径，首页、RSS、sitemap 和二维码对应关系都会乱掉。
 
 #### 5. Windows 换行符影响 MD5
 
-文章链接是根据 Markdown 源文件内容计算的。插件已经把 CRLF 统一成 LF 后再计算 MD5，所以 Windows 本地和 Linux Actions 的构建结果保持一致。
+文章链接是根据 Markdown 源文件内容计算的。插件已经把 CRLF 统一成 LF 后再计算 MD5，所以 Windows 本地和 Linux Actions
+的构建结果保持一致。
 
 但要注意：不要手工修改 `_site` 产物，也不要把 `_site` 提交回仓库。部署产物每次都会重新生成，改源文件才是正确入口。
 
@@ -286,7 +292,8 @@ DNS 配置后可能因为缓存没有立即生效。排查顺序：
 
 #### 9. Service Worker 只适合 HTTPS
 
-Service Worker 要求站点运行在 HTTPS 或 localhost 下。GitHub Pages 默认支持 HTTPS，绑定自定义域名后也要开启 `Enforce HTTPS`，否则二维码、离线缓存等依赖页面环境的功能可能不稳定。
+Service Worker 要求站点运行在 HTTPS 或 localhost 下。GitHub Pages 默认支持 HTTPS，绑定自定义域名后也要开启 `Enforce HTTPS`
+，否则二维码、离线缓存等依赖页面环境的功能可能不稳定。
 
 #### 10. 忘记提交 package-lock.json
 
