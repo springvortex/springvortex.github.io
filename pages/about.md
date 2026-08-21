@@ -11,8 +11,7 @@ title: About
 
 ### 我的项目
 
-我维护着一个 Spring Cloud Alibaba 微服务实践项目：
-[https://github.com/springvortex/spring-cloud-alibaba](https://github.com/springvortex/spring-cloud-alibaba)
+我维护着一个 Spring Cloud Alibaba 微服务实践项目。
 
 它不是照着示例抄一遍的 demo，而是我用来验证 Spring Cloud Alibaba 各组件如何组合工作的工程化试验场。当前核心版本如下：
 
