@@ -427,7 +427,6 @@ blog.addLoadEvent(function () {
 
 // 切换夜间模式
 blog.addLoadEvent(function () {
-  const $logo = document.querySelector('.header .logo')
   const $themeToggle = document.getElementById('theme-toggle')
 
   function toggleTheme() {
@@ -435,11 +434,6 @@ blog.addLoadEvent(function () {
     blog.setStoredTheme(blog.darkTheme)
   }
 
-  if (!$logo) {
-    return
-  }
-
-  blog.addEvent($logo, 'click', toggleTheme)
   if ($themeToggle) {
     blog.addEvent($themeToggle, 'click', function (event) {
       toggleTheme()
@@ -615,3 +609,16 @@ blog.initPostToc = function () {
 
 blog.addLoadEvent(blog.initPostToc)
 blog.addLoadEvent(blog.initCodeCopy)
+
+// 标记当前导航项，帮助读者确认所在页面
+blog.addLoadEvent(function () {
+  const currentPath = window.location.pathname.replace(/\/+$/, '') || '/'
+  const menuLinks = document.querySelectorAll('.header .menu a')
+  menuLinks.forEach(function (link) {
+    const linkPath = link.pathname.replace(/\/+$/, '') || '/'
+    if (linkPath === currentPath) {
+      link.classList.add('is-active')
+      link.setAttribute('aria-current', 'page')
+    }
+  })
+})

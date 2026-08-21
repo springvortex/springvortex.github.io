@@ -1,12 +1,16 @@
 <header class="header">
-	<img class="logo" src="{{ site.baseurl }}/static/img/logo.webp"
-		width="40" height="40" alt="logo" fetchpriority="high" decoding="async" />
-	<nav class="menu">
-		{% for menu in site.menu -%} {%- assign target = "" %} {%- if
-		menu.target %} {% capture target %}target="{{ menu.target }}"{%
-		endcapture %} {%- endif %} {%- assign href = menu.url %} {%- unless
-		href contains "://" %} {% capture href %}{{ site.baseurl }}{{ menu.url
-		}}{% endcapture %} {%- endunless -%} <a href="{{href}}"
-			{{target}}{% if menu.target == "_blank" %} rel="noopener noreferrer"{% endif %} class="hover-underline">{{ menu.title }}</a> {% endfor -%}
-	</nav>
+  <a class="brand" href="{{ site.baseurl }}/">
+    <img class="logo" src="{{ site.baseurl }}/static/img/logo.webp"
+      width="38" height="38" alt="SpringVortex Notes" fetchpriority="high" decoding="async" />
+    <span class="brand-name">SpringVortex<span>Notes</span></span>
+  </a>
+  <nav class="menu" aria-label="主导航">
+    {%- for menu in site.menu -%}
+    {%- assign href = menu.url -%}
+    {%- unless href contains "://" -%}
+    {%- assign href = site.baseurl | append: menu.url -%}
+    {%- endunless -%}
+    <a href="{{ href }}"{% if menu.target == '_blank' %} target="_blank" rel="noopener noreferrer"{% endif %} class="hover-underline">{{ menu.title }}</a>
+    {%- endfor -%}
+  </nav>
 </header>

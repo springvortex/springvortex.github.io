@@ -2,6 +2,15 @@
 <html lang="zh-CN">
 {% include head.html -%}
 <body ondragstart="return false;">
+<!--
+  THESIS: SpringVortex Notes is a calibrated engineering reading bench.
+  OWN-WORLD: cool neutral ground, precise ink, one cobalt reading accent, hairline records.
+  STORY: scan the archive, open a note, keep code, tables and traces in one measured system.
+  FIRST VIEWPORT: a working index, not a marketing hero.
+  FORM: 760px reading measure, fixed research side panels on desktop, restrained motion.
+  FINISH: accessible focus, balanced dark mode, quiet hierarchy. Seed key: ce797c2e.
+-->
+<a class="skip-link" href="#main">跳到正文</a>
 {% include header.html -%}
 {%- assign primary_category = page.categories | first -%}
 {%- assign related_count = 0 -%}
@@ -29,7 +38,7 @@
   </ul>
 </aside>
 {%- endif -%}
-<main class="page page-post">
+<main id="main" class="page page-post">
   <h1 class="title" id="{{ page.title }}">{{ page.title }}</h1>
   {% if page.date %}
   <div class="subtitle">{{ page.author | default: site.author }} 于 {{ page.date | date: "%Y-%m-%d" }} 发布</div>

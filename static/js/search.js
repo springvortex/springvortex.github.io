@@ -60,7 +60,7 @@ blog.addLoadEvent(function () {
   let contents = []
   const input = document.getElementById('search-input')
   const status = document.getElementById('search-status')
-  const loadingDOM = document.querySelector('.page-search h1 img')
+  const loadingDOM = document.querySelector('.page-search .search-result-heading img')
 
   // 非搜索页面
   if (!input || !status || !loadingDOM) {

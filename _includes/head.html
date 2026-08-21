@@ -16,7 +16,7 @@
   <title>{{ page.title }} | {{ site.title }}</title>
   <meta charset="utf-8" />
   <meta http-equiv="content-language" content="zh-CN" />
-  <meta name="theme-color" content="#ffffff" />
+  <meta name="theme-color" content="#f5f6f8" />
   <meta name="supported-color-schemes" content="light dark">
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="applicable-device" content="pc,mobile">
@@ -66,8 +66,8 @@
   <link rel="stylesheet" href="{{site.baseurl}}/static/css/theme-dark.css?t={{buildAt}}">
   {%- if page.layout == "mypost" %}
   <link rel="stylesheet" href="{{site.baseurl}}/static/css/post.css?t={{buildAt}}">
-  <link rel="stylesheet" href="{{site.baseurl}}/static/css/code-dark.css?t={{buildAt}}">
   <link rel="stylesheet" href="{{site.baseurl}}/static/css/code-light.css?t={{buildAt}}">
+  <link rel="stylesheet" href="{{site.baseurl}}/static/css/code-dark.css?t={{buildAt}}">
   {%- endif %}
   {%- if page.layout == "page" %}
   <link rel="stylesheet" href="{{site.baseurl}}/static/css/page.css?t={{buildAt}}">
@@ -105,7 +105,7 @@
       setDarkTheme: function (dark) {
         this.darkTheme = Boolean(dark);
         document.documentElement.className = this.darkTheme ? 'dark': '';
-        document.querySelector('meta[name=theme-color]').setAttribute('content', this.darkTheme ? '#2D2E32': '#FFFFFF');
+        document.querySelector('meta[name=theme-color]').setAttribute('content', this.darkTheme ? '#101316': '#F5F6F8');
       }
     }
     if (blog.getStoredTheme() !== null) {

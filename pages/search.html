@@ -4,13 +4,17 @@ title: 搜索
 search: true
 ---
 
-<main class="page page-search">
+<main id="main" class="page page-search">
+  <header class="page-head">
+    <h1>搜索</h1>
+    <p>检索标题和正文内容</p>
+  </header>
   <label class="visually-hidden" for="search-input">搜索文章</label>
   <input id="search-input" type="search" placeholder="请输入关键词">
-  <h1>
+  <h2 class="search-result-heading">
     <span>搜索结果</span>
     <img src="{{site.baseurl}}/static/img/loading.svg" width="21" height="21" alt="" loading="lazy" decoding="async">
-  </h1>
+  </h2>
   <p id="search-status" class="search-status" hidden></p>
   <ul class="list-search">
     {%- for post in site.posts  %}

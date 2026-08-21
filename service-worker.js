@@ -9,6 +9,10 @@ const precacheUrls = [
   baseUrl + '/',
   baseUrl + '/static/css/common.css',
   baseUrl + '/static/css/theme-dark.css',
+  baseUrl + '/static/css/page.css',
+  baseUrl + '/static/css/post.css',
+  baseUrl + '/static/css/code-light.css',
+  baseUrl + '/static/css/code-dark.css',
   baseUrl + '/static/js/blog.js',
   baseUrl + '/static/img/logo.webp'
 ]

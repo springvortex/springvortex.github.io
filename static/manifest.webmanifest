@@ -9,8 +9,8 @@ layout: null
   "start_url": "{{ site.baseurl }}/?source=pwa",
   "scope": "{{ site.baseurl }}/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#ffffff",
+  "background_color": "#f5f6f8",
+  "theme_color": "#f5f6f8",
   "icons": [
     {
       "src": "{{ site.baseurl }}/static/img/icon-192.png",
