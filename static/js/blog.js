@@ -240,6 +240,77 @@ blog.initCodeCopy = function () {
   }
 }
 
+// 手机端右下角快捷操作
+blog.addLoadEvent(function () {
+  const actions = document.getElementById('footer-actions')
+  const actionsPanel = document.getElementById('footer-actions-panel')
+  const actionsToggle = document.getElementById('footer-actions-toggle')
+  if (!actions || !actionsPanel || !actionsToggle) {
+    return
+  }
+
+  const mobileLayout = window.matchMedia('(max-width: 700px)')
+  actions.classList.add('footer-actions-ready')
+
+  function isOpen() {
+    return actions.classList.contains('footer-actions-open')
+  }
+
+  function setOpen(open, returnFocus) {
+    const nextOpen = open && mobileLayout.matches
+    actions.classList.toggle('footer-actions-open', nextOpen)
+    actionsToggle.setAttribute('aria-expanded', nextOpen ? 'true' : 'false')
+    actionsToggle.setAttribute(
+      'aria-label',
+      nextOpen ? '收起快捷操作' : '展开快捷操作'
+    )
+    actionsToggle.title = nextOpen ? '收起快捷操作' : '展开快捷操作'
+    if (!nextOpen && returnFocus && actionsPanel.contains(document.activeElement)) {
+      actionsToggle.focus()
+    }
+  }
+
+  blog.addEvent(actionsToggle, 'click', function (event) {
+    event.stopPropagation()
+    const nextOpen = !isOpen()
+    setOpen(nextOpen)
+    if (nextOpen && event.detail === 0) {
+      window.requestAnimationFrame(function () {
+        const firstAction = Array.prototype.slice.call(actionsPanel.children).find(function (item) {
+          return !item.hidden && (!item.id || item.id !== 'to-top' || item.classList.contains('show'))
+        })
+        if (firstAction) {
+          firstAction.focus()
+        }
+      })
+    }
+  })
+
+  blog.addEvent(actionsPanel, 'click', function () {
+    if (mobileLayout.matches) {
+      setOpen(false, true)
+    }
+  }, true)
+
+  blog.addEvent(document, 'click', function (event) {
+    if (isOpen() && !actions.contains(event.target)) {
+      setOpen(false)
+    }
+  }, true)
+
+  blog.addEvent(document, 'keydown', function (event) {
+    if (event.key === 'Escape' && isOpen()) {
+      setOpen(false, true)
+    }
+  })
+
+  blog.addEvent(mobileLayout, 'change', function () {
+    if (!mobileLayout.matches) {
+      setOpen(false)
+    }
+  })
+})
+
 // 回到顶部
 blog.addLoadEvent(function () {
   const toTopDOM = document.getElementById('to-top')
@@ -459,9 +530,10 @@ blog.addLoadEvent(function () {
   }
 })
 
-// 文章目录：只在桌面端固定右侧显示
+// 文章目录：桌面端固定右侧，非桌面端从右下角展开
 blog.initPostToc = function () {
   const page = document.querySelector('.page-post')
+  const actions = document.getElementById('footer-actions')
   if (!page) {
     return
   }
@@ -471,14 +543,32 @@ blog.initPostToc = function () {
     return
   }
 
+  const tocToggle = document.createElement('button')
+  tocToggle.id = 'toc-toggle'
+  tocToggle.type = 'button'
+  tocToggle.setAttribute('aria-label', '展开文章目录')
+  tocToggle.title = '文章目录'
+  tocToggle.setAttribute('aria-controls', 'post-toc-panel')
+  tocToggle.setAttribute('aria-expanded', 'false')
+  tocToggle.innerHTML =
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/>' +
+    '<path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>' +
+    '</svg>'
+
   const aside = document.createElement('aside')
   aside.className = 'post-toc'
   aside.id = 'post-toc-panel'
   aside.setAttribute('aria-label', '文章目录')
 
+  const tocOverlay = document.createElement('div')
+  tocOverlay.className = 'post-toc-overlay'
+  tocOverlay.setAttribute('aria-hidden', 'true')
+
   const list = document.createElement('ul')
   list.className = 'post-toc-list'
   const links = []
+  let firstLink = null
 
   headings.forEach(function (heading, index) {
     if (!heading.id) {
@@ -495,17 +585,76 @@ blog.initPostToc = function () {
     link.onclick = function (event) {
       event.preventDefault()
       setActive(link)
+      setTocOpen(false, true)
       window.scrollTo(0, window.scrollY + heading.getBoundingClientRect().top - 16)
       history.replaceState({}, '', '#' + encodeURIComponent(heading.id))
     }
 
     links.push(link)
+    if (!firstLink) {
+      firstLink = link
+    }
     item.appendChild(link)
     list.appendChild(item)
   })
 
   aside.appendChild(list)
+  tocToggle.onclick = function (event) {
+    event.stopPropagation()
+    setTocOpen(!aside.classList.contains('open'), false)
+  }
+
+  function setTocOpen(opened, returnFocus) {
+    aside.classList.toggle('open', opened)
+    tocOverlay.classList.toggle('show', opened)
+    document.body.classList.toggle('toc-open', opened)
+    tocToggle.setAttribute('aria-expanded', opened ? 'true' : 'false')
+
+    if (opened && firstLink) {
+      window.requestAnimationFrame(function () {
+        firstLink.focus()
+      })
+    } else if (!opened && returnFocus && aside.contains(document.activeElement)) {
+      const focusTarget =
+        window.matchMedia('(max-width: 700px)').matches
+          ? document.getElementById('footer-actions-toggle') || tocToggle
+          : tocToggle
+      focusTarget.focus()
+    }
+  }
+
+  function closeToc() {
+    setTocOpen(false, true)
+  }
+
   document.body.appendChild(aside)
+  document.body.appendChild(tocOverlay)
+  blog.addEvent(tocOverlay, 'click', closeToc)
+
+  if (actions) {
+    const actionsPanel = document.getElementById('footer-actions-panel')
+    if (actionsPanel) {
+      actionsPanel.appendChild(tocToggle)
+    } else {
+      actions.appendChild(tocToggle)
+    }
+    blog.addClass(actions, 'has-mobile-toc')
+  }
+
+  blog.addEvent(document, 'keydown', function (event) {
+    if (event.key === 'Escape' && aside.classList.contains('open')) {
+      closeToc()
+    }
+  })
+
+  const desktopViewport = window.matchMedia('(min-width: 1200px)')
+  function resetOnDesktop(event) {
+    if (event.matches) {
+      setTocOpen(false, false)
+    }
+  }
+
+  desktopViewport.addEventListener('change', resetOnDesktop)
 
   let ticking = false
 

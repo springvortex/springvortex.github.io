@@ -343,7 +343,7 @@
 
 .page-post .code-copy-button {
   position: absolute;
-  top: 12px;
+  top: 11px;
   right: 9px;
   z-index: 2;
   display: flex;
@@ -550,6 +550,63 @@
 .post-recommendations li,
 .post-toc-list li {
   list-style: none;
+}
+
+.post-toc-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 180;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  background-color: var(--overlay);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  transition: opacity 200ms ease, visibility 200ms ease;
+}
+
+@media screen and (max-width: 1199px) {
+  body.toc-open {
+    overflow: hidden;
+  }
+
+  .post-toc-overlay.show {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .post-toc {
+    position: fixed;
+    right: 16px;
+    bottom: 68px;
+    left: 16px;
+    z-index: 190;
+    display: none;
+    box-sizing: border-box;
+    max-height: min(62vh, calc(100vh - 120px));
+    overflow: auto;
+    padding: 12px 15px;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .post-toc.open {
+    display: block;
+  }
+
+  .post-toc-list a {
+    display: block;
+    padding: 7px 0;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.55;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 @media screen and (min-width: 1200px) {
