@@ -9,7 +9,7 @@ title: About
 
 这个博客是我的个人技术空间，用来记录学习笔记、部署过程、系统优化、问题排查和一些值得留下来的思考。文章可能不长，但我会尽量保证它来自真实操作，而不是简单的资料搬运。
 
-### 我的项目：spring-cloud-alibaba
+### 我的项目
 
 我维护着一个 Spring Cloud Alibaba 微服务实践项目：
 [https://github.com/springvortex/spring-cloud-alibaba](https://github.com/springvortex/spring-cloud-alibaba)
