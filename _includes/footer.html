@@ -2,6 +2,10 @@
   <span>{{ site.footerText }}</span>
 </footer>
 <div id="footer-actions"{% if site.extThemeToggle %} class="has-theme"{% endif %}>
+  <div id="to-top" role="button" tabindex="0" aria-label="回到顶部" title="回到顶部">
+    <span></span>
+    <span></span>
+  </div>
   <button id="qrcode-toggle" type="button" hidden aria-label="生成文章二维码" title="生成文章二维码">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <rect width="5" height="5" x="3" y="3" rx="1" />
@@ -36,8 +40,4 @@
     </svg>
   </button>
   {%- endif -%}
-  <div id="to-top" role="button" tabindex="0" aria-label="回到顶部" title="回到顶部">
-    <span></span>
-    <span></span>
-  </div>
 </div>

@@ -382,10 +382,6 @@ input:-webkit-autofill {
   display: none;
 }
 
-#toc-toggle {
-  display: none;
-}
-
 #footer-actions svg {
   width: 18px;
   height: 18px;
@@ -494,13 +490,4 @@ input:-webkit-autofill {
     bottom: 14px;
   }
 
-  #footer-actions.has-mobile-toc #toc-toggle {
-    display: flex;
-  }
-}
-
-@media screen and (min-width: 700px) and (max-width: 1199px) {
-  #footer-actions.has-mobile-toc #toc-toggle {
-    display: flex;
-  }
 }

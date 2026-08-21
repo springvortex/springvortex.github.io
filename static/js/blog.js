@@ -459,10 +459,9 @@ blog.addLoadEvent(function () {
   }
 })
 
-// 文章目录：桌面端固定右侧，非桌面端从右下角展开
+// 文章目录：只在桌面端固定右侧显示
 blog.initPostToc = function () {
   const page = document.querySelector('.page-post')
-  const actions = document.getElementById('footer-actions')
   if (!page) {
     return
   }
@@ -472,23 +471,10 @@ blog.initPostToc = function () {
     return
   }
 
-  const tocToggle = document.createElement('button')
-  tocToggle.id = 'toc-toggle'
-  tocToggle.type = 'button'
-  tocToggle.setAttribute('aria-label', '展开文章目录')
-  tocToggle.title = '文章目录'
-  tocToggle.setAttribute('aria-controls', 'post-toc-panel')
-  tocToggle.setAttribute('aria-expanded', 'false')
-  tocToggle.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg>'
-
   const aside = document.createElement('aside')
   aside.className = 'post-toc'
   aside.id = 'post-toc-panel'
   aside.setAttribute('aria-label', '文章目录')
-
-  const tocOverlay = document.createElement('div')
-  tocOverlay.className = 'post-toc-overlay'
-  tocOverlay.setAttribute('aria-hidden', 'true')
 
   const list = document.createElement('ul')
   list.className = 'post-toc-list'
@@ -509,7 +495,6 @@ blog.initPostToc = function () {
     link.onclick = function (event) {
       event.preventDefault()
       setActive(link)
-      setTocOpen(false)
       window.scrollTo(0, window.scrollY + heading.getBoundingClientRect().top - 16)
       history.replaceState({}, '', '#' + encodeURIComponent(heading.id))
     }
@@ -520,45 +505,7 @@ blog.initPostToc = function () {
   })
 
   aside.appendChild(list)
-  tocToggle.onclick = function (event) {
-    event.stopPropagation()
-    const opened = !aside.classList.contains('open')
-    setTocOpen(opened)
-  }
-
-  function closeToc() {
-    setTocOpen(false)
-  }
-
-  function setTocOpen(opened) {
-    aside.classList.toggle('open', opened)
-    tocOverlay.classList.toggle('show', opened)
-    document.body.classList.toggle('toc-open', opened)
-    tocToggle.setAttribute('aria-expanded', opened ? 'true' : 'false')
-  }
-
   document.body.appendChild(aside)
-  document.body.appendChild(tocOverlay)
-  blog.addEvent(tocOverlay, 'click', closeToc)
-  if (actions) {
-    actions.appendChild(tocToggle)
-    blog.addClass(actions, 'has-mobile-toc')
-  }
-
-  blog.addEvent(document, 'keydown', function (event) {
-    if (event.key === 'Escape') {
-      closeToc()
-    }
-  })
-
-  const desktopViewport = window.matchMedia('(min-width: 1200px)')
-  function resetOnDesktop(event) {
-    if (event.matches) {
-      setTocOpen(false)
-    }
-  }
-
-  desktopViewport.addEventListener('change', resetOnDesktop)
 
   let ticking = false
 
