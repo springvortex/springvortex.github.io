@@ -69,6 +69,7 @@
 }
 
 .list-post li .date {
+  grid-column: 1;
   padding-top: 4px;
   color: var(--text-muted);
   font-family: var(--font-mono);
@@ -77,6 +78,7 @@
 }
 
 .list-post li .title {
+  grid-column: 2;
   min-width: 0;
 }
 
@@ -96,6 +98,7 @@
 }
 
 .list-post .summary {
+  grid-column: 2;
   margin-top: 5px;
   color: var(--text-muted);
   font-size: 14px;
@@ -103,6 +106,7 @@
 }
 
 .list-post .categories {
+  grid-column: 2;
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
@@ -306,5 +310,12 @@
 
   .list-post li .title a {
     font-size: 16px;
+  }
+
+  .list-post li .date,
+  .list-post li .title,
+  .list-post .summary,
+  .list-post .categories {
+    grid-column: 1;
   }
 }
