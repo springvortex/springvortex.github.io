@@ -87,6 +87,19 @@ html.dark .page-post .code-copy-button.failed {
   color: #f85149;
   border-color: rgba(248, 81, 73, 0.38);
 }
+html.dark .post-recommendations {
+  border-right: 2px solid #30363d;
+}
+html.dark .post-recommendations h2 {
+  color: #f0f6fc;
+}
+html.dark .post-recommendations a {
+  color: #8b949e;
+}
+html.dark .post-recommendations a:hover,
+html.dark .post-recommendations a:focus-visible {
+  color: #58a6ff;
+}
 html.dark .post-toc {
   border-left: 2px solid #30363d;
 }

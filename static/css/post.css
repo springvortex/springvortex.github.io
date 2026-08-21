@@ -290,6 +290,30 @@
   width: 16px;
   height: 16px;
 }
+.post-recommendations {
+  display: none;
+}
+.post-recommendations ul {
+  margin: 0;
+}
+.post-recommendations li {
+  list-style: none;
+}
+.post-recommendations a {
+  display: block;
+  padding: 4px 0;
+  color: #666666;
+  font-size: 13px;
+  line-height: 1.55;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.post-recommendations a:hover,
+.post-recommendations a:focus-visible {
+  color: #000000;
+  font-weight: bold;
+}
 .post-toc {
   display: none;
 }
@@ -361,6 +385,24 @@
   }
 }
 @media screen and (min-width: 1200px) {
+  .post-recommendations {
+    display: block;
+    position: fixed;
+    top: 96px;
+    left: 24px;
+    width: 230px;
+    max-height: calc(100vh - 144px);
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 0 14px 12px 0;
+    border-right: 2px solid #eaeaea;
+  }
+  .post-recommendations h2 {
+    margin: 0 0 10px;
+    color: #333333;
+    font-size: 14px;
+    line-height: 1.5;
+  }
   .post-toc {
     display: block;
     position: fixed;

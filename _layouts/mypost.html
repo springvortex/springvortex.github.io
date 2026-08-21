@@ -3,6 +3,32 @@
 {% include head.html -%}
 <body ondragstart="return false;">
 {% include header.html -%}
+{%- assign primary_category = page.categories | first -%}
+{%- assign related_count = 0 -%}
+{%- for post in site.categories[primary_category] -%}
+  {%- unless post.url == page.url -%}
+    {%- assign related_count = related_count | plus: 1 -%}
+  {%- endunless -%}
+{%- endfor -%}
+{%- if related_count > 0 -%}
+<aside class="post-recommendations" aria-label="猜你喜欢">
+  <h2>猜你喜欢</h2>
+  <ul>
+    {%- assign shown_count = 0 -%}
+    {%- for post in site.categories[primary_category] reversed -%}
+      {%- if shown_count >= 20 -%}
+        {%- break -%}
+      {%- endif -%}
+      {%- unless post.url == page.url -%}
+        <li>
+          <a href="{{ site.baseurl | append: post.url }}" title="{{ post.title | escape }}">{{ post.title }}</a>
+        </li>
+        {%- assign shown_count = shown_count | plus: 1 -%}
+      {%- endunless -%}
+    {%- endfor -%}
+  </ul>
+</aside>
+{%- endif -%}
 <main class="page page-post">
   <h1 class="title" id="{{ page.title }}">{{ page.title }}</h1>
   {% if page.date %}
