@@ -185,6 +185,21 @@
 .page-categories .list-post li .title a {
   color: var(--text-muted);
   font-size: 13px;
+  line-height: 1.55;
+}
+
+.page-categories .list-post li .title {
+  line-height: 1.55;
+}
+
+.page-categories .list-post li {
+  align-items: baseline;
+  padding: 4px 0;
+}
+
+.page-categories .list-post li .date {
+  padding-top: 0;
+  line-height: 1.55;
 }
 
 .page-search #search-input {
@@ -332,7 +347,7 @@
 
   .page-categories .list-post li .date {
     grid-column: 1;
-    padding-top: 1px;
+    padding-top: 0;
   }
 
   .page-categories .list-post li .title {
