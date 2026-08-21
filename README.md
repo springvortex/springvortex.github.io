@@ -101,7 +101,7 @@ title: SpringVortex Notes
 description: SpringVortex Notes，zjc 的个人技术博客
 keywords: SpringVortex,zjc,Blog,Java,Html,JavaScript,Jekyll
 author: zjc
-footerText: '联系我（email）: <a href="mailto:jiancai.zhong.1997@gmail.com">jiancai.zhong.1997@gmail.com</a>'
+footerText: 'Contact me (email): <a href="mailto:jiancai.zhong.1997@gmail.com">jiancai.zhong.1997@gmail.com</a>'
 ```
 
 `footerText` 支持 HTML，可用于 `mailto:` 链接。
