@@ -113,7 +113,7 @@ ApiResponse.<UserDTO>builder()
 常见处理规则：
 
 | 异常                              |        业务码 | 结果           |
-|-----------------------------------|--------------:|----------------|
+|-----------------------------------|--------------|----------------|
 | `BusinessException`               | 透传异常 code | 业务异常       |
 | `MethodArgumentNotValidException` |           100 | 字段级校验错误 |
 | `ConstraintViolationException`    |           100 | 单参数校验错误 |

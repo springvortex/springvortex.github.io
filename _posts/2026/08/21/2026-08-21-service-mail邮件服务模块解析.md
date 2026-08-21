@@ -80,7 +80,7 @@ public ApiResponse<MailLogDTO> send(@Valid @RequestBody MailSendDTO dto) {
 邮件记录有三个状态：
 
 | 状态 | 含义     |
-|-----:|----------|
+|-----|----------|
 |    0 | 待发送   |
 |    1 | 发送成功 |
 |    2 | 发送失败 |
