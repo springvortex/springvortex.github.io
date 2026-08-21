@@ -404,22 +404,6 @@ input:-webkit-autofill {
   transform: translateY(0);
 }
 
-#to-top > span {
-  position: absolute;
-  left: 50%;
-  top: 14px;
-  display: block;
-  width: 34%;
-  height: 2px;
-  background: currentColor;
-  transform: translateX(-50%) rotate(45deg);
-}
-
-#to-top > span:last-child {
-  background: var(--page-bg);
-  transform: translate(-50%, 190%) rotate(45deg);
-}
-
 .header,
 .page {
   animation: page-enter 420ms var(--ease-out) both;
