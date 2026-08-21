@@ -287,7 +287,7 @@
 }
 
 .page-search .list-search .title {
-  color: var(--text-muted);
+  color: var(--text);
   font-size: 14px;
   font-weight: 400;
   line-height: 1.68;
