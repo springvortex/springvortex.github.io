@@ -176,6 +176,10 @@
 
 .page-post .links-list a {
   display: block;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 400;
+  border-bottom: 0;
 }
 
 .page-post img {
