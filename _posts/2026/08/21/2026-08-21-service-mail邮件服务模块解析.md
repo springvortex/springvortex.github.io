@@ -98,42 +98,23 @@ String[] ccArray = parseAndValidate(dto.getCcEmails(), "抄送人");
 String[] bccArray = parseAndValidate(dto.getBccEmails(), "密送人");
 
 MailLog mailLog = buildMailLog(dto);
-mailLog.
+mailLog.setStatus(STATUS_PENDING);
+mailLogService.save(mailLog);
 
-setStatus(STATUS_PENDING);
-mailLogService.
-
-save(mailLog);
-
-try{
-        if(Boolean.TRUE.
-
-equals(dto.getIsHtml())){
-
-sendHtmlMail(dto, toArray, ccArray, bccArray);
-    }else{
-
-sendTextMail(dto, toArray, ccArray, bccArray);
+try {
+    if (Boolean.TRUE.equals(dto.getIsHtml())) {
+        sendHtmlMail(dto, toArray, ccArray, bccArray);
+    } else {
+        sendTextMail(dto, toArray, ccArray, bccArray);
     }
-            mailLog.
+    mailLog.setStatus(STATUS_SUCCESS);
+} catch (Exception e) {
+    mailLog.setStatus(STATUS_FAILURE);
+    mailLog.setErrorMsg(e.getMessage());
+}
 
-setStatus(STATUS_SUCCESS);
-}catch(
-Exception e){
-        mailLog.
-
-setStatus(STATUS_FAILURE);
-    mailLog.
-
-setErrorMsg(e.getMessage());
-        }
-
-        mailLogService.
-
-updateById(mailLog);
-return mailLogConverter.
-
-entityToDto(mailLog);
+mailLogService.updateById(mailLog);
+return mailLogConverter.entityToDto(mailLog);
 ```
 
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-mail/src/main/java/com/zjc/mail/service/impl/MailSendServiceImpl.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-mail/src/main/java/com/zjc/mail/service/impl/MailSendServiceImpl.java)
