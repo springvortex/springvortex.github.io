@@ -36,14 +36,14 @@ Controller 层负责接收请求并返回 DTO，Service 内部可以继续使用
 ```java
 UserDTO toDto = userConverter.entityToDto(user);
 ```
-> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/converter/UserConverter.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/converter/UserConverter.java)
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/converter/UserConverter.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/converter/UserConverter.java)
 
 新增数据时再反向转换：
 
 ```java
 User user = userConverter.dtoToEntity(dto);
 ```
-> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/converter/UserConverter.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/converter/UserConverter.java)
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/converter/UserConverter.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/converter/UserConverter.java)
 
 ### 四、DTO 上的校验
 
@@ -54,7 +54,7 @@ DTO 同时承担请求体校验：
 @Size(min = 3, max = 20)
 private String username;
 ```
-> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-common/src/main/java/com/zjc/common/dto/UserDTO.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-common/src/main/java/com/zjc/common/dto/UserDTO.java)
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-common/src/main/java/com/zjc/common/dto/UserDTO.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-common/src/main/java/com/zjc/common/dto/UserDTO.java)
 
 这样契约、校验和文档都围绕同一个对象，避免接口定义和校验规则分叉。
 

@@ -18,7 +18,7 @@ Gateway 开了链路追踪后，可能会遇到一个诡异现象：Zipkin 有 t
 ```java
 Hooks.enableAutomaticContextPropagation();
 ```
-> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-gateway/src/main/java/com/zjc/gateway/config/ObservabilityConfiguration.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-gateway/src/main/java/com/zjc/gateway/config/ObservabilityConfiguration.java)
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-gateway/src/main/java/com/zjc/gateway/config/ObservabilityConfiguration.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-gateway/src/main/java/com/zjc/gateway/config/ObservabilityConfiguration.java)
 
 它会把 Reactor Context 和 ThreadLocal 上下文关联起来，让 Micrometer Tracing 在回调线程上恢复 MDC。
 

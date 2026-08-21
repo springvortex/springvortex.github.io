@@ -25,7 +25,7 @@ public ApiResponse<UserDTO> getUser(@PathVariable Long id) {
     return ApiResponse.success(userConverter.entityToDto(userService.getById(id)));
 }
 ```
-> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/controller/UserController.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/controller/UserController.java)
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/controller/UserController.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/controller/UserController.java)
 
 查询不到时返回 `success=true`、`data=null`。这种设计表示“请求处理成功，但没有这条资源”。
 
@@ -39,7 +39,7 @@ public ApiResponse<UserDTO> add(@Valid @RequestBody UserDTO dto) {
     return ApiResponse.success(userConverter.entityToDto(user));
 }
 ```
-> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/controller/UserController.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/controller/UserController.java)
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/controller/UserController.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/controller/UserController.java)
 
 `save` 后实体会带上生成的主键，再转换成 DTO 返回。
 
@@ -51,7 +51,7 @@ return updated
         ? ApiResponse.success()
         : ApiResponse.failure(ApiResponseEnum.NOT_FOUND);
 ```
-> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/controller/UserController.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/controller/UserController.java)
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/controller/UserController.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/controller/UserController.java)
 
 更新和删除不能只看 HTTP 请求是否到达。`updateById` 和 `removeById` 返回 false 时，说明没有命中有效记录，应该返回业务失败。
 

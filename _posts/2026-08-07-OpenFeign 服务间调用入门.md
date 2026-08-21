@@ -13,7 +13,7 @@ categories: [ Spring Cloud, OpenFeign, Microservices ]
 ```java
 @EnableFeignClients(basePackages = {"com.zjc.common.api"})
 ```
-> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-consumer/src/main/java/com/zjc/consumer/ConsumerApplication.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-consumer/src/main/java/com/zjc/consumer/ConsumerApplication.java)
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-consumer/src/main/java/com/zjc/consumer/ConsumerApplication.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-consumer/src/main/java/com/zjc/consumer/ConsumerApplication.java)
 
 这里扫描的是公共模块里的共享 Feign 契约，Consumer 本地不需要重复定义客户端。
 
@@ -30,7 +30,7 @@ public interface UserFeignApi {
     ApiResponse<UserDTO> getUser(@PathVariable("id") Long userId);
 }
 ```
-> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-common/src/main/java/com/zjc/common/api/user/UserFeignApi.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-common/src/main/java/com/zjc/common/api/user/UserFeignApi.java)
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-common/src/main/java/com/zjc/common/api/user/UserFeignApi.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-common/src/main/java/com/zjc/common/api/user/UserFeignApi.java)
 
 `name` 是注册中心里的服务名，Feign 会结合 LoadBalancer 选实例。`contextId` 用来隔离指向同一个服务的不同客户端配置。
 
@@ -40,14 +40,14 @@ public interface UserFeignApi {
 @Resource
 private UserFeignApi userFeignApi;
 ```
-> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-consumer/src/main/java/com/zjc/consumer/controller/UserConsumerController.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-consumer/src/main/java/com/zjc/consumer/controller/UserConsumerController.java)
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-consumer/src/main/java/com/zjc/consumer/controller/UserConsumerController.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-consumer/src/main/java/com/zjc/consumer/controller/UserConsumerController.java)
 
 调用时看起来像本地方法：
 
 ```java
 return userFeignApi.getUser(id);
 ```
-> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-consumer/src/main/java/com/zjc/consumer/controller/UserConsumerController.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-consumer/src/main/java/com/zjc/consumer/controller/UserConsumerController.java)
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-consumer/src/main/java/com/zjc/consumer/controller/UserConsumerController.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-consumer/src/main/java/com/zjc/consumer/controller/UserConsumerController.java)
 
 实际发生的是：
 

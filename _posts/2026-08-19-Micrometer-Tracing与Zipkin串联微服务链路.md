@@ -28,7 +28,7 @@ management:
     sampling:
       probability: 1.0
 ```
-> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/resources/application-prod.yaml](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/resources/application-prod.yaml)
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/resources/application-prod.yaml](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/resources/application-prod.yaml)
 
 生产环境降低到 0.1。全采样便于排查，低采样控制成本，这是常见的环境差异。
 
