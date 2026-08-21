@@ -364,17 +364,8 @@
   line-height: 1;
   white-space: nowrap;
   cursor: pointer;
-  opacity: 0;
-  transition: opacity 180ms ease, background-color 180ms ease, color 180ms ease,
+  transition: background-color 180ms ease, color 180ms ease,
     border-color 180ms ease, transform 180ms var(--ease-out);
-}
-
-.page-post .highlight:hover .code-copy-button,
-.page-post .code-block:hover .code-copy-button,
-.page-post .code-copy-button:focus-visible,
-.page-post .code-copy-button.copied,
-.page-post .code-copy-button.failed {
-  opacity: 1;
 }
 
 .page-post .code-copy-button:hover {
