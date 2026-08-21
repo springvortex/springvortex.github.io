@@ -133,20 +133,25 @@
   margin: 0;
 }
 
+.page-post ul,
+.page-post ol {
+  padding-left: 1.8em;
+}
+
 .page-post ul {
-  margin-left: 20px;
+  list-style: disc outside;
 }
 
 .page-post ol {
-  margin-left: 25px;
+  list-style: decimal outside;
 }
 
 .page-post ul li {
-  list-style: disc;
+  list-style: disc outside;
 }
 
 .page-post ol li {
-  list-style: decimal;
+  list-style: decimal outside;
 }
 
 .page-post li > * {
@@ -155,6 +160,8 @@
 
 .page-post .links-list {
   margin-left: 0;
+  padding-left: 0;
+  list-style: none;
 }
 
 .page-post .links-list li {
