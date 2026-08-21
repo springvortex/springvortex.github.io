@@ -1,4 +1,4 @@
-# 知行合一
+# SpringVortex Notes
 
 基于 Jekyll 4.4.1 的个人技术博客。站点为纯静态输出，适配手机、平板和桌面浏览器，通过 GitHub Pages Actions 自动部署。
 
@@ -97,9 +97,9 @@ npm ci
 常用信息集中在 `_config.yml`：
 
 ```yaml
-title: 知行合一
-description: 知行合一
-keywords: zjc,Blog,Java,Html,JavaScript,Jekyll
+title: SpringVortex Notes
+description: SpringVortex Notes，zjc 的个人技术博客
+keywords: SpringVortex,zjc,Blog,Java,Html,JavaScript,Jekyll
 author: zjc
 footerText: '联系我（email）: <a href="mailto:jiancai.zhong.1997@gmail.com">jiancai.zhong.1997@gmail.com</a>'
 ```
