@@ -192,23 +192,24 @@
 
 .page-categories .list-post li .title a {
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
-  line-height: 1.55;
+  line-height: 1.68;
 }
 
 .page-categories .list-post li .title {
-  line-height: 1.55;
+  line-height: 1.68;
 }
 
 .page-categories .list-post li {
   align-items: baseline;
   padding: 4px 0;
+  line-height: 1.68;
 }
 
 .page-categories .list-post li .date {
   padding-top: 0;
-  line-height: 1.55;
+  line-height: 1.68;
 }
 
 .page-search #search-input {
@@ -286,25 +287,30 @@
 }
 
 .page-search .list-search .title {
-  color: var(--text);
-  font-size: 16px;
-  font-weight: 640;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-}
-
-.page-search .list-search .content {
-  margin-top: 6px;
   color: var(--text-muted);
   font-size: 14px;
+  font-weight: 400;
   line-height: 1.68;
   overflow-wrap: anywhere;
 }
 
+.page-search .list-search .content {
+  display: -webkit-box;
+  overflow: hidden;
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.68;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow-wrap: anywhere;
+}
+
 .page-search .list-search .hint {
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-weight: 650;
+  background: none;
+  color: inherit;
+  font-weight: inherit;
 }
 
 .page-search .list-search a:hover .title,

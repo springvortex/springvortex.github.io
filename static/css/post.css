@@ -162,11 +162,14 @@
   margin-left: 0;
   padding-left: 1.25em;
   list-style: disc outside;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.68;
 }
 
 .page-post .links-list li {
   padding: 4px 0;
-  line-height: 1.55;
+  line-height: 1.68;
   list-style: disc outside;
 }
 
@@ -177,15 +180,38 @@
 .page-post .links-list a {
   display: block;
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
+  line-height: 1.68;
   border-bottom: 0;
 }
 
 .page-post.page-about {
   color: var(--text-muted);
-  font-size: 13px;
-  line-height: 1.55;
+  font-size: 14px;
+  line-height: 1.68;
+}
+
+.page-post.page-about .post th,
+.page-post.page-about .post td {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.68;
+}
+
+.page-post.page-about .post th {
+  font-weight: 600;
+}
+
+.page-post.page-about .post a {
+  color: var(--text-muted);
+  border-bottom-color: var(--hairline);
+}
+
+.page-post.page-about .post a:hover,
+.page-post.page-about .post a:focus-visible {
+  color: var(--text-muted);
+  border-bottom-color: currentColor;
 }
 
 .page-post.page-about .post > * {
