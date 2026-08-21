@@ -105,6 +105,14 @@
   line-height: 1.68;
 }
 
+.page-index .list-post .summary {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
 .list-post .categories {
   grid-column: 2;
   display: flex;
