@@ -20,6 +20,7 @@ public interface UserConverter {
     User dtoToEntity(UserDTO dto);
 }
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/converter/UserConverter.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/converter/UserConverter.java)
 
 `componentModel = "spring"` 让生成类直接作为 Spring Bean 注入。反向映射时显式忽略数据库管理字段，避免请求 DTO 意外覆盖审计字段。

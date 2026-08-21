@@ -4,7 +4,8 @@ title: MyBatis-Plus 数据访问组件总览
 categories: [ Components, MyBatis-Plus, MySQL ]
 ---
 
-MyBatis-Plus 是 Provider 和 Mail 的数据访问组件。它没有替代数据库设计，而是把单表 CRUD、分页、逻辑删除、审计填充这类通用模式标准化，让业务代码集中处理业务规则。
+MyBatis-Plus 是 Provider 和 Mail 的数据访问组件。它没有替代数据库设计，而是把单表
+CRUD、分页、逻辑删除、审计填充这类通用模式标准化，让业务代码集中处理业务规则。
 
 ### 一、分页拦截器
 
@@ -16,6 +17,7 @@ public MybatisPlusInterceptor mybatisPlusInterceptor() {
     return interceptor;
 }
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/config/MybatisPlusConfig.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/config/MybatisPlusConfig.java)
 
 分页不是传一个 `Page` 对象就自动生效，必须注册拦截器。这里同时指定 MySQL 方言，让 SQL 改写有明确目标。
@@ -34,7 +36,8 @@ public MybatisPlusInterceptor mybatisPlusInterceptor() {
 
 ### 三、分层使用方式
 
-Entity 只留在服务内部，接口层使用 DTO。Mapper 继承 `BaseMapper`，Service 继承 `IService`，通用能力直接复用；订单主表明细这类复杂写入，再由业务 Service 用事务组织。
+Entity 只留在服务内部，接口层使用 DTO。Mapper 继承 `BaseMapper`，Service 继承 `IService`，通用能力直接复用；订单主表明细这类复杂写入，再由业务
+Service 用事务组织。
 
 ### 四、避坑点
 

@@ -4,7 +4,8 @@ title: Spring Cloud 微服务协作契约
 categories: [ Components, Spring Cloud, Microservices ]
 ---
 
-Spring Cloud 本身不是一个功能点，而是一组微服务协作规范。这个项目用它统一管理 Gateway、OpenFeign、LoadBalancer、CircuitBreaker 等依赖版本，让这些组件在同一套版本语义下工作。
+Spring Cloud 本身不是一个功能点，而是一组微服务协作规范。这个项目用它统一管理
+Gateway、OpenFeign、LoadBalancer、CircuitBreaker 等依赖版本，让这些组件在同一套版本语义下工作。
 
 ### 一、BOM 固定协作版本
 
@@ -17,6 +18,7 @@ Spring Cloud 本身不是一个功能点，而是一组微服务协作规范。�
     <scope>import</scope>
 </dependency>
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/pom.xml](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/pom.xml)
 
 父 POM 导入 BOM 后，业务模块只声明 `spring-cloud-starter-*`，不手写具体版本。Spring Cloud 的组件之间有版本兼容关系，靠子模块各自挑版本很容易挖坑。
@@ -34,7 +36,8 @@ Spring Cloud 本身不是一个功能点，而是一组微服务协作规范。�
 
 ### 三、Alibaba 生态同样受版本约束
 
-项目同时导入 Spring Cloud Alibaba BOM。Nacos、Sentinel 以及 Sentinel CircuitBreaker 相关依赖都从这里获得版本。Spring Boot、Spring Cloud、Spring Cloud Alibaba 三者的版本关系是这个项目依赖治理的核心。
+项目同时导入 Spring Cloud Alibaba BOM。Nacos、Sentinel 以及 Sentinel CircuitBreaker 相关依赖都从这里获得版本。Spring
+Boot、Spring Cloud、Spring Cloud Alibaba 三者的版本关系是这个项目依赖治理的核心。
 
 ### 四、避坑点
 
@@ -45,4 +48,5 @@ Spring Cloud 本身不是一个功能点，而是一组微服务协作规范。�
 
 ### 五、经验总结
 
-Spring Cloud 提供的是“协作契约”。这个项目把契约固定在父 POM，再把 Gateway、Feign、Nacos、Sentinel 放到合适的模块里，既保持组合能力，也避免每个服务重复配置。
+Spring Cloud 提供的是“协作契约”。这个项目把契约固定在父 POM，再把 Gateway、Feign、Nacos、Sentinel
+放到合适的模块里，既保持组合能力，也避免每个服务重复配置。

@@ -14,6 +14,7 @@ public ApiResponse<UserDTO> add(@Valid @RequestBody UserDTO dto) {
     ...
 }
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/controller/UserController.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/controller/UserController.java)
 
 DTO 字段上声明规则：
@@ -23,6 +24,7 @@ DTO 字段上声明规则：
 @Size(min = 3, max = 20, message = "账号长度需在3-20个字符之间")
 private String username;
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-common/src/main/java/com/zjc/common/dto/UserDTO.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-common/src/main/java/com/zjc/common/dto/UserDTO.java)
 
 ### 二、Query 参数校验
@@ -33,6 +35,7 @@ private String username;
 @Min(value = 1, message = "当前页码必须从1开始")
 @RequestParam long current
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/controller/UserController.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/controller/UserController.java)
 
 同时类上要开启：
@@ -40,6 +43,7 @@ private String username;
 ```java
 @Validated
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/controller/UserController.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/controller/UserController.java)
 
 ### 三、常用注解

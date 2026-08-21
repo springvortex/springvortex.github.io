@@ -20,6 +20,7 @@ public interface UserFeignApi {
     ApiResponse<UserDTO> getUser(@PathVariable("id") Long userId);
 }
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-common/src/main/java/com/zjc/common/api/user/UserFeignApi.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-common/src/main/java/com/zjc/common/api/user/UserFeignApi.java)
 
 这个接口放在 `service-common`，调用方复用同一份契约。`name` 对应 Nacos 服务名，`contextId` 用于隔离不同 Feign 客户端配置。
@@ -29,6 +30,7 @@ public interface UserFeignApi {
 ```java
 @EnableFeignClients(basePackages = {"com.zjc.common.api"})
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-consumer/src/main/java/com/zjc/consumer/ConsumerApplication.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-consumer/src/main/java/com/zjc/consumer/ConsumerApplication.java)
 
 Consumer 只扫描公共 API 包，不在本地重复定义 Feign 接口。接口路径和 DTO 改动时，依赖方跟随公共模块一起演进。

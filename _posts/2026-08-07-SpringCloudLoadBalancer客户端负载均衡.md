@@ -4,7 +4,8 @@ title: Spring Cloud LoadBalancer 客户端负载均衡
 categories: [ Components, LoadBalancer, Spring Cloud ]
 ---
 
-当 `lb://service-provider` 或 Feign 通过服务名发起调用时，总要有人回答一个问题：这个服务当前有多个实例，这次选哪一个？在这套项目里，答案由 Spring Cloud LoadBalancer 给出。
+当 `lb://service-provider` 或 Feign 通过服务名发起调用时，总要有人回答一个问题：这个服务当前有多个实例，这次选哪一个？在这套项目里，答案由
+Spring Cloud LoadBalancer 给出。
 
 ### 一、作为调用链的一环引入
 
@@ -14,6 +15,7 @@ categories: [ Components, LoadBalancer, Spring Cloud ]
     <artifactId>spring-cloud-starter-loadbalancer</artifactId>
 </dependency>
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-consumer/pom.xml](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-consumer/pom.xml)
 
 Consumer 和 Gateway 都引入 LoadBalancer。Gateway 根据路由转发，Feign 根据服务名调用，两者最终都需要客户端侧选择实例。
@@ -29,7 +31,8 @@ Consumer 和 Gateway 都引入 LoadBalancer。Gateway 根据路由转发，Feign
 
 ### 三、实例列表需要缓存
 
-服务实例列表来自注册中心，但每次调用都实时拉取会把 Nacos 打成热点。项目为 LoadBalancer 引入 Caffeine 缓存，在“实例感知及时性”和“调用性能”之间取平衡。
+服务实例列表来自注册中心，但每次调用都实时拉取会把 Nacos 打成热点。项目为 LoadBalancer 引入 Caffeine
+缓存，在“实例感知及时性”和“调用性能”之间取平衡。
 
 ### 四、避坑点
 

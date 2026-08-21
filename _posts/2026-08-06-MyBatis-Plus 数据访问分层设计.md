@@ -26,6 +26,7 @@ public class User {
     private Long userId;
 }
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/entity/User.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/entity/User.java)
 
 分布式部署下，自增 ID 容易受单库限制，所以这里使用雪花 ID。
@@ -36,6 +37,7 @@ public class User {
 public interface UserMapper extends BaseMapper<User> {
 }
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/mapper/UserMapper.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/mapper/UserMapper.java)
 
 单表 CRUD 直接继承 `BaseMapper`，不手写重复 SQL。复杂查询再通过 Wrapper 或 XML 扩展。
@@ -46,6 +48,7 @@ public interface UserMapper extends BaseMapper<User> {
 public interface UserService extends IService<User> {
 }
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/service/UserService.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/service/UserService.java)
 
 Service 层不是简单转发 `getById`。它更适合承载：

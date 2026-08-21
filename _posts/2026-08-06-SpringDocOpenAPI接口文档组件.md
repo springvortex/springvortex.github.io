@@ -18,6 +18,7 @@ public OpenAPI openAPI() {
                     .version("v1.0.0"));
 }
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/config/OpenApiConfig.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/config/OpenApiConfig.java)
 
 每个服务维护自己的标题、描述和版本。接口分组则由公共 API 路径模块根据统一前缀自动生成。

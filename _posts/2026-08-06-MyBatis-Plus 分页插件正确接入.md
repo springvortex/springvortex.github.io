@@ -16,6 +16,7 @@ public MybatisPlusInterceptor mybatisPlusInterceptor() {
     return interceptor;
 }
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/config/MybatisPlusConfig.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/config/MybatisPlusConfig.java)
 
 没有这个 Bean，分页对象不会触发 SQL 改写，查询仍然可能把全表数据查出来。
@@ -25,6 +26,7 @@ public MybatisPlusInterceptor mybatisPlusInterceptor() {
 ```java
 Page<User> page = userService.page(new Page<>(current, size));
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/controller/UserController.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/controller/UserController.java)
 
 分页插件会在执行时补充 `LIMIT`，并执行 count 查询。
@@ -41,6 +43,7 @@ Page<UserDTO> result = new Page<>(
 );
 result.setRecords(userConverter.entityListToDtoList(page.getRecords()));
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/controller/UserController.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-provider/src/main/java/com/zjc/provider/controller/UserController.java)
 
 这样返回结构里既有当前页数据，也有总数、页码和每页数量。

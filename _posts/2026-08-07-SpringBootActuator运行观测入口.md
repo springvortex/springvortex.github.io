@@ -14,6 +14,7 @@ Actuator 是四个可运行服务共同引入的观测基础。它提供运行�
     <artifactId>spring-boot-starter-actuator</artifactId>
 </dependency>
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-consumer/pom.xml](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-consumer/pom.xml)
 
 Provider、Consumer、Gateway、Mail 都使用它。观测能力不是某个服务的专属功能，所有参与请求链路的服务都应该暴露一致的运行信息。
@@ -31,7 +32,8 @@ Actuator 更适合回答：
 
 ### 三、与链路追踪配合
 
-项目中的 `spring-boot-starter-zipkin` 基于 Micrometer Tracing 和 Brave 导出链路。Actuator 管理模型让这类观测能力可以按 Starter 统一装配，不需要每个服务手写。
+项目中的 `spring-boot-starter-zipkin` 基于 Micrometer Tracing 和 Brave 导出链路。Actuator 管理模型让这类观测能力可以按
+Starter 统一装配，不需要每个服务手写。
 
 ### 四、避坑点
 

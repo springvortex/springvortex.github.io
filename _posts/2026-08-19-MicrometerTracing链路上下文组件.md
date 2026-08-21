@@ -14,6 +14,7 @@ public void enableReactorContextPropagation() {
     Hooks.enableAutomaticContextPropagation();
 }
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-gateway/src/main/java/com/zjc/gateway/config/ObservabilityConfiguration.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-gateway/src/main/java/com/zjc/gateway/config/ObservabilityConfiguration.java)
 
 Gateway 是异步链路，线程会切换。开启自动上下文传播后，traceId 才能恢复到回调线程的 MDC，被日志输出。

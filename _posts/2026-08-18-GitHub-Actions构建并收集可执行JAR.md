@@ -16,6 +16,7 @@ JAR 作为 Artifact。
 ```bash
 mvn -B -ntp package -DskipTests --file pom.xml
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/.github/workflows/maven.yml](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/.github/workflows/maven.yml)
 
 当前打包阶段跳过测试，构建速度更快。测试要真正进入发布门禁，可以增加独立测试步骤或单独工作流。

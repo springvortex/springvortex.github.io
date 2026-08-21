@@ -12,9 +12,11 @@ Spring Boot Mail 提供的是 SMTP 发送抽象。项目把它封装在独立的
 @Resource
 private JavaMailSender mailSender;
 ```
+
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-mail/src/main/java/com/zjc/mail/service/impl/MailSendServiceImpl.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-mail/src/main/java/com/zjc/mail/service/impl/MailSendServiceImpl.java)
 
-业务代码不直接处理 SMTP 协议，而是使用 `JavaMailSender` 发送纯文本或 HTML 邮件。SMTP 地址、端口、认证和编码由环境 Profile 管理。
+业务代码不直接处理 SMTP 协议，而是使用 `JavaMailSender` 发送纯文本或 HTML 邮件。SMTP 地址、端口、认证和编码由环境 Profile
+管理。
 
 ### 二、发送不只是调用 send
 
