@@ -146,34 +146,34 @@
 .list-category div {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .list-category div a {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  min-height: 32px;
-  padding: 5px 9px;
+  padding: 2px 7px;
   border: 1px solid var(--hairline);
   border-radius: var(--radius-small);
   background: var(--surface);
-  color: var(--text-soft);
-  font-size: 14px;
-  transition: border-color 180ms ease, color 180ms ease, transform 180ms var(--ease-out);
-}
-
-.list-category div a span {
   color: var(--text-muted);
   font-family: var(--font-mono);
   font-size: 11px;
+  line-height: 1.55;
+  transition: border-color 180ms ease, color 180ms ease;
+}
+
+.list-category div a span {
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
 }
 
 .list-category div a:hover,
 .list-category div a:focus-visible {
   border-color: var(--accent-border);
   color: var(--accent);
-  transform: translateY(-1px);
 }
 
 .page-categories .list-post > h2 {
