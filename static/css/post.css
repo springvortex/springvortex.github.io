@@ -154,30 +154,15 @@
 }
 
 .page-post .links-list {
-  margin: 8px 0 4px;
-  padding: 0;
+  margin-left: 0;
 }
 
 .page-post .links-list li {
-  padding: 0 14px;
-  border-bottom: 1px solid var(--hairline-soft);
-}
-
-.page-post .links-list li:last-child {
-  border-bottom: 0;
+  list-style: none;
 }
 
 .page-post .links-list a {
-  display: flex;
-  align-items: center;
-  min-height: 48px;
-  border-bottom: 0;
-  overflow-wrap: anywhere;
-}
-
-.page-post .links-list a:hover,
-.page-post .links-list a:focus-visible {
-  color: var(--accent);
+  display: block;
 }
 
 .page-post img {
