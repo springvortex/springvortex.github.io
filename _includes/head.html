@@ -41,7 +41,7 @@
   <meta property="og:title" content="{{ page.title | escape }}" />
   <meta property="og:description" content="{{ meta_description | escape }}" />
   <meta property="og:url" content="{{ canonical_url | escape }}" />
-  <meta property="og:image" content="{{ site.domainUrl | append: site.baseurl | append: '/static/img/logo.jpg' | escape }}" />
+  <meta property="og:image" content="{{ site.domainUrl | append: site.baseurl | append: '/static/img/logo.webp' | escape }}" />
   <meta property="og:locale" content="zh_CN" />
   {%- if is_article %}
   <meta property="og:type" content="article" />
@@ -52,12 +52,12 @@
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="{{ page.title | escape }}" />
   <meta name="twitter:description" content="{{ meta_description | escape }}" />
-  <meta name="twitter:image" content="{{ site.domainUrl | append: site.baseurl | append: '/static/img/logo.jpg' | escape }}" />
+  <meta name="twitter:image" content="{{ site.domainUrl | append: site.baseurl | append: '/static/img/logo.webp' | escape }}" />
   <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ site.domainUrl | append: site.baseurl | append: '/static/xml/rss.xml' }}" />
   <link rel="icon" href="{{site.baseurl}}/static/img/favicon.ico" />
   <link rel="manifest" href="{{site.baseurl}}/static/manifest.webmanifest" />
   <link rel="preload" as="image" href="{{site.baseurl}}/static/img/logo.webp" fetchpriority="high" />
-  <link rel="apple-touch-icon" href="{{site.baseurl}}/static/img/logo.jpg" />
+  <link rel="apple-touch-icon" href="{{site.baseurl}}/static/img/logo.webp" />
   {%- if is_article and has_cdn_feature %}
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />

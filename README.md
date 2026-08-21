@@ -139,8 +139,7 @@ links:
 
 | 文件                     | 用途                     | 引用位置                    |
 |--------------------------|--------------------------|-----------------------------|
-| `static/img/logo.webp`   | 页头头像、预加载图片     | `_includes/header.html`、`_includes/head.html` |
-| `static/img/logo.jpg`    | Apple 触摸图标           | `_includes/head.html`       |
+| `static/img/logo.webp`   | 页头头像、预加载图片、社交分享图、Apple 触摸图标 | `_includes/header.html`、`_includes/head.html` |
 | `static/img/favicon.ico` | 浏览器标签页图标         | `_includes/head.html`       |
 | `static/img/icon-192.png` / `static/img/icon-512.png` | PWA 图标 | `static/manifest.webmanifest` |
 
@@ -151,7 +150,7 @@ links:
 ```python
 from PIL import Image
 
-src = Image.open("static/img/logo.jpg").convert("RGBA")
+src = Image.open("static/img/logo.webp").convert("RGBA")
 sizes = [(256, 256), (128, 128), (64, 64), (48, 48), (32, 32), (16, 16)]
 frames = [src.resize(size, Image.LANCZOS) for size in sizes]
 frames[0].save("static/img/favicon.ico", format="ICO")
