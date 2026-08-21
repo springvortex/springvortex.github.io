@@ -1,64 +1,110 @@
 # SpringVortex Notes
 
-基于 Jekyll 4.4.1 的个人技术博客。站点为纯静态输出，适配手机、平板和桌面浏览器，通过 GitHub Pages Actions 自动部署。
+SpringVortex Notes 是基于 Jekyll 4.4.1 的个人技术博客，内容集中在 Java、Spring Cloud Alibaba、微服务工程和中间件部署实践。站点输出纯静态 HTML，使用原生前端技术，通过 GitHub Pages Actions 自动构建和部署。
+
+截至 2026-08-22，仓库包含 87 篇文章、53 个分类和 10 个文章资源文件。
+
+## 项目概览
+
+| 项 | 当前状态 |
+|---|---|
+| 站点类型 | 纯静态博客，无后端服务 |
+| 内容系统 | Jekyll 4.4.1 + Kramdown / GFM + Rouge |
+| 前端实现 | 原生 HTML / CSS / JavaScript |
+| 生产压缩 | Node.js 22 + esbuild 0.25.0 |
+| 主要部署 | GitHub Pages Actions |
+| 部署产物 | `_site` 中的静态文件 |
+| 运行环境 | 现代 Chrome、Edge、Firefox、Safari，不兼容 IE |
+
+产品定位是“个人技术阅读室”：优先保证文章、代码、表格和检索的阅读效率，而不是营销页视觉或重型前端运行时。`PRODUCT.md` 保留了产品受众、边界和设计原则，可在调整信息架构或视觉时作为参考。
 
 ## 功能特性
 
-- 明暗主题切换，可点击页头头像，也可使用右下角主题按钮
-- 客户端站内搜索，无需后端服务
-- 分类归档页，按年份和分类整理文章
-- 文章目录：桌面端固定在右侧，非桌面端从右下角按钮展开
-- Rouge 代码高亮，提供明暗两套配色
-- 文章代码块一键复制
-- 生产构建自动压缩 JS / CSS，并去除产物注释；第三方 vendor 文件保持原样
-- 图片点击全屏预览
+- 响应式首页、分类页、搜索页、书签页和关于页
+- 客户端搜索，同时匹配文章标题和正文，不需要后端服务
+- 分类归档；分类列表采用紧凑行距，超长标题单行截断
+- 首页和搜索结果摘要最多两行，避免长段落撑开列表
+- 明暗主题：默认跟随系统，可记忆手动选择，通过右下角主题按钮切换
+- 文章目录：桌面端固定在右侧，平板和手机通过按钮展开
+- 桌面端文章页保留左侧相关推荐和右侧目录
 - 文章二维码，手机扫码打开当前文章
-- MathJax 数学公式渲染，从 jsDelivr 按文章内容按需加载
-- Mermaid 图表渲染，从 jsDelivr 按文章内容按需加载
+- 代码高亮和默认可见的一键复制按钮
+- MathJax 数学公式和 Mermaid 图表按内容检测加载
+- 图片点击放大、懒加载、异步解码和尺寸预留
 - PWA 离线缓存和可安装 Manifest
-- 文章 URL 基于源文件 MD5 自动生成
-- 静态资源缓存版本基于站点源码内容指纹生成，重建未变更内容时可继续复用缓存
-- 文章图片自动补充懒加载、异步解码和原始宽高，降低布局偏移
-- 页面使用 `<main>` 语义化主内容区域，适配手机、平板和桌面浏览器
-- SEO 自动输出 canonical、文章摘要、Open Graph 和 Twitter Card
+- SEO 输出：canonical、description、Open Graph、Twitter Card、RSS 和 sitemap
 
-## 质量快照
-
-2026-08-18 使用 Lighthouse 13.4.1 测试线上文章
-[MathJax 与 Mermaid 加载测试](https://uhaiin.com/20240e78eee91e4b4eee4a2c62ca0738/)：
-
-| 客户端 | Performance | Accessibility | Best Practices | SEO |
-|---|---:|---:|---:|---:|
-| 手机 | 74 | 98 | 100 | 100 |
-| 平板（820×1180 / DPR 2） | 86 | 98 | 100 | 100 |
-| 电脑 | 92 | 98 | 100 | 100 |
-
-当前可访问性扣分来自文章标题从 `h3` 开始，导致 `h1` 后跳过 `h2`；这是当前文章书写约定。公式和 Mermaid 测试页在 412、820、1366 像素宽度下均正常渲染，无横向溢出。
-
-手机性能瓶颈主要是 MathJax `tex-svg-full.js` 约 `640 KiB` 的传输体积；Mermaid 渲染替换原始代码块时会带来一定布局偏移。性能分数会受网络和 CDN 波动影响，以上结果仅作为当时快照。
-
-## 目录结构
+## 架构总览
 
 ```text
-├── .github/workflows/  # GitHub Pages 构建工作流
-├── _config.yml         # 站点配置、菜单、功能开关、书签
-├── _includes/          # head、header、footer 和扩展功能组件
-├── _layouts/           # page / mypost 页面布局
-├── _plugins/           # Jekyll 插件，当前负责 MD5 链接和资源路径改写
-├── _posts/             # 文章 Markdown，按 年/月/日 目录存放，文件名保留日期前缀
-├── pages/              # 关于、分类、搜索、书签等独立页面
-├── posts/              # 文章资源，按 年/月/日 目录存放
-├── static/             # CSS、JS、字体、图标和 XML 索引
-├── 404.md              # 404 页面
-├── CNAME               # 自定义域名
-├── Gemfile             # Ruby 依赖
-├── package.json        # 生产构建压缩依赖
-├── scripts/            # 构建辅助脚本
-├── source-assets/      # 源素材，不参与 Jekyll 构建
-├── blog.sh             # 本地预览和生产构建脚本
-├── index.html          # 首页
-└── service-worker.js   # PWA Service Worker
+Markdown / Liquid / 静态资源
+        |
+        |  Jekyll 构建
+        |  1. 文章源码计算 MD5 permalink
+        |  2. 文章相对资源改写到日期资源目录
+        |  3. Kramdown 渲染 Markdown
+        |  4. 本地图片补充懒加载和宽高
+        |  5. 生成 HTML、RSS、sitemap 和搜索索引
+        v
+_site 静态产物
+        |
+        |  esbuild 压缩自定义 JS / CSS / Service Worker
+        v
+GitHub Pages 部署产物
 ```
+
+### 核心目录
+
+| 路径 | 职责 |
+|---|---|
+| `_posts/` | 文章 Markdown，按 `yyyy/MM/dd` 分目录存放 |
+| `posts/` | 文章图片、压缩包等资源，目录与文章日期对应 |
+| `pages/` | 分类、搜索、书签、关于和 404 等独立页面 |
+| `_layouts/` | 通用页面布局和文章布局 |
+| `_includes/` | head、header、footer、主题初始化和可选功能组件 |
+| `_plugins/` | MD5 permalink、资源改写和性能钩子 |
+| `static/css/` | 通用、页面、文章、主题和代码高亮样式 |
+| `static/js/` | 站点交互、搜索和本地二维码 vendor 脚本 |
+| `static/xml/` | RSS、sitemap 和搜索索引 Liquid 模板 |
+| `scripts/` | 生产产物压缩脚本 |
+| `.github/workflows/` | GitHub Pages 构建部署工作流 |
+| `service-worker.js` | PWA 预缓存、运行时缓存和离线导航 |
+| `source-assets/` | 源素材，不参与 Jekyll 构建 |
+
+生成目录 `_site/`、`dist/`、`node_modules/` 以及本地助手目录 `.agents/`、`.codex/`、`.impeccable/` 均不纳入版本控制。
+
+### 页面职责
+
+| 页面 | 源文件 | 说明 |
+|---|---|---|
+| 首页 | `index.html` | 文章列表、分类标签和两行摘要 |
+| 分类 | `pages/categories.html` | 按分类和日期组织文章 |
+| 搜索 | `pages/search.html` | 客户端标题和全文检索 |
+| 书签 | `pages/links.md` | 渲染 `_config.yml` 中的 `links` 配置 |
+| 关于 | `pages/about.md` | 个人介绍和使用说明 |
+| 404 | `404.md` | 找不到页面时的兜底 |
+
+### Jekyll 插件
+
+| 插件 | 构建时机 | 作用 |
+|---|---|---|
+| [_plugins/md5_permalink.rb](_plugins/md5_permalink.rb) | 文章初始化、渲染前 | 生成 MD5 文章 URL，并把文章内相对资源改写到 `/posts/yyyy/MM/dd/` |
+| [_plugins/performance.rb](_plugins/performance.rb) | 站点初始化、文章渲染后 | 计算源内容指纹 `buildAt`，为本地图片补 `loading`、`decoding`、`width`、`height` |
+
+`buildAt` 不是当前时间，而是源内容指纹。因此内容不变时重复构建，CSS、JS、搜索索引和 Service Worker 的缓存版本保持不变，浏览器缓存可以继续复用。
+
+## 响应式与交互
+
+| 视口 | 布局和交互 |
+|---|---|
+| `<= 700px` | 手机布局。右下角快捷操作折叠为一个入口；第一次点击展开，第二次再选择回到顶部、二维码、主题或目录。 |
+| `701px - 1199px` | 平板布局。快捷操作直接显示，目录按钮也显示在右下角。 |
+| `>= 1200px` | 桌面文章页显示左侧相关推荐和右侧固定目录；右下角不显示目录按钮。 |
+| `>= 1330px` | 在桌面布局基础上加宽阅读区和侧边面板。 |
+
+右下角操作顺序固定为回到顶部、文章二维码、切换主题、文章目录。二维码按钮只在文章页出现；回到顶部图标会等待页面滚动后出现。主题偏好保存在 `localStorage`，未手动选择前跟随系统。
+
+页面交互脚本集中在 `static/js/blog.js`，搜索逻辑在 `static/js/search.js`。样式按职责拆分为 `common.css`、`page.css`、`post.css`、`theme-dark.css` 和代码高亮配色。
 
 ## 本地开发
 
@@ -66,111 +112,89 @@
 
 - Ruby 3.3.x
 - Bundler
-- Node.js 22+（仅生产构建压缩需要，与 GitHub Actions 保持一致）
+- Node.js 22+ 和 npm（生产压缩需要）
 
-安装依赖并启动本地服务：
+安装依赖：
 
 ```bash
 bundle install
+npm ci
+```
+
+启动本地预览：
+
+```bash
 ./blog.sh run
 ```
 
-`./blog.sh run` 用于本地预览，保留未压缩源码；`./blog.sh build` 会先构建 Jekyll，再通过 esbuild 压缩产物中的自定义 JS、CSS 和 `service-worker.js`。源码文件保留注释，方便维护。线上部署由 GitHub Pages Actions 完成压缩。
-
-默认访问 `http://localhost:8080`。指定端口运行：
+默认访问 `http://localhost:8080`。指定端口：
 
 ```bash
 ./blog.sh run 4000
 ```
 
-Windows 用户建议在 Git Bash、WSL 或其他 Bash 兼容环境中执行 `blog.sh`。
+本地预览保留未压缩源码，方便调试。`blog.sh` 是 Bash 脚本，Windows 用户建议在 Git Bash 或 WSL 中执行。
 
-如需执行生产构建，先安装 Node 依赖：
+生产构建：
 
 ```bash
-npm ci
 ./blog.sh build
 ```
 
+该命令会把 Jekyll 构建到 `dist`，再压缩 `dist` 中的自定义 JS、CSS 和 `service-worker.js`。GitHub Actions 使用同一套逻辑，只是目的地为 `_site`。
+
+## 构建与压缩
+
+生产构建管线如下：
+
+```bash
+bundle exec jekyll build --destination _site
+npm ci
+npm run minify -- _site
+```
+
+[scripts/minify.mjs](scripts/minify.mjs) 会处理：
+
+- `_site/static/css` 中的 CSS
+- `_site/static/js` 中的自定义 JavaScript
+- `_site/service-worker.js`
+
+`static/js/vendor/` 中的第三方脚本不会压缩，保留上游发布内容和许可证文件。源码文件保留注释，只有构建产物会被改写。
+
 ## 站点配置
 
-常用信息集中在 `_config.yml`：
+常用配置集中在 [_config.yml](_config.yml)：
 
-```yaml
-title: SpringVortex Notes
-description: SpringVortex Notes，zjc 的个人技术博客
-keywords: SpringVortex,zjc,Blog,Java,Html,JavaScript,Jekyll
-author: zjc
-footerText: 'Contact me (email): <a href="mailto:jiancai.zhong.1997@gmail.com">jiancai.zhong.1997@gmail.com</a>'
-```
+| 配置 | 说明 |
+|---|---|
+| `title` / `description` / `keywords` / `author` | 站点基础信息和 SEO 信息 |
+| `url` / `domainUrl` / `baseurl` | 站点地址；当前为根路径部署，`baseurl` 为空 |
+| `menu` | 页头导航，内部链接会拼接 `baseurl` |
+| `links` | 书签页数据源 |
+| `footerText` | 页脚内容，支持 HTML |
+| `googleSiteVerification` 等 | 搜索平台验证码，留空时不输出标签 |
+| `exclude` | 排除 `CNAME`、README、脚本、依赖等非站点文件 |
 
-`footerText` 支持 HTML，可用于 `mailto:` 链接。
+### 功能开关
 
-### 导航菜单
+| 开关 | 默认值 | 说明 |
+|---|---:|---|
+| `extClickEffect` | `false` | 点击文字特效 |
+| `extMath` | `true` | MathJax 数学公式 |
+| `extMermaid` | `true` | Mermaid 图表 |
+| `extQrCode` | `true` | 文章二维码 |
+| `extThemeToggle` | `true` | 右下角主题按钮；关闭后主题仍跟随系统和已保存偏好 |
+| `extServiceWorker` | `true` | PWA 离线缓存 |
 
-```yaml
-menu:
-  - title: Home
-    url: /
-  - title: Categories
-    url: /pages/categories.html
-  - title: GitHub
-    url: https://github.com
-    target: _blank
-```
-
-内部链接会自动拼接 `baseurl`；外部链接建议显式配置 `target`。
-
-### 书签页
-
-`pages/links.html` 渲染 `_config.yml` 中的 `links`：
-
-```yaml
-links:
-  - title: GitHub
-    url: https://github.com
-```
-
-### 关于页面
-
-编辑 [pages/about.md](pages/about.md)。该页面正文从三级标题开始书写。
-
-## 头像与图标
-
-| 文件                     | 用途                     | 引用位置                    |
-|--------------------------|--------------------------|-----------------------------|
-| `static/img/logo.webp`   | 页头头像、预加载图片、社交分享图、Apple 触摸图标 | `_includes/header.html`、`_includes/head.html` |
-| `static/img/favicon.ico` | 浏览器标签页图标         | `_includes/head.html`       |
-| `static/img/icon-192.png` / `static/img/icon-512.png` | PWA 图标 | `static/manifest.webmanifest` |
-
-替换文件即可更新图标。根目录下的 `favicon.ico` 当前未被站点引用。
-
-生成多尺寸 favicon 的 Python 示例：
-
-```python
-from PIL import Image
-
-src = Image.open("static/img/logo.webp").convert("RGBA")
-sizes = [(256, 256), (128, 128), (64, 64), (48, 48), (32, 32), (16, 16)]
-frames = [src.resize(size, Image.LANCZOS) for size in sizes]
-frames[0].save("static/img/favicon.ico", format="ICO")
-```
+文章目录、代码复制、图片预览和相关推荐当前是默认功能，没有独立开关。
 
 ## 写文章
 
-文章放在 `_posts/yyyy/MM/dd` 目录，目录日期和文件名日期保持一致。文件名仍然必须带日期前缀，Jekyll 会用它识别文章日期：
-
-```text
-yyyy-MM-dd-文章名.md
-```
-
-示例：
+文章放在 `_posts/yyyy/MM/dd/`，文件名仍需要日期前缀：
 
 ```text
 _posts/2026/08/17/2026-08-17-my-post.md
 ```
-
-文章内的相对资源放在 `posts/yyyy/MM/dd`，正文可直接写 `![图片](001.webp)`，构建时会自动映射到 `/posts/yyyy/MM/dd/001.webp`。
 
 Front Matter 示例：
 
@@ -178,25 +202,23 @@ Front Matter 示例：
 ---
 layout: mypost
 title: 文章标题
-categories: [ 分类1, 分类2 ]
+categories: [分类1, 分类2]
 author: jiancai.zhong
 date: 2026-08-17
+description: 一句话说明这篇文章解决什么问题。
 ---
 ```
 
-| 字段         | 必填 | 说明                         |
-|--------------|------|------------------------------|
-| `layout`     | 是   | 固定为 `mypost`              |
-| `title`      | 是   | 文章标题，显示在列表和文章页 |
-| `categories` | 否   | 分类数组，自动进入归类页     |
-| `author`     | 否   | 默认使用 `site.author`       |
-| `date`       | 否   | 默认取文件名日期             |
+| 字段 | 必填 | 说明 |
+|---|---|---|
+| `layout` | 是 | 固定为 `mypost` |
+| `title` | 是 | 文章标题 |
+| `categories` | 否 | 分类数组，会进入分类页和 SEO keywords |
+| `author` | 否 | 默认使用 `site.author` |
+| `date` | 否 | 默认取文件名日期 |
+| `description` | 否 | 搜索引擎和社交分享摘要；未填写时自动截取正文开头 |
 
-Markdown 语法示例可参考 [_posts/2026/08/13/2026-08-13-vmware-ubuntu24-static-ip.md](_posts/2026/08/13/2026-08-13-vmware-ubuntu24-static-ip.md)。
-
-### 代码块
-
-使用围栏代码块并显式声明语言，例如：
+代码块应显式声明语言，例如：
 
 ````markdown
 ```java
@@ -205,137 +227,78 @@ public class Demo {
 ```
 ````
 
-Rouge 会按语言高亮，文章页会自动显示复制按钮。Mermaid 图使用 `mermaid` 语言标识，构建后渲染为图表，不显示复制按钮。
+Mermaid 图表使用 `mermaid` 语言标识；构建后渲染为图表，不显示复制按钮。
 
-## 文章资源
+## 文章资源与 MD5 链接
 
-文章引用的图片、压缩包等资源放在 `posts/年/月/日/` 目录：
-
-| 文章文件名              | 资源目录            |
-|-------------------------|---------------------|
-| `2026-08-17-my-post.md` | `posts/2026/08/17/` |
-| `2026-08-18-hello.md`   | `posts/2026/08/18/` |
-
-文章中使用相对路径引用：
+文章资源放在 `posts/yyyy/MM/dd/`。正文直接使用相对路径：
 
 ```markdown
-![图片说明](yun.webp)
+![图片说明](001.webp)
 ```
 
-构建时插件会把相对资源链接改写为：
+构建时插件会把它改写为：
 
 ```text
-/posts/年/月/日/文件名
+/posts/yyyy/MM/dd/001.webp
 ```
 
-因此文章页面使用 MD5 URL 时，资源仍然按原日期目录访问，不会变成 `/<md5>/yun.webp`。
+支持改写的后缀包括 `webp`、`png`、`jpg`、`jpeg`、`gif`、`svg`、`bmp`、`ico`、`pdf`、`zip`、`rar`、`7z`、`txt`。围栏代码块内的示例路径不会被改写。
 
-当前支持改写的常见静态资源后缀包括：`webp`、`png`、`jpg`、`jpeg`、`gif`、`svg`、`bmp`、`ico`、`pdf`、`zip`、`rar`、`7z`、`txt`。
-
-### SEO 文件
-
-构建输出包含：
-
-| 文件                     | 用途             |
-|--------------------------|------------------|
-| `robots.txt`             | 爬虫规则、sitemap 声明 |
-| `static/manifest.webmanifest` | PWA 安装信息 |
-| `static/xml/sitemap.xml` | 站点地图         |
-| `static/xml/rss.xml`     | RSS 订阅         |
-| `static/xml/search.xml`  | 站内搜索内容索引 |
-
-这些文件由 Jekyll 模板生成，通常不需要手工编辑。
-
-页面会自动生成 `canonical`、Open Graph 和 Twitter Card。文章描述优先读取 Front Matter 的 `description`；未填写时自动截取文章开头作为摘要：
-
-```yaml
-description: 一句话说明这篇文章解决什么问题。
-```
-
-### 搜索平台验证
-
-`_config.yml` 中预留了三个验证字段，默认留空时不输出任何验证标签：
-
-```yaml
-googleSiteVerification: ''
-bingSiteVerification: ''
-baiduSiteVerification: ''
-```
-
-如果选择 HTML 标签验证，把平台给出的验证码填入对应字段并重新部署即可：
-
-| 平台 | 输出标签 |
-|---|---|
-| Google Search Console | `<meta name="google-site-verification">` |
-| Bing Webmaster Tools | `<meta name="msvalidate.01">` |
-| 百度搜索资源平台 | `<meta name="baidu-site-verification">` |
-
-Google 更推荐在阿里云 DNS 添加 TXT 记录，使用 Domain 属性验证 `uhaiin.com`，这样可以覆盖所有子域名和 HTTP / HTTPS 变体。Bing 支持从 Google Search Console 导入站点，通常最省事。
-
-## 文章 MD5 链接
-
-`_plugins/md5_permalink.rb` 会在构建时为文章生成：
+文章 URL 由源文件 MD5 生成：
 
 ```text
 /<md5>/
 ```
 
-规则：
+需要注意：
 
-- MD5 的输入是文章 Markdown 源文件内容
+- MD5 输入是文章源文件，不是渲染后的 HTML
 - 计算前会把 CRLF 统一为 LF，Windows 和 Linux 构建结果一致
-- 源文件任何内容变化都会改变文章 URL，包括改标题、改错别字、改 Front Matter 或改空白字符
-- 不修改源 Markdown 中的相对资源路径，因此资源改写不会反向影响文章 MD5
-- 首页、RSS、sitemap 和文章二维码都会使用当前构建出的 URL
+- 标题、正文、Front Matter、注释和空白字符变化都会改变 URL
+- 旧 URL 不会自动生成跳转，修改已收录文章前要考虑外链影响
+- `_config.yml` 中的日期 permalink 只是未启用插件时的兜底配置
 
-`_config.yml` 中的 `permalink: /posts/:year/:month/:day/:title` 仅作为未走插件的兜底配置；正常构建文章时会被 MD5
-permalink 覆盖。
+## SEO、搜索与 PWA
 
-## 可选功能开关
+构建输出包含：
 
-在 `_config.yml` 中控制：
+| 文件 | 用途 |
+|---|---|
+| `robots.txt` | 爬虫规则和 sitemap 声明 |
+| `static/xml/sitemap.xml` | 站点地图 |
+| `static/xml/rss.xml` | RSS 订阅 |
+| `static/xml/search.xml` | 全文搜索索引 |
+| `static/manifest.webmanifest` | PWA 安装信息 |
 
-```yaml
-extClickEffect: false   # 点击文字冒出特效
-extMath: true           # MathJax 数学公式
-extMermaid: true        # Mermaid 图表
-extQrCode: true         # 文章二维码
-extThemeToggle: true    # 右下角主题按钮；关闭后仍可点击头像切换
-extServiceWorker: true  # PWA 离线缓存
-```
+搜索页会预取搜索索引，并用 `localStorage` 按内容指纹缓存；标题来自页面初始列表，正文内容来自搜索索引。
 
-文章目录和代码复制按钮当前为默认功能，未单独设置开关。
+Service Worker 会预缓存首页、核心 CSS/JS 和头像，运行时缓存同源 GET 请求，跳过压缩包和 PDF 等下载资源；离线导航失败时回退到已缓存首页。非 HTTPS 环境下只允许 `127.0.0.1` 注册，方便本地调试。
 
-## 第三方 CDN 与性能
+## 第三方 CDN
 
-站点自身资源全部由 GitHub Pages 提供，只有两个大体积渲染库从 jsDelivr 按需加载：
+站点自身资源由 GitHub Pages 提供。以下大体积渲染库按需从 jsDelivr 加载：
 
 | 功能 | 版本 | 加载时机 |
 |---|---|---|
-| MathJax | 3.2.2 | 文章中检测到公式时 |
-| Mermaid | 11.16.1 | 文章中检测到 `mermaid` 代码块时 |
+| MathJax | 3.2.2 | 文章检测到公式语法时 |
+| Mermaid | 11.16.1 | 文章存在 `mermaid` 代码块时 |
 
-两个脚本都固定版本并启用 Subresource Integrity。普通文章不会请求这两个库；包含公式或图表的文章会在渲染时请求。缺点是依赖第三方 CDN 可用性，CDN 不可访问时公式或图表无法渲染，但页面主体内容仍可访问。如需完全自主可控，可把对应脚本改回本地加载，代价是增加仓库和部署产物体积。
-
-构建时还会做这些优化：
-
-- 自定义 JS、CSS 和 `service-worker.js` 使用 esbuild 压缩，并移除注释
-- `vendor` 目录中的第三方脚本不参与压缩，保留上游发布内容
-- `buildAt` 由源码内容指纹生成，并用于 CSS、JS、搜索索引和二维码脚本的缓存参数
-- 文章本地图片自动添加 `loading="lazy"`、`decoding="async"`、`width`、`height`
-- 页头头像使用 WebP 并在 HTML 中预加载
-- 文章页提前 `preconnect` jsDelivr，降低公式和图表资源的连接建立时间
-- Mermaid 渲染前预留占位高度，降低源码块替换成图表时的布局跳动
-
-## 浏览器支持
-
-本站面向现代浏览器，支持当前版本和近两年主流版本的 Chrome、Edge、Firefox 和 Safari，不兼容 IE。源码使用 `const` / `let`、模块脚本、CSS 自定义属性等现代特性。
+两者均固定版本并启用 Subresource Integrity。普通文章不会请求这些库；CDN 不可用时公式或图表无法渲染，但正文、代码和页面主体仍可访问。
 
 ## 部署
 
 ### GitHub Pages
 
-仓库提供 [.github/workflows/pages.yml](.github/workflows/pages.yml)，使用 Ruby 3.3、Bundler、Jekyll 4.4.1、Node.js 和 esbuild 构建并压缩站点。
+主部署入口是 [.github/workflows/pages.yml](.github/workflows/pages.yml)：
+
+1. Checkout `main`
+2. 安装 Ruby 3.3 和 Node.js 22
+3. `bundle install`
+4. 生产环境构建 Jekyll 到 `_site`
+5. `npm ci`
+6. 压缩 `_site`
+7. 上传 Pages artifact 并部署
 
 GitHub 仓库需要设置：
 
@@ -343,30 +306,63 @@ GitHub 仓库需要设置：
 Settings -> Pages -> Build and deployment -> Source -> GitHub Actions
 ```
 
-推送 `main` 分支后自动部署，也可以在：
+推送 `main` 后自动部署，也可以在 Actions 页面手动触发。
 
-```text
-Actions -> Build and deploy Pages -> Run workflow
+### 自定义域名
+
+当前绑定域名为 `uhaiin.com`。仓库根目录保留了 `CNAME` 文件，但 `_config.yml` 的 `exclude` 会把它排除在 Jekyll 产物之外；因此线上自定义域名真正依赖 GitHub Pages 设置中的 Custom domain 配置，而不是部署 artifact 里的 `CNAME` 文件。
+
+迁移仓库或换域名时需要检查：
+
+- GitHub Pages 设置中的 Custom domain
+- DNS 的 A / ALIAS / CNAME 记录，具体按 GitHub Pages 给出的域名类型执行
+- HTTPS 证书状态和 Enforce HTTPS
+- 根目录 `CNAME` 是否仍与目标域名一致
+
+### 遗留 COS 部署
+
+[blog.sh](blog.sh) 中的 `deploy` 命令是旧的 COS 上传入口，依赖本机 `cos-upload` 命令、CDN 凭证和网络服务。它不是当前主流程，日常发布应使用 GitHub Pages Actions。
+
+## 质量检查
+
+项目当前没有自动化测试套件，建议按变更范围执行以下检查：
+
+```bash
+node --check static/js/blog.js
+node --check static/js/search.js
+npm ci
+./blog.sh build
+git diff --check
 ```
 
-手动触发。
+涉及页面布局或交互时，至少检查：
 
-如果从零新建仓库，仓库名必须使用：
+- 手机：375px 和 412px 宽度
+- 平板：820px 宽度
+- 桌面：1200px 和 1330px 以上宽度
+- 搜索、主题切换、目录展开、代码复制、二维码、回到顶部
+- 页面不能出现意外横向拖动
+- 分类标题截断、摘要两行限制和行距
 
-```text
-<用户名>.github.io
-```
+2026-08-18 使用 Lighthouse 13.4.1 测试线上文章：
 
-这是 GitHub Pages 的默认用户站点域名规则。使用这个仓库名后，GitHub 会把站点发布到 `https://<用户名>.github.io/`，根路径不需要追加子路径；绑定自定义域名 `uhaiin.com` 后，GitHub Pages 会根据仓库中的 `CNAME` 文件自动应用域名。
+| 客户端 | Performance | Accessibility | Best Practices | SEO |
+|---|---:|---:|---:|---:|
+| 手机 | 74 | 98 | 100 | 100 |
+| 平板（820×1180 / DPR 2） | 86 | 98 | 100 | 100 |
+| 电脑 | 92 | 98 | 100 | 100 |
 
-项目仓库（例如 `blog`）也可以启用 Pages，但默认地址会带仓库路径，例如 `https://<用户名>.github.io/blog/`，需要额外处理 `baseurl` 和静态资源路径。当前站点配置为根路径部署，最省心的方式是使用 `<用户名>.github.io` 用户仓库。
+手机性能主要受 MathJax `tex-svg-full.js` 约 640 KiB 传输体积影响，Mermaid 替换图表时也可能带来布局变化。分数会受网络和 CDN 波动影响，仅作为当时快照。
 
-### 域名
+## 头像与图标
 
-- 自定义域名保留 `CNAME`
-- GitHub 默认域名需删除 `CNAME`，并将仓库命名为 `<用户名>.github.io`
+| 文件 | 用途 |
+|---|---|
+| `static/img/logo.webp` | 页头头像、社交分享图、Apple 触摸图标、PWA 预缓存 |
+| `static/img/favicon.ico` | 浏览器标签页图标 |
+| `static/img/icon-192.png` / `static/img/icon-512.png` | PWA 图标 |
 
-阿里云 DNS 中通常为自定义域名添加 `CNAME` 指向 `<用户名>.github.io`。域名生效后，建议在 GitHub Pages 设置中确认自定义域名和 HTTPS 证书状态。
+替换同名文件即可更新图标。根目录下的 `favicon.ico` 当前未被站点引用。
 
 ## 许可证
 
