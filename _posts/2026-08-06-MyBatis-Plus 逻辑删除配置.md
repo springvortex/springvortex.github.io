@@ -14,6 +14,7 @@ mybatis-plus:
     db-config:
       logic-delete-field: isDeleted
 ```
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/resources/application-dev.yaml](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/resources/application-dev.yaml)
 
 这里的 `isDeleted` 是 Java 实体属性名，不是数据库列名。实体中再通过 `@TableField("is_deleted")` 映射数据库列。
 
@@ -24,6 +25,7 @@ mybatis-plus:
 ```java
 userService.removeById(id);
 ```
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/controller/UserController.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/controller/UserController.java)
 
 实际效果是把对应记录的删除标记置为已删除，而不是执行 `DELETE`。
 

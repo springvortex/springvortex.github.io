@@ -42,6 +42,7 @@ package.parent=com.zjc.provider
 generator.tables=t_user,t_goods,t_order
 generator.tablePrefix=t_
 ```
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/MP-Generator/src/main/resources/generator.properties.template](https://github.com/springvortex/spring-cloud-alibaba/blob/main/MP-Generator/src/main/resources/generator.properties.template)
 
 ### 三、输出目录要稳定
 

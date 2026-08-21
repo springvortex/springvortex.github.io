@@ -20,6 +20,7 @@ public interface UserConverter {
     User dtoToEntity(UserDTO dto);
 }
 ```
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/converter/UserConverter.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/converter/UserConverter.java)
 
 `componentModel = "spring"` 让生成实现类注册成 Bean，Controller 直接注入使用。
 
@@ -38,6 +39,7 @@ MapStruct 在编译时生成实现类。字段名不匹配、类型不能转换�
 ```java
 List<UserDTO> entityListToDtoList(List<User> users);
 ```
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/converter/UserConverter.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/converter/UserConverter.java)
 
 MapStruct 会基于单对象转换方法生成集合转换，减少模板代码。
 

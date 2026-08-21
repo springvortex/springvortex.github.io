@@ -21,6 +21,7 @@ public class UserFeignFallbackFactory implements FallbackFactory<UserFeignApi> {
     }
 }
 ```
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-common/src/main/java/com/zjc/common/api/user/factory/UserFeignFallbackFactory.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-common/src/main/java/com/zjc/common/api/user/factory/UserFeignFallbackFactory.java)
 
 连接拒绝、读超时、下游 503、反序列化失败，都会出现在 `cause` 里。普通 fallback 只知道“进了兜底”，不知道为什么。
 

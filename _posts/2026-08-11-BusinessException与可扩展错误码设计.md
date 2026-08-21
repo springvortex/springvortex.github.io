@@ -14,6 +14,7 @@ public interface ErrorCode {
     String message();
 }
 ```
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-common/src/main/java/com/zjc/common/constant/ErrorCode.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-common/src/main/java/com/zjc/common/constant/ErrorCode.java)
 
 `ApiResponseEnum` 实现它，负责 0、100、101、102、401、403、500、503 这类通用语义。业务模块如果需要 `20001`
 起的用户错误码，只需要再定义一个枚举，不需要修改公共代码。
@@ -26,6 +27,7 @@ public interface ErrorCode {
 throw new BusinessException(ApiResponseEnum.NOT_FOUND);
 throw new BusinessException(20001, "用户不存在");
 ```
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-common/src/main/java/com/zjc/common/exception/BusinessException.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-common/src/main/java/com/zjc/common/exception/BusinessException.java)
 
 推荐第一种和自定义枚举写法。数字散落在业务代码里，后期很难知道它属于哪个模块。
 

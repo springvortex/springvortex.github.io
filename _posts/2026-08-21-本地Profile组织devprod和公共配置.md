@@ -36,6 +36,7 @@ API 前缀、加密算法、注册中心认证、链路导出这些公共规则�
 ```bash
 java -jar app.jar --spring.profiles.active=prod
 ```
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/README.md](https://github.com/springvortex/spring-cloud-alibaba/blob/main/README.md)
 
 ### 四、修改配置要重新打包
 

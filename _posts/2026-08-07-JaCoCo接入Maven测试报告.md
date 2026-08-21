@@ -20,6 +20,7 @@ categories: [ Testing, Maven, Engineering ]
   <goals><goal>report</goal></goals>
 </execution>
 ```
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/pom.xml](https://github.com/springvortex/spring-cloud-alibaba/blob/main/pom.xml)
 
 `prepare-agent` 负责注入探针，`report` 在测试阶段生成 HTML、XML 等报告。
 

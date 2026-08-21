@@ -15,6 +15,7 @@ private LocalDateTime createTime;
 @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
 private LocalDateTime updateTime;
 ```
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/entity/User.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/entity/User.java)
 
 含义：
 
@@ -42,6 +43,7 @@ public class AuditMetaObjectHandler implements MetaObjectHandler {
     }
 }
 ```
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/config/AuditMetaObjectHandler.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/config/AuditMetaObjectHandler.java)
 
 `strictInsertFill` 可以保留已有值，不会无脑覆盖业务已经设置的时间。
 
@@ -52,6 +54,7 @@ public class AuditMetaObjectHandler implements MetaObjectHandler {
 ```java
 LocalDateTime.now(ZoneId.of("Asia/Shanghai"))
 ```
+> [https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/config/AuditMetaObjectHandler.java](https://github.com/springvortex/spring-cloud-alibaba/blob/main/service-provider/src/main/java/com/zjc/provider/config/AuditMetaObjectHandler.java)
 
 只改数据库连接参数不够，Java 代码里生成的时间也要有明确时区语义。
 
