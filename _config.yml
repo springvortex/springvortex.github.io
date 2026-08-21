@@ -26,15 +26,15 @@ baiduSiteVerification: ''
 
 # 菜单
 menu:
-  - title: 首页
+  - title: Home
     url: /
-  - title: 归类
+  - title: Categories
     url: /pages/categories.html
-  - title: 搜索
+  - title: Search
     url: /pages/search.html
-  - title: 书签
+  - title: Bookmarks
     url: /pages/links.html
-  - title: 关于
+  - title: About
     url: /pages/about.html
 
 # 点击页面文字冒出特效,不需要请设置为false

@@ -110,9 +110,9 @@ footerText: '联系我（email）: <a href="mailto:jiancai.zhong.1997@gmail.com"
 
 ```yaml
 menu:
-  - title: 首页
+  - title: Home
     url: /
-  - title: 归类
+  - title: Categories
     url: /pages/categories.html
   - title: GitHub
     url: https://github.com

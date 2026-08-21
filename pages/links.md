@@ -1,6 +1,6 @@
 ---
 layout: mypost
-title: 书签
+title: Bookmarks
 ---
 
 <ul>

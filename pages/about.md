@@ -1,6 +1,6 @@
 ---
 layout: mypost
-title: 关于
+title: About
 ---
 
 ### 关于我
