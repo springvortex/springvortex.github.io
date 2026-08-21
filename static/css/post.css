@@ -53,6 +53,10 @@
   text-wrap: balance;
 }
 
+.page-post .post h1 {
+  font-size: 19px;
+}
+
 .page-post .post h1::before,
 .page-post .post h2::before {
   content: '#';
@@ -717,6 +721,10 @@
   .page-post .post h1,
   .page-post .post h2 {
     font-size: 22px;
+  }
+
+  .page-post .post h1 {
+    font-size: 16px;
   }
 
   .page-post .post h3 {
