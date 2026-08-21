@@ -3,10 +3,10 @@ layout: mypost
 title: 书签
 ---
 
-<ul>
+<ul class="links-list">
   {%- for link in site.links %}
   <li>
-    <p><a href="{{ link.url }}" title="{{ link.desc }}" target="_blank" rel="noopener noreferrer">{{ link.title }}</a></p>
+    <a href="{{ link.url }}" title="{{ link.desc }}" target="_blank" rel="noopener noreferrer">{{ link.title }}</a>
   </li>
   {%- endfor %}
 </ul>
