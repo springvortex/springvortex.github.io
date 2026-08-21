@@ -61,10 +61,10 @@ Invoke-RestMethod http://127.0.0.1:9200
 ```bash
 sudo apt update
 sudo apt install -y apt-transport-https
+es_keyring=/usr/share/keyrings/elasticsearch-keyring.gpg
 curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch \
-  | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
-echo \
-  "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" \
+  | sudo gpg --dearmor -o "$es_keyring"
+echo "deb [signed-by=$es_keyring] https://artifacts.elastic.co/packages/8.x/apt stable main" \
   | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
 ```
 
@@ -140,4 +140,3 @@ curl -k https://127.0.0.1:9200
 9200 能连但返回 401，说明安全认证已启用，账号密码或 TLS 配置不对。
 
 写入延迟高不要先加节点，先确认 refresh interval、分片大小、mapping 和查询是否合理。
-

@@ -249,7 +249,7 @@ IDEA：
 ```bash
 cd MP-Generator
 mvn compile
-mvn org.codehaus.mojo:exec-maven-plugin:3.1.0:java `
+mvn org.codehaus.mojo:exec-maven-plugin:3.1.0:java \
   -Dexec.mainClass="com.zjc.CodeGenerator"
 ```
 
