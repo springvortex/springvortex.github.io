@@ -15,7 +15,11 @@
   {%- endif -%}
 {%- endif -%}
 <head>
+  {%- if is_article -%}
+  <title>{{ page.title }}</title>
+  {%- else -%}
   <title>{{ page.title }} | {{ site.title }}</title>
+  {%- endif %}
   <meta charset="utf-8" />
   <meta http-equiv="content-language" content="zh-CN" />
   <meta name="theme-color" content="#f5f6f8" />
