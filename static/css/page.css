@@ -68,6 +68,10 @@
   border-bottom: 1px solid var(--hairline-soft);
 }
 
+.list-post li[hidden] {
+  display: none;
+}
+
 .list-post li .date {
   grid-column: 1;
   padding-top: 4px;
