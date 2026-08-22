@@ -718,3 +718,47 @@ blog.addLoadEvent(function () {
     }
   })
 })
+
+// 首页年份列表和分类列表手动分批展示
+blog.addLoadEvent(function () {
+  const buttons = document.querySelectorAll('.list-post .load-more')
+
+  for (let i = 0; i < buttons.length; i++) {
+    const button = buttons[i]
+    const section = button.closest('.list-post')
+    const list = section ? section.querySelector('ul') : null
+    if (!list) {
+      continue
+    }
+
+    blog.addEvent(button, 'click', function () {
+      const hiddenItems = Array.prototype.filter.call(list.children, function (item) {
+        return item.hidden
+      })
+      if (!hiddenItems.length) {
+        return
+      }
+
+      const pageSize = Number(button.getAttribute('data-page-size')) || 20
+      const nextItems = hiddenItems.slice(0, pageSize)
+      nextItems.forEach(function (item) {
+        item.hidden = false
+      })
+
+      const remainingCount = hiddenItems.length - nextItems.length
+      const count = button.querySelector('.load-more-count')
+      if (!remainingCount) {
+        button.remove()
+      } else {
+        count.textContent = '还有 ' + remainingCount + ' 篇'
+      }
+
+      window.requestAnimationFrame(function () {
+        const header = document.querySelector('.header')
+        const headerBottom = header ? Math.max(header.getBoundingClientRect().bottom, 0) : 0
+        const nextTop = window.scrollY + nextItems[0].getBoundingClientRect().top - headerBottom - 12
+        window.scrollTo({ top: Math.max(nextTop, 0), behavior: 'smooth' })
+      })
+    })
+  }
+})

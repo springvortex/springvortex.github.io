@@ -3,6 +3,12 @@ layout: page
 title: Home
 ---
 <main id="main" class="page page-index">
+  <noscript>
+    <style>
+      .page-index .list-post li[hidden] { display: grid; }
+      .page-index .list-post .load-more { display: none; }
+    </style>
+  </noscript>
   <header class="page-head">
     <h1>文章</h1>
     <p>{{ site.posts | size }} 篇笔记 · {{ site.categories | size }} 个分类</p>
@@ -12,11 +18,12 @@ title: Home
     {%- capture post_previous_year %}{{ post.previous.date | date: "%Y" }}{% endcapture -%}
     {%- capture post_next_year %}{{ post.next.date | date: "%Y" }}{% endcapture -%}
     {%- if forloop.first or post_next_year != post_year -%}
+    {%- assign year_post_count = 0 -%}
     <div class="list-post">
       <h2 id="{{post_year}}">{{post_year}}</h2>
       <ul>
     {%- endif %}
-        <li>
+        <li{% if year_post_count >= 20 %} hidden{% endif %}>
           <span class="date">{{ post.date | date: "%Y/%m/%d" }}</span>
           <div class="title">
             <a href="{{ site.baseurl | append: post.url }}" class="hover-underline">{{ post.title }}</a>
@@ -31,8 +38,19 @@ title: Home
           <p class="summary">{{ post_preview | truncate: 128 }}</p>
           {%- endif %}
         </li>
+        {%- assign year_post_count = year_post_count | plus: 1 -%}
     {%- if forloop.last or post_previous_year != post_year %}
       </ul>
+      {%- assign hidden_post_count = year_post_count | minus: 20 -%}
+      {%- if hidden_post_count > 0 %}
+      <button class="load-more" type="button" data-page-size="20">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+        <span class="load-more-label">加载更多</span>
+        <span class="load-more-count">还有 {{ hidden_post_count }} 篇</span>
+      </button>
+      {%- endif %}
     </div>
     {%- endif %}
   {%- endfor %}

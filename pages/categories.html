@@ -4,6 +4,12 @@ title: 分类
 ---
 
 <main id="main" class="page page-categories">
+  <noscript>
+    <style>
+      .page-categories .list-post li[hidden] { display: list-item; }
+      .page-categories .list-post .load-more { display: none; }
+    </style>
+  </noscript>
   <header class="page-head">
     <h1>分类</h1>
     <p>{{ site.posts | size }} 篇笔记 · {{ site.categories | size }} 个分类</p>
@@ -21,12 +27,22 @@ title: 分类
     <h2 id="{{ category[0] }}">{{ category[0] }}</h2>
     <ul>
       {%- for post in category[1] %}
-      <li>
+      <li{% if forloop.index > 10 %} hidden{% endif %}>
         <span class="date">{{ post.date | date: "%Y/%m/%d" }}</span>
         <a href="{{ site.baseurl | append: post.url }}" class="hover-underline">{{ post.title }}</a>
       </li>
       {%- endfor %}
     </ul>
+    {%- assign hidden_post_count = category[1].size | minus: 10 -%}
+    {%- if hidden_post_count > 0 %}
+    <button class="load-more" type="button" data-page-size="10">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m6 9 6 6 6-6" />
+      </svg>
+      <span class="load-more-label">加载更多</span>
+      <span class="load-more-count">还有 {{ hidden_post_count }} 篇</span>
+    </button>
+    {%- endif %}
   </div>
   {%- endfor %}
 </main>
