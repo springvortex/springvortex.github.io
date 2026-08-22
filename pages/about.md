@@ -42,7 +42,7 @@ body_class: page-about
 | `service-mail` | 邮件服务，支持纯文本和 HTML 邮件，发送过程会写入日志表并记录成功或失败状态 |
 | `MP-Generator` | 独立的 MyBatis-Plus 代码生成器，用于按数据库表生成 Entity、Mapper、Service 和 XML |
 
-### 这个项目的特点
+### 项目特点
 
 项目采用 Maven 父子结构管理公共版本和构建插件。业务服务统一返回 `ApiResponse`，后端接口通过 `service-common` 自动挂载 `/api/{version}/{module}` 前缀，避免每个 Controller 手写重复路径。
 
