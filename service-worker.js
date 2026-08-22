@@ -14,6 +14,7 @@ const precacheUrls = [
   baseUrl + '/static/css/code-light.css',
   baseUrl + '/static/css/code-dark.css',
   baseUrl + '/static/js/blog.js',
+  baseUrl + '/static/font/consola.woff2',
   baseUrl + '/static/img/logo.webp'
 ]
 const downloadPattern = /\.(?:rar|zip|7z|pdf)$/i
