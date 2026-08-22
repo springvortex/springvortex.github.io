@@ -148,18 +148,10 @@ SMTP 调用。
 
 ```java
 SimpleMailMessage message = new SimpleMailMessage();
-message.
-
-setFrom(fromEmail);
-message.
-
-setTo(to);
-message.
-
-setSubject(dto.getSubject());
-        message.
-
-setText(dto.getContent());
+message.setFrom(fromEmail);
+message.setTo(to);
+message.setSubject(dto.getSubject());
+message.setText(dto.getContent());
 ```
 
 HTML 使用 `MimeMessageHelper`：
@@ -167,18 +159,10 @@ HTML 使用 `MimeMessageHelper`：
 ```java
 MimeMessage mimeMessage = mailSender.createMimeMessage();
 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-helper.
-
-setFrom(fromEmail);
-helper.
-
-setTo(to);
-helper.
-
-setSubject(dto.getSubject());
-        helper.
-
-setText(dto.getContent(), true);
+helper.setFrom(fromEmail);
+helper.setTo(to);
+helper.setSubject(dto.getSubject());
+helper.setText(dto.getContent(), true);
 ```
 
 两条路径分开，避免把用户输入当 HTML 渲染。调用方必须显式传 `isHtml=true`，服务端才按 MIME HTML 处理。

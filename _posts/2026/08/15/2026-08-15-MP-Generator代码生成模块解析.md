@@ -108,14 +108,11 @@ generator.tablePrefix=t_,sys_
 Java `Properties.load(InputStream)` 默认按 ISO-8859-1 处理，中文容易乱码。这个项目显式包装了 Reader：
 
 ```java
-try(InputStream is = CodeGenerator.class.getResourceAsStream("/generator.properties")){
-        props.
-
-load(new InputStreamReader(
-        Objects.requireNonNull(is),
-
-StandardCharsets.UTF_8));
-        }
+try (InputStream is = CodeGenerator.class.getResourceAsStream("/generator.properties")) {
+    props.load(new InputStreamReader(
+            Objects.requireNonNull(is),
+            StandardCharsets.UTF_8));
+}
 ```
 
 > [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/MP-Generator/src/main/java/com/zjc/CodeGenerator.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/MP-Generator/src/main/java/com/zjc/CodeGenerator.java)
@@ -150,59 +147,33 @@ MP-Generator/target/classes
 全局配置：
 
 ```java
-.globalConfig(builder ->builder.
-
-author("jiancai.zhong")
-        .
-
-commentDate("yyyy-MM-dd")
-        .
-
-enableSpringdoc()
-        .
-
-outputDir(outputDir)
-        .
-
-disableOpenDir())
+.globalConfig(builder -> builder
+        .author("jiancai.zhong")
+        .commentDate("yyyy-MM-dd")
+        .enableSpringdoc()
+        .outputDir(outputDir)
+        .disableOpenDir())
 ```
 
 包配置：
 
 ```java
-.packageConfig(builder ->builder.
-
-parent(parentPackage)
-        .
-
-entity("entity")
-        .
-
-mapper("mapper")
-        .
-
-service("service")
-        .
-
-serviceImpl("service.impl")
-        .
-
-xml("mapper"))
+.packageConfig(builder -> builder
+        .parent(parentPackage)
+        .entity("entity")
+        .mapper("mapper")
+        .service("service")
+        .serviceImpl("service.impl")
+        .xml("mapper"))
 ```
 
 实体策略：
 
 ```java
 .entityBuilder()
-.
-
-enableLombok(new ClassAnnotationAttributes("@Data", "lombok.Data"))
-        .
-
-enableTableFieldAnnotation()
-.
-
-enableSerialAnnotation()
+        .enableLombok(new ClassAnnotationAttributes("@Data", "lombok.Data"))
+        .enableTableFieldAnnotation()
+        .enableSerialAnnotation()
 ```
 
 这里选择给字段显式加 `@TableField`。虽然数据库下划线字段和 Java 驼峰属性可以自动映射，但显式注解能让实体和表结构的对应关系更直观，也方便后期处理关键字段。
@@ -211,9 +182,7 @@ Controller 策略：
 
 ```java
 .controllerBuilder()
-.
-
-disable()
+        .disable()
 ```
 
 也就是说，生成器只生成数据访问和 Service 骨架，不生成 REST Controller。Controller 与业务契约相关，需要开发者根据
