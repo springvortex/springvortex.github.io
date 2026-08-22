@@ -7,14 +7,14 @@
 }
 
 .page-post > .title {
-  max-width: 700px;
+  max-width: 100%;
   margin-bottom: 8px;
   color: var(--text);
   font-size: clamp(27px, 4.6vw, 38px);
   font-weight: 690;
   line-height: 1.2;
   letter-spacing: 0;
-  text-wrap: balance;
+  text-wrap: wrap;
 }
 
 .page-post > .subtitle {
