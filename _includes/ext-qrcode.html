@@ -241,7 +241,7 @@
           context.fillStyle = '#ffffff'
           context.fillRect(0, 0, canvas.width, canvas.height)
           context.drawImage(image, qrPosition, qrPosition, qrSize, qrSize)
-          drawTitle(context, titleLines, qrPosition + qrSize + titleGap, titleHeight, canvasWidth - qrPosition * 2)
+          drawTitle(context, titleLines, qrPosition + qrSize + titleGap, titleHeight, canvasWidth * 0.96)
           URL.revokeObjectURL(svgUrl)
           canvas.toBlob(function (blob) {
             if (blob) {
@@ -280,10 +280,10 @@
     context.textBaseline = 'middle'
     context.font = '600 34px "Segoe UI", "Microsoft YaHei", sans-serif'
     if (lines.length === 1) {
-      context.fillText(lines[0], context.canvas.width / 2, top + height / 2 + 1, width - 40)
+      context.fillText(lines[0], context.canvas.width / 2, top + height / 2 + 1, width)
     } else {
-      context.fillText(lines[0], context.canvas.width / 2, top + 24, width - 40)
-      context.fillText(lines[1], context.canvas.width / 2, top + 68, width - 40)
+      context.fillText(lines[0], context.canvas.width / 2, top + 24, width)
+      context.fillText(lines[1], context.canvas.width / 2, top + 68, width)
     }
   }
 
