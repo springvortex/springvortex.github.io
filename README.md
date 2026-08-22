@@ -22,6 +22,7 @@ SpringVortex Notes 是基于 Jekyll 4.4.1 的个人技术博客，内容集中�
 
 - 响应式首页、分类页、搜索页、书签页和关于页
 - 客户端搜索，同时匹配文章标题和正文，不需要后端服务
+- 首页桌面端热门文章侧栏：文章页记录打开次数，CI 每 6 小时生成热门榜，不足 20 篇时用最新文章补足
 - 分类归档；桌面端左侧固定分类索引，分类超多时索引内部滚动
 - 首页年份列表和分类列表分批展示，手动加载后续文章
 - 首页和搜索结果摘要最多两行，避免长段落撑开列表
@@ -150,6 +151,7 @@ npm ci
 
 ```bash
 bundle exec jekyll build --destination _site
+npm run popular -- _site
 npm ci
 npm run minify -- _site
 ```
@@ -173,6 +175,7 @@ npm run minify -- _site
 | `menu` | 页头导航，内部链接会拼接 `baseurl` |
 | `links` | 书签页数据源 |
 | `footerText` | 页脚内容，支持 HTML |
+| `pageViewEndpoint` / `pageViewNamespace` | 文章打开计数服务；当前使用 Abacus 兼容接口，可替换为自己的服务 |
 | `googleSiteVerification` 等 | 搜索平台验证码，留空时不输出标签 |
 | `exclude` | 排除 `CNAME`、README、脚本、依赖等非站点文件 |
 
@@ -334,6 +337,7 @@ node --check static/js/blog.js
 node --check static/js/search.js
 npm ci
 JEKYLL_ENV=production bundle exec jekyll build --destination _site
+npm run popular -- _site
 npm run minify -- _site
 npm run check -- _site
 npm audit --audit-level=low --registry=https://registry.npmjs.org

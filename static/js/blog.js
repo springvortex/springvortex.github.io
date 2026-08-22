@@ -719,6 +719,76 @@ blog.addLoadEvent(function () {
   })
 })
 
+// 文章打开计数；失败时静默跳过，不影响阅读体验
+blog.addLoadEvent(function () {
+  const page = document.querySelector('.page-post[data-counter-key]')
+  if (
+    !page ||
+    !blog.pageViewEndpoint ||
+    !blog.pageViewNamespace ||
+    window.location.hostname !== 'uhaiin.com'
+  ) {
+    return
+  }
+
+  const key = blog.trim(page.getAttribute('data-counter-key'))
+  if (!/^[A-Za-z0-9_.-]{3,64}$/.test(key)) {
+    return
+  }
+
+  const namespace = encodeURIComponent(blog.pageViewNamespace)
+  const counterKey = encodeURIComponent(key)
+  fetch(blog.pageViewEndpoint + '/hit/' + namespace + '/' + counterKey, {
+    cache: 'no-store',
+    credentials: 'omit',
+    keepalive: true,
+    redirect: 'error',
+    referrerPolicy: 'no-referrer'
+  }).catch(function () {})
+})
+
+// 首页热门文章：构建时生成热门索引，异常时保留最新文章兜底
+blog.addLoadEvent(function () {
+  const sidebar = document.querySelector('.popular-index')
+  const list = sidebar ? sidebar.querySelector('ul') : null
+  if (!list) {
+    return
+  }
+
+  fetch(blog.baseurl + '/static/json/popular-posts.json', {
+    cache: 'no-store',
+    credentials: 'omit'
+  })
+    .then(function (response) {
+      if (!response.ok) {
+        throw new Error('popular posts request failed')
+      }
+      return response.json()
+    })
+    .then(function (data) {
+      const posts = Array.isArray(data.posts) ? data.posts.slice(0, 20) : []
+      if (!posts.length) {
+        return
+      }
+
+      list.textContent = ''
+      posts.forEach(function (post) {
+        if (!post.url || !post.title) {
+          return
+        }
+
+        const item = document.createElement('li')
+        const link = document.createElement('a')
+        link.href = post.url
+        link.title = post.title
+        link.textContent = post.title
+        item.appendChild(link)
+        list.appendChild(item)
+      })
+    })
+    .catch(function () {})
+})
+
 // 首页年份列表和分类列表手动分批展示
 blog.addLoadEvent(function () {
   const buttons = document.querySelectorAll('.list-post .load-more')

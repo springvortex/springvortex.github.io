@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "popular": "node scripts/build-popular-posts.mjs",
     "minify": "node scripts/minify.mjs",
     "check": "node scripts/check_site.mjs"
   },

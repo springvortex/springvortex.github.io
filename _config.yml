@@ -49,6 +49,9 @@ extQrCode: true
 extThemeToggle: true
 # PWA离线缓存，不需要请设置为false
 extServiceWorker: true
+# 文章打开次数与首页热门文章；Abacus 兼容接口可替换为自己的计数服务
+pageViewEndpoint: 'https://abacus.jasoncameron.dev'
+pageViewNamespace: 'uhaiin.com'
 
 # 书签
 links:

@@ -1,0 +1,10 @@
+<aside class="popular-index" aria-labelledby="popular-posts">
+  <h2 id="popular-posts">热门文章</h2>
+  <ul>
+    {%- for post in site.posts limit: 20 %}
+    <li>
+      <a href="{{ site.baseurl | append: post.url }}" title="{{ post.title | escape }}">{{ post.title }}</a>
+    </li>
+    {%- endfor %}
+  </ul>
+</aside>

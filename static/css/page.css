@@ -231,6 +231,36 @@
   color: var(--accent);
 }
 
+.popular-index {
+  display: none;
+}
+
+.popular-index ul {
+  margin: 0;
+  padding: 0;
+}
+
+.popular-index li {
+  list-style: none;
+}
+
+.popular-index a {
+  display: block;
+  padding: 5px 0;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.58;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 180ms ease;
+}
+
+.popular-index a:hover,
+.popular-index a:focus-visible {
+  color: var(--accent);
+}
+
 
 .page-categories .list-post > h2 {
   color: var(--text);
@@ -397,7 +427,8 @@
 }
 
 @media screen and (min-width: 1200px) {
-  body.categories-body {
+  body.categories-body,
+  body.popular-body {
     max-width: 680px;
   }
 
@@ -427,14 +458,48 @@
     padding-right: 0;
     overflow: visible;
   }
+
+  body.popular-body .popular-index {
+    display: block;
+    position: fixed;
+    top: 108px;
+    left: max(20px, calc(50% - 570px));
+    width: 210px;
+    max-height: min(calc(100vh - 150px), 688px);
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0 16px 12px 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+    border-right: 1px solid var(--hairline);
+  }
+
+  body.popular-body .popular-index::-webkit-scrollbar {
+    display: none;
+  }
+
+  body.popular-body .popular-index h2 {
+    margin-bottom: 8px;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 650;
+    line-height: 1.4;
+  }
 }
 
 @media screen and (min-width: 1330px) {
-  body.categories-body {
+  body.categories-body,
+  body.popular-body {
     max-width: 760px;
   }
 
   body.categories-body .category-index {
+    left: max(28px, calc(50% - 650px));
+    width: 250px;
+  }
+
+  body.popular-body .popular-index {
     left: max(28px, calc(50% - 650px));
     width: 250px;
   }
