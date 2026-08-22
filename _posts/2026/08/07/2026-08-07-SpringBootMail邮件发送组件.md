@@ -4,46 +4,9 @@ title: Spring Boot Mail 邮件发送组件
 categories: [ Components, Mail, Spring Boot ]
 ---
 
-> **代码环境**：本文代码来自仓库 [https://github.com/springvortex/spring-cloud-alibaba.git](https://github.com/springvortex/spring-cloud-alibaba.git) 的 `release/v1.0.0` 分支（提交 `67ee39051b42`，项目版本 `1.0.0`）。
+> **代码环境**
 >
-> 本地开发环境为 Windows；基础环境：JDK `21`、Maven 多模块工程、Spring Boot `4.1.0`、Spring Cloud `2025.1.2`、Spring Cloud Alibaba `2025.1.0.0`、MyBatis-Plus `3.5.17`、SpringDoc `3.1.0`、MapStruct `1.6.3`、Hutool `5.8.47`、Jasypt Spring Boot `4.0.4`、JaCoCo `0.8.15`。`dev` Profile 使用共享 Nacos `3.x`、MySQL `8.x`、Zipkin 与 MailHog；`prod` Profile 面向 Linux 内网部署，基础设施端口不暴露公网。
-
-Spring Boot Mail 提供的是 SMTP 发送抽象。项目把它封装在独立的 `service-mail` 中，让邮件成为微服务能力，而不是散落在各业务服务里的工具方法。
-
-### 一、服务封装
-
-```java
-@Resource
-private JavaMailSender mailSender;
-```
-
-> [https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-mail/src/main/java/com/zjc/mail/service/impl/MailSendServiceImpl.java](https://github.com/springvortex/spring-cloud-alibaba/blob/release/v1.0.0/service-mail/src/main/java/com/zjc/mail/service/impl/MailSendServiceImpl.java)
-
-业务代码不直接处理 SMTP 协议，而是使用 `JavaMailSender` 发送纯文本或 HTML 邮件。SMTP 地址、端口、认证和编码由环境 Profile
-管理。
-
-### 二、发送不只是调用 send
-
-邮件服务的流程是：
-
-1. 校验收件人、抄送、密送格式。
-2. 写入一条待发送记录。
-3. 发送纯文本或 HTML 邮件。
-4. 根据结果更新成功或失败状态。
-
-这样失败可追踪，也能统计发送结果。
-
-### 三、环境隔离
-
-开发环境使用 MailHog，不向真实邮箱发信；生产环境连接真实 SMTP 服务，认证信息通过加密配置和环境注入管理。这避免了测试邮件骚扰真实用户。
-
-### 四、避坑点
-
-1. SMTP 服务商通常有频率限制。
-2. 邮件发送失败不应让整个业务事务失控，要明确边界。
-3. HTML 邮件要注意样式兼容和内容安全。
-4. 发件人、回复地址、认证账号可能不是同一个概念。
-
-### 五、经验总结
-
-Spring Boot Mail 解决协议细节，独立 Mail 服务解决系统边界。两者叠加后，邮件才从“发出去就行”变成可观测、可审计的基础能力。
+> - 仓库：[https://github.com/springvortex/spring-cloud-alibaba.git](https://github.com/springvortex/spring-cloud-alibaba.git)
+> - 分支：`release/v1.0.0`
+> - JDK：`21`
+> - Spring Boot：`4.1.0`

@@ -4,33 +4,9 @@ title: Caffeine 给 LoadBalancer 缓存实例列表
 categories: [ Spring Cloud, LoadBalancer, Performance ]
 ---
 
-> **代码环境**：本文代码来自仓库 [https://github.com/springvortex/spring-cloud-alibaba.git](https://github.com/springvortex/spring-cloud-alibaba.git) 的 `release/v1.0.0` 分支（提交 `67ee39051b42`，项目版本 `1.0.0`）。
+> **代码环境**
 >
-> 本地开发环境为 Windows；基础环境：JDK `21`、Maven 多模块工程、Spring Boot `4.1.0`、Spring Cloud `2025.1.2`、Spring Cloud Alibaba `2025.1.0.0`、MyBatis-Plus `3.5.17`、SpringDoc `3.1.0`、MapStruct `1.6.3`、Hutool `5.8.47`、Jasypt Spring Boot `4.0.4`、JaCoCo `0.8.15`。`dev` Profile 使用共享 Nacos `3.x`、MySQL `8.x`、Zipkin 与 MailHog；`prod` Profile 面向 Linux 内网部署，基础设施端口不暴露公网。
-
-OpenFeign 的 `lb://service-provider` 最终要经过 Spring Cloud LoadBalancer。它每次都去拉服务实例列表，会让调用链路多出一层不确定性。引入
-Caffeine 后，实例列表可以在本地缓存一小段时间。
-
-### 一、为什么是 Caffeine
-
-Caffeine 是 JVM 生态里成熟的高性能本地缓存，Spring Cloud LoadBalancer 对它有官方支持。相比自己写 Map 和过期逻辑，直接使用适配实现更稳。
-
-### 二、收益
-
-缓存服务实例列表可以带来三个变化：
-
-- 降低注册中心客户端压力。
-- 降低服务间调用前的元数据获取开销。
-- 注册中心短暂抖动时，仍有机会使用最近一次实例列表。
-
-### 三、缓存时间不能太长
-
-实例列表缓存的 TTL 需要和发布频率平衡。太长会导致实例下线后仍被调用；太短则缓存收益不明显。滚动发布频繁的集群，更要确认客户端服务发现的心跳和缓存刷新节奏。
-
-### 四、缓存不能替代健康检查
-
-本地缓存只知道“上次看到的实例”，不知道实例当前是否健康。调用失败后的重试、负载均衡策略和下游健康状态，仍然要由完整链路共同保障。
-
-### 五、经验总结
-
-这是微服务里很典型的空间换时间：用一点本地内存，减少每次远程调用前的重复发现成本。小优化不炫技，但链路长了以后效果很实在。
+> - 仓库：[https://github.com/springvortex/spring-cloud-alibaba.git](https://github.com/springvortex/spring-cloud-alibaba.git)
+> - 分支：`release/v1.0.0`
+> - JDK：`21`
+> - Spring Boot：`4.1.0`
