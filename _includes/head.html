@@ -6,11 +6,13 @@
 {%- endif -%}
 {%- assign has_cdn_feature = site.extMath or site.extMermaid -%}
 {%- assign meta_description = page.description | default: '' -%}
-{%- if meta_description == '' and page.excerpt -%}
-  {%- assign meta_description = page.excerpt | strip_html | strip_newlines | strip | truncate: 150 -%}
-{%- endif -%}
 {%- if meta_description == '' -%}
-  {%- assign meta_description = site.description -%}
+  {%- if is_article -%}
+    {%- assign meta_description = page.content | strip_leading_blockquote | strip_html | strip_newlines | strip | truncate: 150 -%}
+  {%- endif -%}
+  {%- if meta_description == '' -%}
+    {%- assign meta_description = site.description -%}
+  {%- endif -%}
 {%- endif -%}
 <head>
   <title>{{ page.title }} | {{ site.title }}</title>

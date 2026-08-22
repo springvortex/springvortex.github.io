@@ -16,7 +16,7 @@ layout: null
     <item>
       <title>{{post.title | xml_escape}}</title>
       <link>{{site.domainUrl | append: site.baseurl | append: post.url}}</link>
-      <description>{{post.content | strip_html | strip_newlines | strip | truncate: 160 | xml_escape}}</description>
+      <description>{{post.content | strip_leading_blockquote | strip_html | strip_newlines | strip | truncate: 160 | xml_escape}}</description>
       <pubDate>{{post.date | date_to_rfc822}}</pubDate>
       <guid isPermalink="true">{{site.domainUrl | append: site.baseurl | append: post.url}}</guid>
     </item>

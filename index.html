@@ -26,8 +26,9 @@ title: Home
             <a href="{{site.baseurl}}/pages/categories.html#{{ categorie }}" class="hover-underline">{{ categorie }}</a>
             {%- endfor %}
           </div>
-          {%- if post.excerpt %}
-          <p class="summary">{{ post.excerpt | strip_html | truncate: 128 }}</p>
+          {%- assign post_preview = post.content | strip_leading_blockquote | strip_html -%}
+          {%- if post_preview != '' %}
+          <p class="summary">{{ post_preview | truncate: 128 }}</p>
           {%- endif %}
         </li>
     {%- if forloop.last or post_previous_year != post_year %}
