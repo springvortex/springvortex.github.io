@@ -239,6 +239,10 @@
   border-bottom: 0;
 }
 
+.page-categories .list-post li[hidden] {
+  display: none;
+}
+
 .page-categories .list-post li::marker {
   color: var(--text-muted);
 }
