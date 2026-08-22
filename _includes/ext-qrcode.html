@@ -12,6 +12,21 @@
   let overlay = null
   let loadingScript = false
 
+  function getArticleTitle() {
+    const title = document.querySelector('.page-post > .title')
+    const text = blog.trim(title ? title.textContent : document.title.split('|')[0])
+    return text || '文章二维码'
+  }
+
+  function getFilename() {
+    const filename = getArticleTitle()
+      .replace(/[\\/:*?"<>|\u0000-\u001f]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .replace(/[. ]+$/, '')
+    return (filename || '文章二维码') + '.png'
+  }
+
   function closeQrcode() {
     if (!overlay) {
       return
@@ -26,13 +41,11 @@
       renderQrcode()
       return
     }
-
     if (loadingScript) {
       return
     }
 
-    openOverlay('<span class="qrcode-loading">二维码生成中...</span>', '')
-
+    openOverlay('<span class="qrcode-loading">二维码生成中...</span>', null)
     loadingScript = true
     const script = document.createElement('script')
     script.src = blog.baseurl + '/static/js/vendor/qrcode-generator-1.4.4.min.js?t=' + blog.buildAt
@@ -75,7 +88,7 @@
   }
 
   function renderError() {
-    openOverlay('<span class="qrcode-error">二维码加载失败</span>', '')
+    openOverlay('<span class="qrcode-error">二维码加载失败</span>', null)
   }
 
   function openOverlay(qrHtml, url) {
@@ -91,18 +104,15 @@
     dialog.setAttribute('aria-modal', 'true')
     dialog.setAttribute('aria-label', '文章二维码')
 
+    const title = document.createElement('h2')
+    title.className = 'qrcode-title'
+    title.innerText = getArticleTitle()
+    dialog.appendChild(title)
+
     const image = document.createElement('div')
     image.className = 'qrcode-image'
     image.innerHTML = qrHtml
-
-    const text = document.createElement('div')
-    text.className = 'qrcode-text'
-    text.innerText = '扫码在手机上阅读'
-
-    const link = document.createElement('a')
-    link.className = 'qrcode-link'
-    link.href = url
-    link.innerText = url
+    dialog.appendChild(image)
 
     const close = document.createElement('button')
     close.type = 'button'
@@ -110,13 +120,34 @@
     close.setAttribute('aria-label', '关闭二维码')
     close.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>'
     close.onclick = closeQrcode
-
     dialog.appendChild(close)
-    dialog.appendChild(image)
-    dialog.appendChild(text)
+
     if (url) {
-      dialog.appendChild(link)
+      const controls = document.createElement('div')
+      controls.className = 'qrcode-actions'
+      controls.appendChild(createButton({
+        className: 'qrcode-save',
+        label: '保存图片',
+        loadingLabel: '保存中...',
+        successLabel: '已保存',
+        errorLabel: '保存失败',
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 21h16"/></svg>',
+        onClick: saveQrcode
+      }))
+      controls.appendChild(createButton({
+        className: 'qrcode-copy',
+        label: '复制链接',
+        loadingLabel: '复制中...',
+        successLabel: '已复制',
+        errorLabel: '复制失败',
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>',
+        onClick: function (button) {
+          copyLink(url, button)
+        }
+      }))
+      dialog.appendChild(controls)
     }
+
     overlay.appendChild(dialog)
     overlay.onclick = function (event) {
       if (event.target === overlay) {
@@ -125,6 +156,136 @@
     }
     document.body.appendChild(overlay)
     close.focus()
+  }
+
+  function createButton(options) {
+    const button = document.createElement('button')
+    button.type = 'button'
+    button.className = 'qrcode-action ' + options.className
+    button.innerHTML = options.icon + '<span class="qrcode-action-label">' + options.label + '</span>'
+    button.stateLabels = options
+    button.onclick = function () {
+      options.onClick(button)
+    }
+    return button
+  }
+
+  function setButtonState(button, state) {
+    const label = button.querySelector('.qrcode-action-label')
+    const options = button.stateLabels
+    const baseClass = button.className.split(' ')[1]
+    button.className = 'qrcode-action ' + baseClass + ' is-' + state
+    button.disabled = state === 'loading'
+    label.innerText = state === 'loading'
+      ? options.loadingLabel
+      : state === 'success'
+        ? options.successLabel
+        : options.errorLabel
+
+    clearTimeout(button.resetTimer)
+    if (state !== 'loading') {
+      button.resetTimer = setTimeout(function () {
+        button.className = 'qrcode-action ' + baseClass
+        button.disabled = false
+        label.innerText = options.label
+      }, 1800)
+    }
+  }
+
+  function saveQrcode(button) {
+    const svg = overlay ? overlay.querySelector('.qrcode-image svg') : null
+    if (!svg) {
+      setButtonState(button, 'error')
+      return
+    }
+
+    setButtonState(button, 'loading')
+    svgToPngBlob(svg).then(function (blob) {
+      downloadBlob(blob, getFilename())
+      setButtonState(button, 'success')
+    }, function () {
+      setButtonState(button, 'error')
+    })
+  }
+
+  function svgToPngBlob(svg) {
+    return new Promise(function (resolve, reject) {
+      const clone = svg.cloneNode(true)
+      const viewBox = (clone.getAttribute('viewBox') || '').split(/[\s,]+/)
+      const width = Number.parseFloat(viewBox[2])
+      const height = Number.parseFloat(viewBox[3])
+      if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
+        reject(new Error('Invalid QR SVG size'))
+        return
+      }
+
+      clone.setAttribute('width', width)
+      clone.setAttribute('height', height)
+      const source = new XMLSerializer().serializeToString(clone)
+      const svgUrl = URL.createObjectURL(new Blob([source], { type: 'image/svg+xml;charset=utf-8' }))
+      const image = new Image()
+
+      image.onload = function () {
+        const scale = 2
+        const canvas = document.createElement('canvas')
+        canvas.width = Math.round(width * scale)
+        canvas.height = Math.round(height * scale)
+        const context = canvas.getContext('2d')
+        context.drawImage(image, 0, 0, canvas.width, canvas.height)
+        URL.revokeObjectURL(svgUrl)
+        canvas.toBlob(function (blob) {
+          if (blob) {
+            resolve(blob)
+          } else {
+            reject(new Error('PNG export failed'))
+          }
+        }, 'image/png')
+      }
+      image.onerror = function () {
+        URL.revokeObjectURL(svgUrl)
+        reject(new Error('QR SVG load failed'))
+      }
+      image.src = svgUrl
+    })
+  }
+
+  function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = filename
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+    setTimeout(function () {
+      URL.revokeObjectURL(url)
+    }, 0)
+  }
+
+  function copyLink(url, button) {
+    setButtonState(button, 'loading')
+    const writeText = navigator.clipboard && navigator.clipboard.writeText
+      ? navigator.clipboard.writeText(url)
+      : Promise.reject(new Error('Clipboard API unavailable'))
+
+    writeText.then(function () {
+      setButtonState(button, 'success')
+    }, function () {
+      try {
+        const textarea = document.createElement('textarea')
+        textarea.value = url
+        textarea.setAttribute('readonly', 'readonly')
+        textarea.style.position = 'fixed'
+        textarea.style.left = '-9999px'
+        document.body.appendChild(textarea)
+        textarea.select()
+        const copied = document.execCommand('copy')
+        document.body.removeChild(textarea)
+        setButtonState(button, copied ? 'success' : 'error')
+      } catch (error) {
+        setButtonState(button, 'error')
+      }
+    })
   }
 
   blog.addEvent(toggle, 'click', function () {
