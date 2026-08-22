@@ -407,7 +407,7 @@
     top: 108px;
     left: max(20px, calc(50% - 570px));
     width: 210px;
-    max-height: calc(100vh - 150px);
+    max-height: min(calc(100vh - 150px), 688px);
     box-sizing: border-box;
     margin: 0;
     padding: 0 16px 12px 0;
