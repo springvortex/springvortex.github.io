@@ -522,14 +522,12 @@
   justify-content: center;
   min-height: 38px;
   padding: 0 10px;
-  border: 1px solid var(--control-border);
-  border-radius: var(--radius-small);
+  border: 0;
   color: var(--text-soft);
-  background-color: var(--control-bg);
+  background-color: transparent;
   font-size: 13px;
   cursor: pointer;
-  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease,
-    transform 180ms var(--ease-out);
+  transition: color 180ms ease, transform 180ms var(--ease-out);
 }
 
 .qrcode-action svg {
@@ -540,9 +538,9 @@
 
 .qrcode-action:hover,
 .qrcode-action:focus-visible {
-  border-color: var(--accent-border);
   color: var(--accent);
-  background-color: var(--control-bg-hover);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .qrcode-action:active {
@@ -555,12 +553,10 @@
 }
 
 .qrcode-action.is-success {
-  border-color: var(--success-border);
   color: var(--success);
 }
 
 .qrcode-action.is-error {
-  border-color: var(--danger-border);
   color: var(--danger);
 }
 

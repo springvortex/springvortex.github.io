@@ -2,7 +2,7 @@
 
 SpringVortex Notes 是基于 Jekyll 4.4.1 的个人技术博客，内容集中在 Java、Spring Cloud Alibaba、微服务工程和中间件部署实践。站点输出纯静态 HTML，使用原生前端技术，通过 GitHub Pages Actions 自动构建和部署。
 
-截至 2026-08-22，仓库包含 87 篇文章、53 个分类和 10 个文章资源文件。
+截至 2026-08-22，仓库包含 88 篇文章、53 个分类和 10 个文章资源文件。
 
 ## 项目概览
 
@@ -40,7 +40,7 @@ SpringVortex Notes 是基于 Jekyll 4.4.1 的个人技术博客，内容集中�
 Markdown / Liquid / 静态资源
         |
         |  Jekyll 构建
-        |  1. 文章源码计算 MD5 permalink
+        |  1. 发布日期、作者、标题计算 MD5 permalink
         |  2. 文章相对资源改写到日期资源目录
         |  3. Kramdown 渲染 Markdown
         |  4. 本地图片补充懒加载和宽高
@@ -88,7 +88,7 @@ GitHub Pages 部署产物
 
 | 插件 | 构建时机 | 作用 |
 |---|---|---|
-| [_plugins/md5_permalink.rb](_plugins/md5_permalink.rb) | 文章初始化、渲染前 | 生成 MD5 文章 URL，并把文章内相对资源改写到 `/posts/yyyy/MM/dd/` |
+| [_plugins/md5_permalink.rb](_plugins/md5_permalink.rb) | 文章初始化、渲染前 | 根据发布日期、作者、标题生成 MD5 文章 URL，并把文章内相对资源改写到 `/posts/yyyy/MM/dd/` |
 | [_plugins/performance.rb](_plugins/performance.rb) | 站点初始化、文章渲染后 | 计算源内容指纹 `buildAt`，为本地图片补 `loading`、`decoding`、`width`、`height` |
 
 `buildAt` 不是当前时间，而是源内容指纹。因此内容不变时重复构建，CSS、JS、搜索索引和 Service Worker 的缓存版本保持不变，浏览器缓存可以继续复用。
@@ -245,7 +245,7 @@ Mermaid 图表使用 `mermaid` 语言标识；构建后渲染为图表，不显�
 
 支持改写的后缀包括 `webp`、`png`、`jpg`、`jpeg`、`gif`、`svg`、`bmp`、`ico`、`pdf`、`zip`、`rar`、`7z`、`txt`。围栏代码块内的示例路径不会被改写。
 
-文章 URL 由源文件 MD5 生成：
+文章 URL 由稳定元数据 MD5 生成：
 
 ```text
 /<md5>/
@@ -253,10 +253,11 @@ Mermaid 图表使用 `mermaid` 语言标识；构建后渲染为图表，不显�
 
 需要注意：
 
-- MD5 输入是文章源文件，不是渲染后的 HTML
-- 计算前会把 CRLF 统一为 LF，Windows 和 Linux 构建结果一致
-- 标题、正文、Front Matter、注释和空白字符变化都会改变 URL
-- 旧 URL 不会自动生成跳转，修改已收录文章前要考虑外链影响
+- MD5 输入是发布日期、作者和标题，不读取正文
+- 发布日期按 UTC+8 格式化为 `yyyy-MM-dd`
+- 文章未声明作者时使用站点作者 `zjc`
+- 修改正文、分类、标签、Front Matter 其他字段或空白字符不会改变 URL
+- 修改发布日期、作者或标题会生成新 URL，旧 URL 不会自动跳转
 - `_config.yml` 中的日期 permalink 只是未启用插件时的兜底配置
 
 ## SEO、搜索与 PWA

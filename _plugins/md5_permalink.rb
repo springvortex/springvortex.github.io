@@ -5,6 +5,17 @@ require "digest"
 module Md5Permalink
   ASSET_PATTERN = /\.(?:webp|png|jpe?g|gif|svg|bmp|ico|pdf|zip|rar|7z|txt)(?:[?#]|\z)/i
 
+  def self.stable_identity(document)
+    date = document.date.getlocal("+08:00").strftime("%Y-%m-%d")
+    author = document.data["author"] || document.site.config["author"] || ""
+    title = document.data["title"] || File.basename(document.path, ".*")
+
+    [date, author, title]
+      .map { |value| value.to_s.gsub("\r\n", "\n").strip }
+      .join("\n")
+      .encode("UTF-8")
+  end
+
   def self.asset_base(document)
     filename = File.basename(document.path)
     match = filename.match(/\A(\d{4})-(\d{2})-(\d{2})-/)
@@ -58,11 +69,10 @@ module Md5Permalink
   end
 end
 
-# Article URLs use the MD5 digest of the source Markdown file. The digest is
-# calculated on every build and is never written back to the source file.
+# Article URLs are derived only from stable metadata. Editing article content
+# therefore keeps its published URL unchanged.
 Jekyll::Hooks.register :posts, :post_init do |document|
-  source = File.read(document.path, mode: "rb").gsub("\r\n", "\n")
-  digest = Digest::MD5.hexdigest(source)
+  digest = Digest::MD5.hexdigest(Md5Permalink.stable_identity(document))
   document.data["permalink"] = "/#{digest}/"
 end
 

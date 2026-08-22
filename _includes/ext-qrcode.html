@@ -231,17 +231,17 @@
           const canvasWidth = 1000
           const qrSize = 840
           const qrPosition = 80
-          const barGap = 46
-          const barHeight = titleLines.length > 1 ? 126 : 90
+          const titleGap = 52
+          const titleHeight = titleLines.length > 1 ? 92 : 48
           const canvas = document.createElement('canvas')
           canvas.width = canvasWidth
-          canvas.height = qrPosition + qrSize + barGap + barHeight + 80
+          canvas.height = qrPosition + qrSize + titleGap + titleHeight + 72
           const context = canvas.getContext('2d')
 
           context.fillStyle = '#ffffff'
           context.fillRect(0, 0, canvas.width, canvas.height)
           context.drawImage(image, qrPosition, qrPosition, qrSize, qrSize)
-          drawTitleBar(context, titleLines, qrPosition + qrSize + barGap, barHeight, canvasWidth - qrPosition * 2)
+          drawTitle(context, titleLines, qrPosition + qrSize + titleGap, titleHeight, canvasWidth - qrPosition * 2)
           URL.revokeObjectURL(svgUrl)
           canvas.toBlob(function (blob) {
             if (blob) {
@@ -274,45 +274,17 @@
     return [title.slice(0, splitAt), title.slice(splitAt).trim()].filter(Boolean)
   }
 
-  function drawTitleBar(context, lines, top, height, width) {
-    const left = (context.canvas.width - width) / 2
-    const radius = Math.min(30, height / 2)
-    const gradients = context.createLinearGradient(left, top, left + width, top + height)
-    gradients.addColorStop(0, '#f4f6f8')
-    gradients.addColorStop(1, '#e7eaef')
-
-    context.fillStyle = gradients
-    roundedRect(context, left, top, width, height, radius)
-    context.fill()
-    context.strokeStyle = 'rgba(23, 25, 29, 0.08)'
-    context.lineWidth = 2
-    roundedRect(context, left + 1, top + 1, width - 2, height - 2, radius - 1)
-    context.stroke()
-
+  function drawTitle(context, lines, top, height, width) {
     context.fillStyle = '#17191d'
     context.textAlign = 'center'
     context.textBaseline = 'middle'
     context.font = '600 34px "Segoe UI", "Microsoft YaHei", sans-serif'
     if (lines.length === 1) {
-      context.fillText(lines[0], context.canvas.width / 2, top + height / 2 + 1, width - 72)
+      context.fillText(lines[0], context.canvas.width / 2, top + height / 2 + 1, width - 40)
     } else {
-      context.fillText(lines[0], context.canvas.width / 2, top + height / 2 - 24, width - 60)
-      context.fillText(lines[1], context.canvas.width / 2, top + height / 2 + 26, width - 60)
+      context.fillText(lines[0], context.canvas.width / 2, top + 24, width - 40)
+      context.fillText(lines[1], context.canvas.width / 2, top + 68, width - 40)
     }
-  }
-
-  function roundedRect(context, x, y, width, height, radius) {
-    context.beginPath()
-    context.moveTo(x + radius, y)
-    context.lineTo(x + width - radius, y)
-    context.quadraticCurveTo(x + width, y, x + width, y + radius)
-    context.lineTo(x + width, y + height - radius)
-    context.quadraticCurveTo(x + width, y + height, x + width - radius, y + height)
-    context.lineTo(x + radius, y + height)
-    context.quadraticCurveTo(x, y + height, x, y + height - radius)
-    context.lineTo(x, y + radius)
-    context.quadraticCurveTo(x, y, x + radius, y)
-    context.closePath()
   }
 
   function downloadBlob(blob, filename) {
