@@ -17,6 +17,9 @@
 {%- endif -%}
 {%- if page.popular_index -%}
 {% include popular-index.html %}
+{%- endif -%}
+{%- if page.popular_searches -%}
+{% include popular-searches.html %}
 {%- endif %}
 {{ content }}
 {% include footer.html -%}

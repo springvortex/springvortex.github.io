@@ -71,8 +71,123 @@ blog.addLoadEvent(function () {
   let inputLock = false
   let searchTimer = null
 
+  const popularSearchList = document.getElementById('popular-search-list')
+  const popularSearchEmpty = document.getElementById('popular-search-empty')
+  let countedSearchesMemory = null
+
+  function normalizeSearchKeyword(value) {
+    const keyword = String(value || '').replace(/\s+/g, ' ').trim()
+    return keyword.length && keyword.length <= 50 ? keyword : ''
+  }
+
+  function readPopularSearches() {
+    try {
+      const data = JSON.parse(localStorage.getItem('popularSearches') || '{}')
+      return data && typeof data === 'object' ? data : {}
+    } catch (error) {
+      return {}
+    }
+  }
+
+  function savePopularSearches(data) {
+    try {
+      localStorage.setItem('popularSearches', JSON.stringify(data))
+    } catch (error) {
+      // 存储不可用时，本次会话内仍然可以搜索，只是无法累计
+    }
+  }
+
+  function readCountedSearches() {
+    try {
+      const data = JSON.parse(sessionStorage.getItem('countedSearches') || '{}')
+      return data && typeof data === 'object' ? data : {}
+    } catch (error) {
+      if (!countedSearchesMemory) {
+        countedSearchesMemory = {}
+      }
+      return countedSearchesMemory
+    }
+  }
+
+  function markSearchCounted(keyword) {
+    const counted = readCountedSearches()
+    if (counted[keyword]) {
+      return true
+    }
+
+    counted[keyword] = true
+    try {
+      sessionStorage.setItem('countedSearches', JSON.stringify(counted))
+    } catch (error) {
+      // 隐私模式下接受重复计数，避免功能整体失效
+    }
+    return false
+  }
+
+  function renderPopularSearches() {
+    if (!popularSearchList || !popularSearchEmpty) {
+      return
+    }
+
+    const entries = Object.values(readPopularSearches())
+      .filter(function (item) {
+        return item && normalizeSearchKeyword(item.keyword)
+      })
+      .sort(function (a, b) {
+        return b.count - a.count || b.updatedAt - a.updatedAt
+      })
+      .slice(0, 20)
+
+    popularSearchList.textContent = ''
+    popularSearchEmpty.hidden = entries.length > 0
+
+    entries.forEach(function (item) {
+      const keyword = normalizeSearchKeyword(item.keyword)
+      const listItem = document.createElement('li')
+      const term = document.createElement('button')
+      term.type = 'button'
+      term.className = 'search-term'
+      term.title = keyword
+      term.textContent = keyword
+      term.addEventListener('click', function () {
+        input.value = keyword
+        recordPopularSearch(keyword)
+        renderPopularSearches()
+        searchNow(keyword)
+        input.focus()
+      })
+      listItem.appendChild(term)
+      popularSearchList.appendChild(listItem)
+    })
+  }
+
+  function recordPopularSearch(value) {
+    const keyword = normalizeSearchKeyword(value)
+    if (!keyword || markSearchCounted(keyword)) {
+      return
+    }
+
+    const searches = readPopularSearches()
+    const current = searches[keyword] || { keyword: keyword, count: 0, updatedAt: 0 }
+    current.count += 1
+    current.updatedAt = Date.now()
+    searches[keyword] = current
+
+    const compact = Object.values(searches)
+      .sort(function (a, b) {
+        return b.count - a.count || b.updatedAt - a.updatedAt
+      })
+      .slice(0, 100)
+      .reduce(function (result, item) {
+        result[item.keyword] = item
+        return result
+      }, {})
+    savePopularSearches(compact)
+  }
+
   loadingDOM.style.opacity = 1
   setStatus('正在加载搜索索引...')
+  renderPopularSearches()
 
   loadAllPostData(function (data) {
     loadingDOM.style.opacity = 0
@@ -215,5 +330,20 @@ blog.addLoadEvent(function () {
   input.addEventListener('compositionend', function () {
     inputLock = false
     searchNow(input.value)
+  })
+
+  input.addEventListener('keydown', function (event) {
+    if (event.key !== 'Enter' || event.isComposing) {
+      return
+    }
+    event.preventDefault()
+    recordPopularSearch(input.value)
+    renderPopularSearches()
+    searchNow(input.value)
+  })
+
+  input.addEventListener('change', function () {
+    recordPopularSearch(input.value)
+    renderPopularSearches()
   })
 })

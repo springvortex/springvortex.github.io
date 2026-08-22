@@ -244,11 +244,18 @@
   list-style: none;
 }
 
-.popular-index a {
+.popular-index a,
+.popular-index .search-term {
   display: block;
+  width: 100%;
   padding: 5px 0;
+  border: 0;
   color: var(--text-muted);
+  background: transparent;
   font-size: 13px;
+  font-family: var(--font-sans);
+  text-align: left;
+  cursor: pointer;
   line-height: 1.58;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -257,8 +264,17 @@
 }
 
 .popular-index a:hover,
-.popular-index a:focus-visible {
+.popular-index a:focus-visible,
+.popular-index .search-term:hover,
+.popular-index .search-term:focus-visible {
   color: var(--accent);
+}
+
+.popular-search-empty {
+  margin: 4px 0 0;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.58;
 }
 
 
@@ -428,7 +444,8 @@
 
 @media screen and (min-width: 1200px) {
   body.categories-body,
-  body.popular-body {
+  body.popular-body,
+  body.search-body {
     max-width: 680px;
   }
 
@@ -459,7 +476,8 @@
     overflow: visible;
   }
 
-  body.popular-body .popular-index {
+  body.popular-body .popular-index,
+  body.search-body .popular-index {
     display: block;
     position: fixed;
     top: 108px;
@@ -475,11 +493,13 @@
     border-right: 1px solid var(--hairline);
   }
 
-  body.popular-body .popular-index::-webkit-scrollbar {
+  body.popular-body .popular-index::-webkit-scrollbar,
+  body.search-body .popular-index::-webkit-scrollbar {
     display: none;
   }
 
-  body.popular-body .popular-index h2 {
+  body.popular-body .popular-index h2,
+  body.search-body .popular-index h2 {
     margin-bottom: 8px;
     color: var(--text);
     font-size: 14px;
@@ -490,7 +510,8 @@
 
 @media screen and (min-width: 1330px) {
   body.categories-body,
-  body.popular-body {
+  body.popular-body,
+  body.search-body {
     max-width: 760px;
   }
 
@@ -499,7 +520,8 @@
     width: 250px;
   }
 
-  body.popular-body .popular-index {
+  body.popular-body .popular-index,
+  body.search-body .popular-index {
     left: max(28px, calc(50% - 650px));
     width: 250px;
   }

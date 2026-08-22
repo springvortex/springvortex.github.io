@@ -749,7 +749,7 @@ blog.addLoadEvent(function () {
 
 // 首页热门文章：构建时生成热门索引，异常时保留最新文章兜底
 blog.addLoadEvent(function () {
-  const sidebar = document.querySelector('.popular-index')
+  const sidebar = document.querySelector('body.popular-body .popular-index')
   const list = sidebar ? sidebar.querySelector('ul') : null
   if (!list) {
     return
