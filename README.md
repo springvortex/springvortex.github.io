@@ -325,15 +325,20 @@ Settings -> Pages -> Build and deployment -> Source -> GitHub Actions
 
 ## 质量检查
 
-项目当前没有自动化测试套件，建议按变更范围执行以下检查：
+项目没有通用自动化测试套件；GitHub Actions 会在部署前执行生产构建、生成物检查和依赖审计。本地可按变更范围执行：
 
 ```bash
 node --check static/js/blog.js
 node --check static/js/search.js
 npm ci
-./blog.sh build
+JEKYLL_ENV=production bundle exec jekyll build --destination _site
+npm run minify -- _site
+npm run check -- _site
+npm audit --audit-level=low --registry=https://registry.npmjs.org
 git diff --check
 ```
+
+`npm run check` 会检查生成 HTML 的基础 SEO、内部链接、RSS/search/sitemap XML 语法，以及压缩后 Service Worker 的 JavaScript 语法。
 
 涉及页面布局或交互时，至少检查：
 

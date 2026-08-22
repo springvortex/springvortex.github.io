@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "minify": "node scripts/minify.mjs"
+    "minify": "node scripts/minify.mjs",
+    "check": "node scripts/check_site.mjs"
   },
   "devDependencies": {
     "esbuild": "0.25.0"

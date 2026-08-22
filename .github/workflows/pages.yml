@@ -43,6 +43,12 @@ jobs:
           npm ci
           npm run minify -- _site
 
+      - name: Check generated site
+        run: npm run check -- _site
+
+      - name: Audit npm dependencies
+        run: npm audit --audit-level=low --registry=https://registry.npmjs.org
+
       - name: Configure Pages
         id: pages
         uses: actions/configure-pages@v5

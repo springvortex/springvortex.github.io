@@ -31,6 +31,7 @@ module Performance
     pathname = url.split("?").first
     pathname = pathname.delete_prefix(baseurl) unless baseurl.empty?
     return nil if pathname.empty?
+    pathname = pathname.delete_prefix("/")
 
     path = File.expand_path(pathname, site.source)
     source = File.expand_path(site.source)

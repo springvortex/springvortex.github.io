@@ -39,6 +39,10 @@ html.dark #theme-toggle .theme-icon-light {
   display: none;
 }
 
+html.dark .page-search .list-search .hint {
+  color: #ff706b;
+}
+
 html.dark #theme-toggle .theme-icon-dark {
   display: block;
 }
