@@ -4,6 +4,10 @@ title: service-mail 邮件服务模块解析
 categories: [ Microservices, Mail, Spring Boot ]
 ---
 
+> **代码环境**：本文代码来自仓库 [https://github.com/springvortex/spring-cloud-alibaba.git](https://github.com/springvortex/spring-cloud-alibaba.git) 的 `release/v1.0.0` 分支（提交 `67ee39051b42`，项目版本 `1.0.0`）。
+>
+> 本地开发环境为 Windows；基础环境：JDK `21`、Maven 多模块工程、Spring Boot `4.1.0`、Spring Cloud `2025.1.2`、Spring Cloud Alibaba `2025.1.0.0`、MyBatis-Plus `3.5.17`、SpringDoc `3.1.0`、MapStruct `1.6.3`、Hutool `5.8.47`、Jasypt Spring Boot `4.0.4`、JaCoCo `0.8.15`。`dev` Profile 使用共享 Nacos `3.x`、MySQL `8.x`、Zipkin 与 MailHog；`prod` Profile 面向 Linux 内网部署，基础设施端口不暴露公网。
+
 `service-mail` 是独立邮件微服务，负责发送纯文本和 HTML 邮件，并把每次发送过程写入 `t_mail_log`。其他服务不需要自己配置
 SMTP，也不需要知道发件账号；只要调用 `MailFeignApi` 或通过 Gateway 请求 `/api/v1/mail/send`，邮件服务统一处理。
 

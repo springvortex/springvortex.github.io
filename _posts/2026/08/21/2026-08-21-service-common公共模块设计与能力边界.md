@@ -4,6 +4,10 @@ title: service-common 公共模块设计与能力边界
 categories: [ Microservices, Architecture, service-common ]
 ---
 
+> **代码环境**：本文代码来自仓库 [https://github.com/springvortex/spring-cloud-alibaba.git](https://github.com/springvortex/spring-cloud-alibaba.git) 的 `release/v1.0.0` 分支（提交 `67ee39051b42`，项目版本 `1.0.0`）。
+>
+> 本地开发环境为 Windows；基础环境：JDK `21`、Maven 多模块工程、Spring Boot `4.1.0`、Spring Cloud `2025.1.2`、Spring Cloud Alibaba `2025.1.0.0`、MyBatis-Plus `3.5.17`、SpringDoc `3.1.0`、MapStruct `1.6.3`、Hutool `5.8.47`、Jasypt Spring Boot `4.0.4`、JaCoCo `0.8.15`。`dev` Profile 使用共享 Nacos `3.x`、MySQL `8.x`、Zipkin 与 MailHog；`prod` Profile 面向 Linux 内网部署，基础设施端口不暴露公网。
+
 `service-common` 是这套微服务的公共库，不是可独立运行的服务。它的目标很明确：把业务服务反复需要的响应结构、异常处理、接口日志、API
 路径约定、共享 DTO、共享 Feign 契约和配置加密能力集中到一个标准 JAR 里，让 Provider、Consumer、Mail 引入后自动获得这些能力。
 

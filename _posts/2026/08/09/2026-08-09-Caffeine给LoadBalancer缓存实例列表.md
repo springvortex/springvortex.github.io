@@ -4,6 +4,10 @@ title: Caffeine 给 LoadBalancer 缓存实例列表
 categories: [ Spring Cloud, LoadBalancer, Performance ]
 ---
 
+> **代码环境**：本文代码来自仓库 [https://github.com/springvortex/spring-cloud-alibaba.git](https://github.com/springvortex/spring-cloud-alibaba.git) 的 `release/v1.0.0` 分支（提交 `67ee39051b42`，项目版本 `1.0.0`）。
+>
+> 本地开发环境为 Windows；基础环境：JDK `21`、Maven 多模块工程、Spring Boot `4.1.0`、Spring Cloud `2025.1.2`、Spring Cloud Alibaba `2025.1.0.0`、MyBatis-Plus `3.5.17`、SpringDoc `3.1.0`、MapStruct `1.6.3`、Hutool `5.8.47`、Jasypt Spring Boot `4.0.4`、JaCoCo `0.8.15`。`dev` Profile 使用共享 Nacos `3.x`、MySQL `8.x`、Zipkin 与 MailHog；`prod` Profile 面向 Linux 内网部署，基础设施端口不暴露公网。
+
 OpenFeign 的 `lb://service-provider` 最终要经过 Spring Cloud LoadBalancer。它每次都去拉服务实例列表，会让调用链路多出一层不确定性。引入
 Caffeine 后，实例列表可以在本地缓存一小段时间。
 
