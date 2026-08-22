@@ -190,30 +190,40 @@
   scroll-margin-top: 90px;
 }
 
-.page-categories .list-post li .title a {
-  display: block;
-  overflow: hidden;
+.page-categories .list-post ul {
+  margin-left: 0;
+  padding-left: 1.25em;
+  list-style: disc outside;
   color: var(--text-muted);
   font-size: 14px;
-  font-weight: 400;
-  line-height: 1.68;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.page-categories .list-post li .title {
-  min-width: 0;
   line-height: 1.68;
 }
 
 .page-categories .list-post li {
-  align-items: baseline;
+  display: list-item;
   padding: 4px 0;
   line-height: 1.68;
+  list-style: disc outside;
+  border-bottom: 0;
+}
+
+.page-categories .list-post li::marker {
+  color: var(--text-muted);
 }
 
 .page-categories .list-post li .date {
-  padding-top: 0;
+  display: inline;
+  margin-right: 8px;
+  padding: 0;
+  font-size: 12px;
+  line-height: 1.68;
+}
+
+.page-categories .list-post li > a {
+  display: inline;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 400;
   line-height: 1.68;
 }
 
@@ -369,15 +379,17 @@
   }
 
   .page-categories .list-post li {
-    grid-template-columns: 86px minmax(0, 1fr);
+    display: list-item;
+    padding: 4px 0;
   }
 
   .page-categories .list-post li .date {
-    grid-column: 1;
-    padding-top: 0;
+    display: inline;
+    padding: 0;
   }
 
-  .page-categories .list-post li .title {
-    grid-column: 2;
+  .page-categories .list-post li > a {
+    display: inline;
+    font-size: 14px;
   }
 }
