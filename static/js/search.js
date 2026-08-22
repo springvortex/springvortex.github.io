@@ -186,9 +186,9 @@ blog.addLoadEvent(function () {
     }
 
     if (!pattern) {
-      setStatus('请输入关键词')
+      setStatus('暂无搜索结果')
     } else if (resultCount === 0) {
-      setStatus('未找到相关文章')
+      setStatus('暂无搜索结果')
     } else {
       setStatus('')
     }
