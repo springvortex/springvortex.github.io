@@ -73,6 +73,7 @@ blog.addLoadEvent(function () {
 
   const popularSearchList = document.getElementById('popular-search-list')
   const popularSearchEmpty = document.getElementById('popular-search-empty')
+  const popularSearchFallback = document.getElementById('popular-search-fallback')
   let countedSearchesMemory = null
 
   function normalizeSearchKeyword(value) {
@@ -129,7 +130,7 @@ blog.addLoadEvent(function () {
       return
     }
 
-    const entries = Object.values(readPopularSearches())
+    let entries = Object.values(readPopularSearches())
       .filter(function (item) {
         return item && normalizeSearchKeyword(item.keyword)
       })
@@ -137,6 +138,27 @@ blog.addLoadEvent(function () {
         return b.count - a.count || b.updatedAt - a.updatedAt
       })
       .slice(0, 20)
+
+    if (!entries.length && popularSearchFallback) {
+      try {
+        const fallback = JSON.parse(popularSearchFallback.textContent)
+        entries = Array.isArray(fallback)
+          ? fallback
+              .filter(function (item) {
+                return item && normalizeSearchKeyword(item.keyword) && Number(item.count) > 0
+              })
+              .sort(function (a, b) {
+                return Number(b.count) - Number(a.count)
+              })
+              .slice(0, 20)
+              .map(function (item) {
+                return { keyword: normalizeSearchKeyword(item.keyword), updatedAt: 0 }
+              })
+          : []
+      } catch (error) {
+        entries = []
+      }
+    }
 
     popularSearchList.textContent = ''
     popularSearchEmpty.hidden = entries.length > 0

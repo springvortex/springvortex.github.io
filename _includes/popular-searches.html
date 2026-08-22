@@ -2,4 +2,14 @@
   <h2 id="popular-searches">热门搜索</h2>
   <ul id="popular-search-list"></ul>
   <p id="popular-search-empty" class="popular-search-empty">暂无搜索记录</p>
+  <script id="popular-search-fallback" type="application/json">
+  [
+    {%- for category in site.categories %}
+    {
+      "keyword": {{ category[0] | jsonify }},
+      "count": {{ category[1].size }}
+    }{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ]
+  </script>
 </aside>
