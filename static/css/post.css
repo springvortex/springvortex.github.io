@@ -655,7 +655,6 @@
     margin: 10px 0 0;
   }
 
-  .post-recommendations a,
   .post-toc-list a {
     display: block;
     padding: 5px 0;
@@ -665,6 +664,22 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    transition: color 180ms ease;
+  }
+
+  .post-recommendations a {
+    display: -webkit-box;
+    padding: 7px 0;
+    overflow: hidden;
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    font-weight: 620;
+    line-height: 1.48;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    text-wrap: pretty;
     transition: color 180ms ease;
   }
 
