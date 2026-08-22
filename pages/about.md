@@ -54,6 +54,4 @@ Gateway 基于 WebFlux 独立实现，不复用 WebMVC 的全局异常处理逻�
 
 ### 联系我
 
-如果你对博客文章或项目内容有想法，欢迎通过邮件联系我：
-
-[jiancai.zhong.1997@gmail.com](mailto:jiancai.zhong.1997@gmail.com)
+如果你对博客文章或项目内容有想法，欢迎通过邮件联系我：[jiancai.zhong.1997@gmail.com](mailto:jiancai.zhong.1997@gmail.com)
