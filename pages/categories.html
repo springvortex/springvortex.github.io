@@ -1,6 +1,8 @@
 ---
 layout: page
 title: 分类
+body_class: categories-body
+category_index: true
 ---
 
 <main id="main" class="page page-categories">
@@ -14,14 +16,6 @@ title: 分类
     <h1>分类</h1>
     <p>{{ site.posts | size }} 篇笔记 · {{ site.categories | size }} 个分类</p>
   </header>
-  <div class="list-category">
-    <h2>所有分类</h2>
-    <div>
-      {%- for category in site.categories %}
-      <a href="#{{ category[0] }}">{{ category[0] }}<span>{{ category[1].size }}</span></a>
-      {%- endfor %}
-    </div>
-  </div>
   {%- for category in site.categories %}
   <div class="list-post">
     <h2 id="{{ category[0] }}">{{ category[0] }}</h2>

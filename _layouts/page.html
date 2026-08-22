@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 {% include head.html -%}
-<body ondragstart="return false;">
+<body class="{{ page.body_class }}" ondragstart="return false;">
 <!--
   THESIS: SpringVortex Notes is a calibrated engineering reading bench.
   OWN-WORLD: cool neutral ground, precise ink, one cobalt reading accent, hairline records.
@@ -12,6 +12,9 @@
 -->
 <a class="skip-link" href="#main">跳到正文</a>
 {% include header.html -%}
+{%- if page.category_index -%}
+{% include category-index.html %}
+{%- endif %}
 {{ content }}
 {% include footer.html -%}
 {% include script.html -%}
