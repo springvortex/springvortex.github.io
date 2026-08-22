@@ -90,6 +90,89 @@ blog.addLoadEvent(function () {
     }
   }
 
+  function readFallbackPopularSearches() {
+    if (!popularSearchFallback) {
+      return []
+    }
+
+    try {
+      const fallback = JSON.parse(popularSearchFallback.textContent)
+      return Array.isArray(fallback)
+        ? fallback
+            .filter(function (item) {
+              return item && normalizeSearchKeyword(item.keyword) && Number(item.count) > 0
+            })
+            .sort(function (a, b) {
+              return Number(b.count) - Number(a.count)
+            })
+            .slice(0, 20)
+            .map(function (item) {
+              return {
+                keyword: normalizeSearchKeyword(item.keyword),
+                count: Number(item.count),
+                updatedAt: 0,
+                category: true
+              }
+            })
+        : []
+    } catch (error) {
+      return []
+    }
+  }
+
+  function sortPopularSearches(entries) {
+    return entries.sort(function (a, b) {
+      return b.count - a.count || b.updatedAt - a.updatedAt
+    })
+  }
+
+  function popularSearchMap(entries) {
+    return sortPopularSearches(entries).slice(0, 20).reduce(function (result, item) {
+      result[item.keyword] = item
+      return result
+    }, {})
+  }
+
+  function initializePopularSearches() {
+    const fallbackEntries = readFallbackPopularSearches()
+    if (!fallbackEntries.length) {
+      return
+    }
+
+    const stored = readPopularSearches()
+    const entries = fallbackEntries.map(function (item) {
+      const saved = stored[item.keyword]
+      return saved && saved.category
+        ? { keyword: item.keyword, count: Math.max(item.count, Number(saved.count) || 0), updatedAt: saved.updatedAt || 0, category: true }
+        : item
+    })
+    const customEntries = Object.values(stored)
+      .filter(function (item) {
+        return item && normalizeSearchKeyword(item.keyword) && !item.category && !entries.some(function (entry) {
+          return entry.keyword === normalizeSearchKeyword(item.keyword)
+        })
+      })
+      .map(function (item) {
+        return { keyword: normalizeSearchKeyword(item.keyword), count: Number(item.count) || 0, updatedAt: item.updatedAt || 0, category: false }
+      })
+
+    sortPopularSearches(customEntries).forEach(function (item) {
+      let candidates = entries.filter(function (entry) {
+        return entry.category
+      })
+      if (!candidates.length) {
+        candidates = entries
+      }
+
+      const replaced = candidates.reduce(function (least, entry) {
+        return entry.count < least.count ? entry : least
+      }, candidates[0])
+      entries[entries.indexOf(replaced)] = item
+    })
+
+    savePopularSearches(popularSearchMap(entries))
+  }
+
   function savePopularSearches(data) {
     try {
       localStorage.setItem('popularSearches', JSON.stringify(data))
@@ -130,7 +213,7 @@ blog.addLoadEvent(function () {
       return
     }
 
-    let entries = Object.values(readPopularSearches())
+    const entries = Object.values(readPopularSearches())
       .filter(function (item) {
         return item && normalizeSearchKeyword(item.keyword)
       })
@@ -138,27 +221,6 @@ blog.addLoadEvent(function () {
         return b.count - a.count || b.updatedAt - a.updatedAt
       })
       .slice(0, 20)
-
-    if (!entries.length && popularSearchFallback) {
-      try {
-        const fallback = JSON.parse(popularSearchFallback.textContent)
-        entries = Array.isArray(fallback)
-          ? fallback
-              .filter(function (item) {
-                return item && normalizeSearchKeyword(item.keyword) && Number(item.count) > 0
-              })
-              .sort(function (a, b) {
-                return Number(b.count) - Number(a.count)
-              })
-              .slice(0, 20)
-              .map(function (item) {
-                return { keyword: normalizeSearchKeyword(item.keyword), updatedAt: 0 }
-              })
-          : []
-      } catch (error) {
-        entries = []
-      }
-    }
 
     popularSearchList.textContent = ''
     popularSearchEmpty.hidden = entries.length > 0
@@ -190,25 +252,44 @@ blog.addLoadEvent(function () {
     }
 
     const searches = readPopularSearches()
-    const current = searches[keyword] || { keyword: keyword, count: 0, updatedAt: 0 }
-    current.count += 1
-    current.updatedAt = Date.now()
-    searches[keyword] = current
+    const current = searches[keyword]
+    if (current) {
+      current.count = (Number(current.count) || 0) + 1
+      current.updatedAt = Date.now()
+      savePopularSearches(popularSearchMap([current].concat(
+        Object.values(searches).filter(function (item) {
+          return item && item.keyword !== keyword
+        })
+      )))
+      return
+    }
 
-    const compact = Object.values(searches)
-      .sort(function (a, b) {
-        return b.count - a.count || b.updatedAt - a.updatedAt
-      })
-      .slice(0, 100)
-      .reduce(function (result, item) {
-        result[item.keyword] = item
-        return result
-      }, {})
-    savePopularSearches(compact)
+    const entries = Object.values(searches).filter(function (item) {
+      return item && normalizeSearchKeyword(item.keyword)
+    })
+    let candidates = entries.filter(function (item) {
+      return item.category
+    })
+    if (!candidates.length) {
+      candidates = entries
+    }
+
+    const newItem = { keyword: keyword, count: 1, updatedAt: Date.now(), category: false }
+    if (candidates.length) {
+      const replaced = candidates.reduce(function (least, item) {
+        return item.count < least.count ? item : least
+      }, candidates[0])
+      entries[entries.indexOf(replaced)] = newItem
+    } else {
+      entries.push(newItem)
+    }
+
+    savePopularSearches(popularSearchMap(entries))
   }
 
   loadingDOM.style.opacity = 1
   setStatus('正在加载搜索索引...')
+  initializePopularSearches()
   renderPopularSearches()
 
   loadAllPostData(function (data) {
