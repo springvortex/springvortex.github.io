@@ -413,8 +413,13 @@
     padding: 0 16px 12px 0;
     overflow: auto;
     overscroll-behavior: contain;
+    scrollbar-width: none;
     border-right: 1px solid var(--hairline);
     border-bottom: 0;
+  }
+
+  body.categories-body .category-index::-webkit-scrollbar {
+    display: none;
   }
 
   body.categories-body .category-index ul {
