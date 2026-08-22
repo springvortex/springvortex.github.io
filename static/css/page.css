@@ -253,7 +253,8 @@
 }
 
 .page-search #search-input::placeholder {
-  color: var(--text-soft);
+  color: #999;
+  font-size: 16px;
 }
 
 .page-search .search-result-heading {
