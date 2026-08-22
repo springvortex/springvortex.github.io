@@ -277,6 +277,14 @@
   line-height: 1.58;
 }
 
+html:has(body.search-body) {
+  scrollbar-gutter: stable;
+}
+
+.page-search .list-search {
+  overflow-anchor: none;
+}
+
 
 .page-categories .list-post > h2 {
   color: var(--text);
@@ -505,6 +513,10 @@
     font-size: 14px;
     font-weight: 650;
     line-height: 1.4;
+  }
+
+  body.search-body .popular-index {
+    height: min(calc(100vh - 150px), 688px);
   }
 }
 

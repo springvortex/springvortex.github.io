@@ -176,7 +176,7 @@ blog.addLoadEvent(function () {
         recordPopularSearch(keyword)
         renderPopularSearches()
         searchNow(keyword)
-        input.focus()
+        input.focus({ preventScroll: true })
       })
       listItem.appendChild(term)
       popularSearchList.appendChild(listItem)
