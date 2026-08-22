@@ -473,11 +473,15 @@
 .qrcode-title {
   max-height: 4.4em;
   margin: 0 26px 14px 0;
+  display: -webkit-box;
+  overflow: hidden;
   overflow-wrap: anywhere;
   color: var(--text);
   font-size: 16px;
   font-weight: 650;
   line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 
 .qrcode-image {

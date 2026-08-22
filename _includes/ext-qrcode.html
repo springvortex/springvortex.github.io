@@ -226,20 +226,25 @@
       const image = new Image()
 
       image.onload = function () {
-        const scale = 2
-        const canvas = document.createElement('canvas')
-        canvas.width = Math.round(width * scale)
-        canvas.height = Math.round(height * scale)
-        const context = canvas.getContext('2d')
-        context.drawImage(image, 0, 0, canvas.width, canvas.height)
-        URL.revokeObjectURL(svgUrl)
-        canvas.toBlob(function (blob) {
-          if (blob) {
-            resolve(blob)
-          } else {
-            reject(new Error('PNG export failed'))
-          }
-        }, 'image/png')
+        try {
+          const scale = 2
+          const canvas = document.createElement('canvas')
+          canvas.width = Math.round(width * scale)
+          canvas.height = Math.round(height * scale)
+          const context = canvas.getContext('2d')
+          context.drawImage(image, 0, 0, canvas.width, canvas.height)
+          URL.revokeObjectURL(svgUrl)
+          canvas.toBlob(function (blob) {
+            if (blob) {
+              resolve(blob)
+            } else {
+              reject(new Error('PNG export failed'))
+            }
+          }, 'image/png')
+        } catch (error) {
+          URL.revokeObjectURL(svgUrl)
+          reject(error)
+        }
       }
       image.onerror = function () {
         URL.revokeObjectURL(svgUrl)
@@ -259,7 +264,7 @@
     link.remove()
     setTimeout(function () {
       URL.revokeObjectURL(url)
-    }, 0)
+    }, 1000)
   }
 
   function copyLink(url, button) {
