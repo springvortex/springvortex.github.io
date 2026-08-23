@@ -24,7 +24,7 @@ SpringVortex Notes 是基于 Jekyll 4.4.1 的个人技术博客，内容集中�
 - 客户端搜索，同时匹配文章标题和正文，不需要后端服务
 - 首页、分类页和搜索页桌面端右侧信息栏：首页展示精选文章和最新评论，分类页展示最新文章，搜索页展示快捷搜索；分类页和搜索页共用常用分类模块
 - 搜索页桌面端热门搜索侧栏：先用文章数最多的 20 个分类占位，新搜索词逐个替换文章数最少的分类，始终保留 20 条
-- 首页桌面端热门文章侧栏：文章页记录打开次数，CI 每 6 小时生成热门榜，不足 20 篇时用最新文章补足
+- 首页桌面端热门文章侧栏：文章页记录打开次数，CI 随站点构建生成热门榜，不足 20 篇时用最新文章补足
 - 分类归档按 A-Z 排序；桌面端左侧固定分类索引，分类超多时索引内部滚动
 - 首页年份列表和分类列表分批展示，手动加载后续文章
 - 首页和搜索结果摘要最多两行，避免长段落撑开列表
@@ -180,7 +180,7 @@ npm run minify -- _site
 | `footerText` | 页脚内容，支持 HTML |
 | `pageViewEndpoint` / `pageViewNamespace` | 文章打开计数服务；当前使用 Abacus 兼容接口，可替换为自己的服务 |
 | `giscus` | 文章评论区配置；`categoryId` 为空时不输出评论区 |
-| `npm run latest-comments -- _site` | 从 GitHub Discussions 生成首页最新评论索引；Pages 工作流随每次构建和每 6 小时定时构建刷新 |
+| `npm run latest-comments -- _site` | 从 GitHub Discussions 生成首页最新评论索引；Pages 工作流随每次构建和新增 Discussion 评论自动刷新 |
 | `googleSiteVerification` 等 | 搜索平台验证码，留空时不输出标签 |
 | `exclude` | 排除 `CNAME`、README、脚本、依赖等非站点文件 |
 
