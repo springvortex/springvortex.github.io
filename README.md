@@ -25,7 +25,7 @@ SpringVortex Notes 是基于 Jekyll 4.4.1 的个人技术博客，内容集中�
 - 首页、分类页和搜索页桌面端右侧信息栏：首页展示精选文章和最新评论（最多 10 条且不滚动），分类页展示最新文章和最新分类，搜索页展示常用分类
 - 文章页点赞使用对应 GitHub Discussion 的 Heart Reaction，CI 构建时生成静态计数索引
 - 搜索页桌面端热门搜索侧栏：先用文章数最多的 20 个分类占位，新搜索词逐个替换文章数最少的分类，始终保留 20 条
-- 首页桌面端热门文章侧栏：文章页记录打开次数，CI 随站点构建生成热门榜，不足 20 篇时用最新文章补足
+- 首页桌面端热门文章侧栏：按阅读量与 GitHub Discussion Heart 点赞量求和排序，CI 随站点构建生成热门榜，不足 20 篇时用最新文章补足
 - 分类归档按 A-Z 排序；桌面端左侧固定分类索引，分类超多时索引内部滚动
 - 首页年份列表和分类列表分批展示，手动加载后续文章
 - 首页和搜索结果摘要最多两行，避免长段落撑开列表
@@ -155,8 +155,9 @@ npm ci
 
 ```bash
 bundle exec jekyll build --destination _site
-npm run popular -- _site
 npm ci
+npm run latest-comments -- _site
+npm run popular -- _site
 npm run minify -- _site
 ```
 
@@ -352,6 +353,7 @@ node --check static/js/blog.js
 node --check static/js/search.js
 npm ci
 JEKYLL_ENV=production bundle exec jekyll build --destination _site
+npm run latest-comments -- _site
 npm run popular -- _site
 npm run minify -- _site
 npm run check -- _site

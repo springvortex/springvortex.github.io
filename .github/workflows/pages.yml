@@ -48,10 +48,10 @@ jobs:
           bundle install
           JEKYLL_ENV=production bundle exec jekyll build --destination _site
           npm ci
+          npm run latest-comments -- _site
           POPULAR_COUNTER_ENDPOINT=https://abacus.jasoncameron.dev \
           POPULAR_COUNTER_NAMESPACE=uhaiin.com \
           npm run popular -- _site
-          npm run latest-comments -- _site
           npm run minify -- _site
 
       - name: Check generated site
