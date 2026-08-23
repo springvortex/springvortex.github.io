@@ -600,6 +600,10 @@ html:has(body.search-body) {
     border-left: 1px solid var(--hairline);
   }
 
+  body.categories-body .right-rail {
+    max-height: min(calc(100vh - 150px), 688px);
+  }
+
   .right-rail::-webkit-scrollbar {
     display: none;
   }
