@@ -7,6 +7,8 @@ on:
   discussion_comment:
     types:
       - created
+  schedule:
+    - cron: '17 */6 * * *'
   workflow_dispatch:
 
 permissions:

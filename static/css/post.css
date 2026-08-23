@@ -50,6 +50,45 @@
   padding-top: 14px;
 }
 
+.post-likes {
+  max-width: 720px;
+  margin-top: 28px;
+}
+
+.post-like {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 0 14px;
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  color: var(--text-muted);
+  background: var(--surface);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.55;
+  transition: color 180ms ease, border-color 180ms ease;
+}
+
+.post-like svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+}
+
+.post-like-count {
+  min-width: 28px;
+  text-align: left;
+}
+
+.post-like:hover,
+.post-like:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
 .post-comments h2 {
   margin-bottom: 12px;
   color: var(--text);

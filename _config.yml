@@ -47,6 +47,8 @@ extMermaid: true
 extQrCode: true
 # 文章评论，基于 GitHub Discussions；categoryId 为空时不输出评论区
 extGiscus: true
+# 文章点赞，基于 giscus 对应 GitHub Discussion 的 Heart Reaction
+extPostLikes: true
 # 页面右下角主题切换按钮，不需要请设置为false
 extThemeToggle: true
 # PWA离线缓存，不需要请设置为false

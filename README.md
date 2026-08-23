@@ -23,6 +23,7 @@ SpringVortex Notes 是基于 Jekyll 4.4.1 的个人技术博客，内容集中�
 - 响应式首页、分类页、搜索页、书签页和关于页
 - 客户端搜索，同时匹配文章标题和正文，不需要后端服务
 - 首页、分类页和搜索页桌面端右侧信息栏：首页展示精选文章和最新评论（最多 10 条且不滚动），分类页展示最新文章和最新分类，搜索页展示常用分类
+- 文章页点赞使用对应 GitHub Discussion 的 Heart Reaction，CI 构建时生成静态计数索引
 - 搜索页桌面端热门搜索侧栏：先用文章数最多的 20 个分类占位，新搜索词逐个替换文章数最少的分类，始终保留 20 条
 - 首页桌面端热门文章侧栏：文章页记录打开次数，CI 随站点构建生成热门榜，不足 20 篇时用最新文章补足
 - 分类归档按 A-Z 排序；桌面端左侧固定分类索引，分类超多时索引内部滚动
@@ -180,7 +181,7 @@ npm run minify -- _site
 | `footerText` | 页脚内容，支持 HTML |
 | `pageViewEndpoint` / `pageViewNamespace` | 文章打开计数服务；当前使用 Abacus 兼容接口，可替换为自己的服务 |
 | `giscus` | 文章评论区配置；`categoryId` 为空时不输出评论区 |
-| `npm run latest-comments -- _site` | 从 GitHub Discussions 生成首页最新评论索引；Pages 工作流随每次构建和新增 Discussion 评论自动刷新 |
+| `npm run latest-comments -- _site` | 从 GitHub Discussions 生成首页最新评论索引和文章 Heart Reaction 点赞索引；Pages 工作流随构建、新增评论和每 6 小时定时任务刷新 |
 | `googleSiteVerification` 等 | 搜索平台验证码，留空时不输出标签 |
 | `exclude` | 排除 `CNAME`、README、脚本、依赖等非站点文件 |
 
@@ -193,6 +194,7 @@ npm run minify -- _site
 | `extMermaid` | `true` | Mermaid 图表 |
 | `extQrCode` | `true` | 文章二维码 |
 | `extGiscus` | `true` | 文章末尾 GitHub Discussions 评论；需要在 GitHub 开启 Discussions、安装 giscus App 并填写 `giscus.categoryId` |
+| `extPostLikes` | `true` | 文章页点赞；复用 giscus 对应 GitHub Discussion 的 Heart Reaction |
 | `extThemeToggle` | `true` | 右下角主题按钮；关闭后主题仍跟随系统和已保存偏好 |
 | `extServiceWorker` | `true` | PWA 离线缓存 |
 
