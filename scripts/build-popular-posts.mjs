@@ -3,7 +3,6 @@ import path from 'node:path'
 
 const siteDir = path.resolve(process.argv[2] || '_site')
 const manifestPath = path.join(siteDir, 'static/json/posts.json')
-const likesPath = path.join(siteDir, 'static/json/post-likes.json')
 const outputPath = path.join(siteDir, 'static/json/popular-posts.json')
 const endpoint = process.env.POPULAR_COUNTER_ENDPOINT || ''
 const namespace = process.env.POPULAR_COUNTER_NAMESPACE || ''
@@ -55,42 +54,19 @@ async function fetchViews(post, index) {
 }
 
 const manifest = JSON.parse(await readFile(manifestPath, 'utf8'))
-let likesManifest = { posts: [] }
-try {
-  likesManifest = JSON.parse(await readFile(likesPath, 'utf8'))
-} catch (error) {
-  if (error.code !== 'ENOENT') {
-    throw error
-  }
-}
-
 const posts = Array.isArray(manifest.posts) ? manifest.posts : []
-const likesByPostUrl = new Map(
-  (Array.isArray(likesManifest.posts) ? likesManifest.posts : [])
-    .filter(post => post?.url)
-    .map(post => [post.url, Math.max(0, Number(post.count) || 0)])
-)
-
 if (!posts.length) {
   throw new Error('No posts found in the generated manifest.')
 }
 
 for (let index = 0; index < posts.length; index += 1) {
   posts[index].views = await fetchViews(posts[index], index)
-  posts[index].likes = likesByPostUrl.get(posts[index].url) || 0
-  posts[index].score = posts[index].views + posts[index].likes
 }
 
 const selectedUrls = new Set()
 const selected = posts
-  .filter(post => post.score > 0)
-  .sort(
-    (a, b) =>
-      b.score - a.score ||
-      b.views - a.views ||
-      b.likes - a.likes ||
-      b.date.localeCompare(a.date)
-  )
+  .filter(post => post.views > 0)
+  .sort((a, b) => b.views - a.views || b.date.localeCompare(a.date))
   .slice(0, limit)
   .filter(post => {
     selectedUrls.add(post.url)
@@ -109,17 +85,11 @@ for (const post of posts) {
 
 const output = {
   generatedAt: new Date().toISOString(),
-  source: counterEnabled ? 'page-views-and-likes' : 'recent-and-likes',
-  posts: selected.map(post => ({
-    title: post.title,
-    url: post.url,
-    views: post.views,
-    likes: post.likes,
-    score: post.score
-  }))
+  source: counterEnabled ? 'page-views' : 'recent',
+  posts: selected.map(post => ({ title: post.title, url: post.url }))
 }
 
 await writeFile(outputPath, JSON.stringify(output, null, 2) + '\n')
 console.log(
-  `Popular posts generated: ${output.posts.length} entries (${counterEnabled ? 'page views and likes' : 'recent fallback and likes'}).`
+  `Popular posts generated: ${output.posts.length} entries (${counterEnabled ? 'page views' : 'recent fallback'}).`
 )

@@ -706,45 +706,6 @@ blog.initPostToc = function () {
 blog.addLoadEvent(blog.initPostToc)
 blog.addLoadEvent(blog.initCodeCopy)
 
-// 文章点赞：复用 giscus 对应 GitHub Discussion 的 Heart Reaction
-blog.addLoadEvent(function () {
-  const link = document.querySelector('.post-likes .post-like')
-  if (!link) {
-    return
-  }
-
-  const currentUrl = window.location.pathname.replace(/\/+$/, '') + '/'
-  fetch(blog.baseurl + '/static/json/post-likes.json?t=' + blog.buildAt, {
-    cache: 'no-store',
-    credentials: 'omit'
-  })
-    .then(function (response) {
-      if (!response.ok) {
-        throw new Error('post likes request failed')
-      }
-      return response.json()
-    })
-    .then(function (data) {
-      const posts = Array.isArray(data.posts) ? data.posts : []
-      const post = posts.find(function (item) {
-        const itemUrl = String(item.url || '').replace(/\/+$/, '') + '/'
-        return itemUrl === currentUrl
-      })
-      const count = document.querySelector('.post-like-count')
-      if (!post || !count) {
-        return
-      }
-
-      count.textContent = post.count > 0 ? '点赞 ' + post.count : '点赞'
-      if (post.discussionUrl) {
-        link.href = post.discussionUrl
-        link.target = '_blank'
-        link.rel = 'noopener noreferrer'
-      }
-    })
-    .catch(function () {})
-})
-
 // 标记当前导航项，帮助读者确认所在页面
 blog.addLoadEvent(function () {
   const currentPath = window.location.pathname.replace(/\/+$/, '') || '/'

@@ -4,7 +4,6 @@ import path from 'node:path'
 const siteDir = path.resolve(process.argv[2] || '_site')
 const manifestPath = path.join(siteDir, 'static/json/posts.json')
 const outputPath = path.join(siteDir, 'static/json/latest-comments.json')
-const likesPath = path.join(siteDir, 'static/json/post-likes.json')
 const repository = process.env.GITHUB_REPOSITORY || 'springvortex/springvortex.github.io'
 const token = process.env.GITHUB_TOKEN || ''
 const limit = 20
@@ -100,20 +99,9 @@ const manifest = JSON.parse(await readFile(manifestPath, 'utf8'))
 const posts = Array.isArray(manifest.posts) ? manifest.posts : []
 const postsByPath = new Map(posts.map(post => [post.url, post]))
 const comments = []
-const likesByPostUrl = new Map()
 
 try {
   const discussions = await fetchDiscussions()
-  for (const discussion of discussions) {
-    const post = postsByPath.get(normalizePostPath(discussion.title))
-    if (post?.url && discussion.html_url) {
-      likesByPostUrl.set(post.url, {
-        url: post.url,
-        count: Number(discussion.reactions?.heart) || 0,
-        discussionUrl: discussion.html_url
-      })
-    }
-  }
 
   const commentedDiscussions = discussions.filter(
     discussion =>
@@ -149,16 +137,3 @@ const output = {
 
 await writeFile(outputPath, JSON.stringify(output, null, 2) + '\n')
 console.log(`Latest comments generated: ${output.comments.length} entries.`)
-
-const likesOutput = {
-  generatedAt: output.generatedAt,
-  source: 'github-discussion-reactions',
-  posts: posts.map(post => likesByPostUrl.get(post.url) || {
-    url: post.url,
-    count: 0,
-    discussionUrl: ''
-  })
-}
-
-await writeFile(likesPath, JSON.stringify(likesOutput, null, 2) + '\n')
-console.log(`Post likes generated: ${likesByPostUrl.size} discussions.`)
