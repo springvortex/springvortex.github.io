@@ -22,6 +22,9 @@
 {% include popular-searches.html %}
 {%- endif %}
 {{ content }}
+{%- if page.right_rail -%}
+{% include right-rail.html %}
+{%- endif %}
 {% include footer.html -%}
 {% include script.html -%}
 </body>

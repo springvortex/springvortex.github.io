@@ -234,15 +234,19 @@ blog.addLoadEvent(function () {
       term.title = keyword
       term.textContent = keyword
       term.addEventListener('click', function () {
-        input.value = keyword
-        recordPopularSearch(keyword)
-        renderPopularSearches()
-        searchNow(keyword)
-        input.focus({ preventScroll: true })
+        applySearchKeyword(keyword)
       })
       listItem.appendChild(term)
       popularSearchList.appendChild(listItem)
     })
+  }
+
+  function applySearchKeyword(keyword) {
+    input.value = keyword
+    recordPopularSearch(keyword)
+    renderPopularSearches()
+    searchNow(keyword)
+    input.focus({ preventScroll: true })
   }
 
   function recordPopularSearch(value) {
@@ -291,6 +295,13 @@ blog.addLoadEvent(function () {
   setStatus('正在加载搜索索引...')
   initializePopularSearches()
   renderPopularSearches()
+
+  const quickSearchTerms = document.querySelectorAll('.quick-search-term')
+  for (let i = 0; i < quickSearchTerms.length; i++) {
+    quickSearchTerms[i].addEventListener('click', function () {
+      applySearchKeyword(blog.trim(this.getAttribute('data-keyword')))
+    })
+  }
 
   loadAllPostData(function (data) {
     loadingDOM.style.opacity = 0

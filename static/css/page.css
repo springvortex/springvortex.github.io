@@ -277,6 +277,68 @@
   line-height: 1.58;
 }
 
+.right-rail {
+  display: none;
+}
+
+.right-rail h2 {
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.right-rail ul {
+  margin: 8px 0 0;
+  padding: 0;
+}
+
+.right-rail li {
+  list-style: none;
+}
+
+.right-rail a,
+.right-rail .quick-search-term {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  min-height: 29px;
+  padding: 4px 0;
+  border: 0;
+  color: var(--text-muted);
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  text-align: left;
+  line-height: 1.58;
+  cursor: pointer;
+  transition: color 180ms ease;
+}
+
+.right-rail .rail-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.right-rail a:hover,
+.right-rail a:focus-visible,
+.right-rail .quick-search-term:hover,
+.right-rail .quick-search-term:focus-visible {
+  color: var(--accent);
+}
+
+.right-rail .rail-count {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
 html:has(body.search-body) {
   scrollbar-gutter: stable;
 }
@@ -518,6 +580,31 @@ html:has(body.search-body) {
   body.search-body .popular-index {
     height: min(calc(100vh - 150px), 688px);
   }
+
+  .right-rail {
+    display: block;
+    position: fixed;
+    top: 108px;
+    right: max(20px, calc(50% - 570px));
+    width: 210px;
+    max-height: min(calc(100vh - 178px), 660px);
+    box-sizing: border-box;
+    padding: 0 0 0 16px;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+    border-left: 1px solid var(--hairline);
+  }
+
+  .right-rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .right-rail .rail-panel + .rail-panel {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--hairline-soft);
+  }
 }
 
 @media screen and (min-width: 1330px) {
@@ -535,6 +622,11 @@ html:has(body.search-body) {
   body.popular-body .popular-index,
   body.search-body .popular-index {
     left: max(28px, calc(50% - 650px));
+    width: 250px;
+  }
+
+  .right-rail {
+    right: max(28px, calc(50% - 650px));
     width: 250px;
   }
 }
