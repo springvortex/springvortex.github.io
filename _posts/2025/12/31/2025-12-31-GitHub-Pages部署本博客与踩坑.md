@@ -300,7 +300,7 @@ Actions 里使用的是：
 npm ci
 ```
 
-这个命令依赖 `package-lock.json`。如果锁文件没有提交，CI 会直接失败。压缩依赖版本固定在 `package.json` 和锁文件里，两个文件要一起提交。
+这个命令依赖 `package-lock.json`。如果锁文件没有提交，CI 会直接失败。压缩依赖版本固定在 `package.json` 和锁文件里，所以两个文件要一起提交。
 
 ### 八、出问题先看 Actions 日志
 
