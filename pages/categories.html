@@ -16,7 +16,8 @@ category_index: true
     <h1>分类</h1>
     <p>{{ site.posts | size }} 篇笔记 · {{ site.categories | size }} 个分类</p>
   </header>
-  {%- for category in site.categories %}
+  {%- assign categories_alphabetical = site.categories | sort_categories_natural -%}
+  {%- for category in categories_alphabetical %}
   <div class="list-post">
     <h2 id="{{ category[0] }}">{{ category[0] }}</h2>
     <ul>

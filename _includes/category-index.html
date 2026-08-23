@@ -1,7 +1,8 @@
 <aside class="category-index" aria-labelledby="all-categories">
   <h2 id="all-categories">所有分类</h2>
   <ul>
-    {%- for category in site.categories %}
+    {%- assign categories_alphabetical = site.categories | sort_categories_natural -%}
+    {%- for category in categories_alphabetical %}
     <li>
       <a href="#{{ category[0] }}">
         <span class="category-name">{{ category[0] }}</span>
