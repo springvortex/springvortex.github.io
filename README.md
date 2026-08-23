@@ -32,6 +32,7 @@ SpringVortex Notes 是基于 Jekyll 4.4.1 的个人技术博客，内容集中�
 - 文章目录：桌面端固定在右侧，平板和手机通过按钮展开
 - 桌面端文章页保留左侧相关推荐和右侧目录
 - 文章二维码，手机扫码打开当前文章
+- 文章末尾 giscus 评论区：评论数据存放在仓库 GitHub Discussions，跟随站点明暗主题
 - 代码高亮和默认可见的一键复制按钮
 - MathJax 数学公式和 Mermaid 图表按内容检测加载
 - 图片点击放大、懒加载、异步解码和尺寸预留
@@ -178,6 +179,7 @@ npm run minify -- _site
 | `links` | 书签页数据源 |
 | `footerText` | 页脚内容，支持 HTML |
 | `pageViewEndpoint` / `pageViewNamespace` | 文章打开计数服务；当前使用 Abacus 兼容接口，可替换为自己的服务 |
+| `giscus` | 文章评论区配置；`categoryId` 为空时不输出评论区 |
 | `googleSiteVerification` 等 | 搜索平台验证码，留空时不输出标签 |
 | `exclude` | 排除 `CNAME`、README、脚本、依赖等非站点文件 |
 
@@ -189,10 +191,18 @@ npm run minify -- _site
 | `extMath` | `true` | MathJax 数学公式 |
 | `extMermaid` | `true` | Mermaid 图表 |
 | `extQrCode` | `true` | 文章二维码 |
+| `extGiscus` | `true` | 文章末尾 GitHub Discussions 评论；需要在 GitHub 开启 Discussions、安装 giscus App 并填写 `giscus.categoryId` |
 | `extThemeToggle` | `true` | 右下角主题按钮；关闭后主题仍跟随系统和已保存偏好 |
 | `extServiceWorker` | `true` | PWA 离线缓存 |
 
 文章目录、代码复制、图片预览和相关推荐当前是默认功能，没有独立开关。
+
+### 开启 giscus 评论
+
+1. 在 GitHub 仓库 Settings 中开启 Discussions。
+2. 为 `springvortex/springvortex.github.io` 安装 [giscus App](https://github.com/apps/giscus)。
+3. 打开 [giscus 配置页](https://giscus.app/zh-CN)，选择本仓库和 `Announcements` 分类，取得 `categoryId`。
+4. 把 `categoryId` 填入 `_config.yml` 的 `giscus.categoryId`。该值为空时文章页不输出评论区。
 
 ## 写文章
 
