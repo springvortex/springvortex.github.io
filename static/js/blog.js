@@ -808,9 +808,10 @@ blog.addLoadEvent(function () {
       return response.json()
     })
     .then(function (data) {
-      const comments = Array.isArray(data.comments) ? data.comments.slice(0, 20) : []
+      const comments = Array.isArray(data.comments) ? data.comments.slice(0, 10) : []
       list.textContent = ''
       empty.hidden = comments.length > 0
+      const rail = list.closest('.right-rail')
 
       comments.forEach(function (comment) {
         if (!comment.discussionUrl || !comment.author) {
@@ -833,6 +834,13 @@ blog.addLoadEvent(function () {
         item.appendChild(link)
         list.appendChild(item)
       })
+
+      if (rail) {
+        while (list.lastElementChild && rail.scrollHeight > rail.clientHeight) {
+          list.removeChild(list.lastElementChild)
+        }
+      }
+
       empty.hidden = list.children.length > 0
     })
     .catch(function () {})

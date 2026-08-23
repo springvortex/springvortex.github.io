@@ -604,6 +604,11 @@ html:has(body.search-body) {
     max-height: min(calc(100vh - 150px), 688px);
   }
 
+  body.popular-body .right-rail {
+    max-height: min(calc(100vh - 150px), 688px);
+    overflow: hidden;
+  }
+
   .right-rail::-webkit-scrollbar {
     display: none;
   }
