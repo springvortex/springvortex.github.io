@@ -36,20 +36,6 @@
   </section>
   {%- endif %}
 
-  {%- if page.rail_quick_searches %}
-  <section class="rail-panel" aria-labelledby="quick-searches">
-    <h2 id="quick-searches">快捷搜索</h2>
-    <ul>
-      {%- assign quick_categories = site.categories | sort_taxonomy_by_count %}
-      {%- for category in quick_categories limit: 20 %}
-      <li>
-        <button class="quick-search-term" type="button" data-keyword="{{ category[0] | escape }}" title="搜索 {{ category[0] | escape }}"><span class="rail-name">{{ category[0] }}</span></button>
-      </li>
-      {%- endfor %}
-    </ul>
-  </section>
-  {%- endif %}
-
   {%- if page.rail_latest_comments %}
   <section class="rail-panel" aria-labelledby="latest-comments">
     <h2 id="latest-comments">最新评论</h2>
@@ -72,21 +58,10 @@
   </section>
   {%- endif %}
 
-  {%- assign common_tags = site.tags | sort_taxonomy_by_count %}
-  {%- unless page.rail_latest_comments or page.rail_latest_categories %}
-  <section class="rail-panel" aria-labelledby="common-tags">
-    {%- if common_tags.size > 0 %}
-    <h2 id="common-tags">常用标签</h2>
-    <ul>
-      {%- for tag in common_tags limit: 20 %}
-      <li>
-        <a href="{{ site.baseurl }}/pages/search.html#{{ tag[0] | uri_escape }}" title="搜索 {{ tag[0] | escape }}"><span class="rail-name">{{ tag[0] }}</span></a>
-      </li>
-      {%- endfor %}
-    </ul>
-    {%- else %}
+  {%- if page.rail_common_categories %}
+  <section class="rail-panel" aria-labelledby="common-categories">
     {%- assign common_categories = site.categories | sort_taxonomy_by_count %}
-    <h2 id="common-tags">常用分类</h2>
+    <h2 id="common-categories">常用分类</h2>
     <ul>
       {%- for category in common_categories limit: 20 %}
       <li>
@@ -97,7 +72,6 @@
       </li>
       {%- endfor %}
     </ul>
-    {%- endif %}
   </section>
-  {%- endunless %}
+  {%- endif %}
 </aside>

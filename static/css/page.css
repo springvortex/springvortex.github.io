@@ -297,8 +297,7 @@
   list-style: none;
 }
 
-.right-rail a,
-.right-rail .quick-search-term {
+.right-rail a {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -326,9 +325,7 @@
 }
 
 .right-rail a:hover,
-.right-rail a:focus-visible,
-.right-rail .quick-search-term:hover,
-.right-rail .quick-search-term:focus-visible {
+.right-rail a:focus-visible {
   color: var(--accent);
 }
 

@@ -296,13 +296,6 @@ blog.addLoadEvent(function () {
   initializePopularSearches()
   renderPopularSearches()
 
-  const quickSearchTerms = document.querySelectorAll('.quick-search-term')
-  for (let i = 0; i < quickSearchTerms.length; i++) {
-    quickSearchTerms[i].addEventListener('click', function () {
-      applySearchKeyword(blog.trim(this.getAttribute('data-keyword')))
-    })
-  }
-
   loadAllPostData(function (data) {
     loadingDOM.style.opacity = 0
 
