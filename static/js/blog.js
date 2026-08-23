@@ -853,7 +853,7 @@ blog.addLoadEvent(function () {
       const rail = list.closest('.right-rail')
 
       comments.forEach(function (comment) {
-        if (!comment.discussionUrl || !comment.author) {
+        if (!comment.postUrl || !comment.author) {
           return
         }
 
@@ -861,9 +861,7 @@ blog.addLoadEvent(function () {
         const text = comment.author + '：' + body
         const item = document.createElement('li')
         const link = document.createElement('a')
-        link.href = comment.discussionUrl
-        link.target = '_blank'
-        link.rel = 'noopener noreferrer'
+        link.href = blog.baseurl + comment.postUrl + '#post-comments'
         link.title = text
 
         const name = document.createElement('span')
