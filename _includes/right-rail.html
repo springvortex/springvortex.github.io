@@ -58,8 +58,22 @@
   </section>
   {%- endif %}
 
+  {%- if page.rail_latest_categories %}
+  <section class="rail-panel" aria-labelledby="latest-categories">
+    <h2 id="latest-categories">最新分类</h2>
+    <ul>
+      {%- assign latest_categories = site.posts | latest_categories: 10 %}
+      {%- for category in latest_categories %}
+      <li>
+        <a href="{{ site.baseurl }}/pages/categories.html#{{ category | escape }}" title="{{ category | escape }}"><span class="rail-name">{{ category }}</span></a>
+      </li>
+      {%- endfor %}
+    </ul>
+  </section>
+  {%- endif %}
+
   {%- assign common_tags = site.tags | sort_taxonomy_by_count %}
-  {%- unless page.rail_latest_comments %}
+  {%- unless page.rail_latest_comments or page.rail_latest_categories %}
   <section class="rail-panel" aria-labelledby="common-tags">
     {%- if common_tags.size > 0 %}
     <h2 id="common-tags">常用标签</h2>

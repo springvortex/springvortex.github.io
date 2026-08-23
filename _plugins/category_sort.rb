@@ -12,6 +12,17 @@ module CategorySort
 
     taxonomy.to_a.sort_by { |_name, items| -items.to_a.size }
   end
+
+  def latest_categories(posts, limit = 10)
+    return [] unless posts.respond_to?(:to_a)
+
+    posts
+      .to_a
+      .sort_by { |post| -post.date.to_time.to_i }
+      .flat_map { |post| post.data['categories'].to_a }
+      .uniq
+      .first(limit)
+  end
 end
 
 Liquid::Template.register_filter(CategorySort)
