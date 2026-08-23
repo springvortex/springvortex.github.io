@@ -39,6 +39,8 @@ jobs:
           cache: npm
 
       - name: Build Jekyll site
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           bundle install
           JEKYLL_ENV=production bundle exec jekyll build --destination _site
@@ -46,6 +48,7 @@ jobs:
           POPULAR_COUNTER_ENDPOINT=https://abacus.jasoncameron.dev \
           POPULAR_COUNTER_NAMESPACE=uhaiin.com \
           npm run popular -- _site
+          npm run latest-comments -- _site
           npm run minify -- _site
 
       - name: Check generated site

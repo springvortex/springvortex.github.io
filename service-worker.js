@@ -18,7 +18,10 @@ const precacheUrls = [
   baseUrl + '/static/img/logo.webp'
 ]
 const downloadPattern = /\.(?:rar|zip|7z|pdf)$/i
-const networkOnlyPath = baseUrl + '/static/json/popular-posts.json'
+const networkOnlyPaths = [
+  baseUrl + '/static/json/popular-posts.json',
+  baseUrl + '/static/json/latest-comments.json'
+]
 
 self.addEventListener('install', function (event) {
   event.waitUntil(
@@ -66,7 +69,7 @@ self.addEventListener('fetch', function (event) {
 
   try {
     const requestUrl = new URL(request.url)
-    if (requestUrl.pathname === networkOnlyPath) {
+    if (networkOnlyPaths.includes(requestUrl.pathname)) {
       event.respondWith(fetch(request))
       return
     }

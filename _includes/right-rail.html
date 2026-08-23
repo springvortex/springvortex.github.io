@@ -50,7 +50,16 @@
   </section>
   {%- endif %}
 
+  {%- if page.rail_latest_comments %}
+  <section class="rail-panel" aria-labelledby="latest-comments">
+    <h2 id="latest-comments">最新评论</h2>
+    <ul id="latest-comment-list"></ul>
+    <p id="latest-comment-empty" class="rail-empty">暂无评论</p>
+  </section>
+  {%- endif %}
+
   {%- assign common_tags = site.tags | sort_taxonomy_by_count %}
+  {%- unless page.rail_latest_comments %}
   <section class="rail-panel" aria-labelledby="common-tags">
     {%- if common_tags.size > 0 %}
     <h2 id="common-tags">常用标签</h2>
@@ -76,4 +85,5 @@
     </ul>
     {%- endif %}
   </section>
+  {%- endunless %}
 </aside>
