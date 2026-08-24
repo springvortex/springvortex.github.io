@@ -11,8 +11,7 @@ categories: [ Components, Spring Boot, Microservices ]
 > - JDK：`21`
 > - Spring Boot：`4.1.0`
 
-如果把 Nacos、Gateway、OpenFeign 看成微服务的协作组件，Spring Boot 就是每个服务自己的底座。它负责自动装配、配置体系、Web
-服务器、Actuator、测试支持和打包方式。
+如果把 Nacos、Gateway、OpenFeign 看成微服务的协作组件，Spring Boot 就是每个服务自己的底座。它负责自动装配、配置体系、Web 服务器、Actuator、测试支持和打包方式。
 
 ### 一、父级版本统一管理
 
