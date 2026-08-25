@@ -166,6 +166,10 @@
   margin: 0;
 }
 
+.page-post blockquote a {
+  word-break: break-all;
+}
+
 .page-post ul,
 .page-post ol {
   padding-left: 1.8em;

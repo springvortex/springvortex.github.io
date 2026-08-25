@@ -2,6 +2,7 @@
 layout: mypost
 title: Jib buildTar 生成离线镜像包
 categories: [ Jib, Maven, Docker ]
+featured: true
 ---
 
 > **代码环境**
