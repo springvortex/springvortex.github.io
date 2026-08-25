@@ -2,6 +2,7 @@
 layout: mypost
 title: service-common 公共模块设计与能力边界
 categories: [ Microservices, Architecture, service-common ]
+featured: true
 ---
 
 > **代码环境**
