@@ -1,0 +1,536 @@
+/*
+ * SpringVortex Notes community theme for doocs/md.
+ * Design tokens mirror the article body of springvortex.github.io.
+ * Keep this file self-contained: doocs marketplace themes reject external
+ * dependencies and network-loaded assets.
+ */
+
+:root {
+  /* Change these values first when customizing the theme. */
+  --sv-font-sans: Consolas, "Segoe UI Variable Text", "Segoe UI", Menlo, "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+  --sv-font-mono: "Cascadia Mono", Consolas, "SFMono-Regular", Menlo, monospace;
+  --sv-body-size: 15px;
+  --sv-body-leading: 1.86;
+  --sv-measure: 720px;
+
+  --sv-text: #17191d;
+  --sv-text-soft: #454b54;
+  --sv-text-muted: #68707a;
+  --sv-surface: #ffffff;
+  --sv-surface-soft: #eceff3;
+  --sv-hairline: #d9dee5;
+  --sv-table-stripe: rgba(236, 239, 243, 0.42);
+
+  --sv-accent: var(--md-primary-color, #1554c0);
+  --sv-accent-underline: rgba(21, 84, 192, 0.28);
+  --sv-code-bar: #e4e8ee;
+  --sv-code-bg: #f7f8fa;
+  --sv-code-inline-text: #333a44;
+  --sv-radius: 8px;
+  --sv-radius-small: 6px;
+}
+
+/* Reading container */
+.container {
+  max-width: var(--sv-measure);
+  margin: 0 auto;
+  color: var(--sv-text);
+  font-family: var(--sv-font-sans);
+  font-size: var(--sv-body-size);
+  line-height: var(--sv-body-leading);
+  letter-spacing: 0;
+  text-align: left;
+  overflow-wrap: break-word;
+}
+
+.container {
+  padding-top: 12px;
+  border-top: 1px solid var(--sv-text);
+}
+
+.container > * {
+  margin: 20px 0;
+}
+
+.container > :first-child {
+  margin-top: 8px !important;
+}
+
+.container > :last-child {
+  margin-bottom: 4px;
+}
+
+/* doocs renders tables, math, and extensions as nested sections. */
+.container section {
+  max-width: 100%;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: 0;
+  text-align: left;
+}
+
+p {
+  color: var(--sv-text);
+  letter-spacing: 0;
+  text-align: left;
+  text-indent: 0;
+  text-wrap: pretty;
+}
+
+a:hover,
+a:focus-visible {
+  border-bottom-color: currentColor;
+}
+
+strong,
+b {
+  color: var(--sv-text);
+  font-weight: 680;
+}
+
+em {
+  color: inherit;
+  font-style: italic;
+  font-size: inherit;
+}
+
+a {
+  color: var(--sv-accent);
+  border-bottom: 1px solid var(--sv-accent-underline);
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  display: block;
+  margin: 20px 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  text-wrap: balance;
+}
+
+/* The blog keeps h1 compact while h2 carries the main section hierarchy. */
+h1,
+h2 {
+  color: var(--sv-text);
+  font-size: 25px;
+  font-weight: 680;
+  line-height: 1.32;
+  letter-spacing: 0;
+  text-align: left;
+}
+
+h1 {
+  font-size: 19px;
+}
+
+h1::before,
+h2::before {
+  content: "#";
+  margin-right: 7px;
+  color: var(--sv-accent);
+  font-weight: 650;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  color: var(--sv-text);
+  line-height: 1.38;
+  letter-spacing: 0;
+  text-align: left;
+}
+
+h3 {
+  margin-top: 32px;
+  font-size: 21px;
+  font-weight: 670;
+}
+
+h4 {
+  margin-top: 27px;
+  font-size: 18px;
+  font-weight: 650;
+}
+
+h5,
+h6 {
+  margin-top: 22px;
+  font-size: 16px;
+  font-weight: 650;
+}
+
+blockquote {
+  padding: 14px 18px;
+  border: 1px solid var(--sv-hairline);
+  border-left: 1px solid var(--sv-accent);
+  border-radius: 0 var(--sv-radius) var(--sv-radius) 0;
+  background: var(--sv-surface);
+  color: var(--sv-text-soft);
+  font-style: normal;
+}
+
+blockquote p {
+  margin: 0;
+  color: inherit;
+  font-size: inherit;
+  letter-spacing: 0;
+}
+
+/* doocs renders list prefixes as text for WeChat compatibility. */
+ul,
+ol {
+  margin-left: 0;
+  color: var(--sv-text);
+}
+
+ul {
+  padding-left: 1.25em;
+  list-style: none;
+}
+
+ol {
+  padding-left: 1.8em;
+  list-style: none;
+}
+
+li {
+  display: block;
+  margin: 6px 0;
+  color: var(--sv-text);
+  line-height: inherit;
+}
+
+ul > li {
+  text-indent: -1.25em;
+}
+
+ol > li {
+  text-indent: -1.8em;
+}
+
+li > * {
+  margin: 6px 0;
+}
+
+/* Inline code */
+code.codespan,
+code.code-inline {
+  padding: 2px 5px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--sv-surface-soft);
+  color: var(--sv-code-inline-text);
+  font-family: var(--sv-font-mono);
+  font-size: 0.88em;
+  font-style: normal;
+}
+
+/* Code block: 6px cap, hairline body, 13px monospaced text. */
+pre.code__pre,
+pre.hljs,
+.hljs.code__pre {
+  position: relative;
+  box-sizing: border-box;
+  max-width: 100%;
+  max-height: 620px;
+  margin: 20px 0;
+  padding: 0 !important;
+  overflow: auto;
+  border: 1px solid var(--sv-hairline);
+  border-top: 0;
+  border-radius: 0 0 var(--sv-radius) var(--sv-radius);
+  background: var(--sv-code-bg) !important;
+  color: var(--sv-text);
+  font-family: var(--sv-font-mono);
+  font-size: 13px;
+  line-height: 1.68;
+  tab-size: 4;
+}
+
+pre.code__pre::before,
+pre.hljs::before,
+.hljs.code__pre::before {
+  content: "";
+  display: block;
+  height: 6px;
+  border-radius: var(--sv-radius) var(--sv-radius) 0 0;
+  background: var(--sv-code-bar);
+}
+
+pre.code__pre > code,
+pre.hljs > code,
+.hljs.code__pre > code {
+  display: block;
+  box-sizing: border-box;
+  min-width: 100%;
+  padding: 15px 16px 16px;
+  overflow-x: auto;
+  border-radius: 0;
+  background: transparent !important;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  text-indent: 0;
+  white-space: pre;
+  word-break: keep-all;
+}
+
+pre.code__pre .mac-sign,
+.hljs.code__pre .mac-sign {
+  display: none !important;
+}
+
+/* Code colors follow the blog's light Rouge palette. */
+.hljs-comment,
+.hljs-quote {
+  color: #999988;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst,
+.hljs-literal {
+  color: #17191d;
+  font-weight: 700;
+}
+
+.hljs-number,
+.hljs-literal {
+  color: #009999;
+}
+
+.hljs-string,
+.hljs-regexp {
+  color: #d14;
+}
+
+.hljs-regexp {
+  color: #009926;
+}
+
+.hljs-built_in {
+  color: #0086b3;
+}
+
+.hljs-type {
+  color: #445588;
+  font-weight: 700;
+}
+
+.hljs-addition {
+  color: #17191d;
+  background: #ddffdd;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #990000;
+  font-weight: 700;
+}
+
+.hljs-attribute,
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-type {
+  color: #008080;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link {
+  color: #990073;
+}
+
+.hljs-meta {
+  color: #999999;
+  font-weight: 700;
+}
+
+.hljs-deletion {
+  color: #17191d;
+  background: #ffdddd;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: 700;
+}
+
+/* Tables */
+section[style*="overflow: auto"] {
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 20px 0;
+  padding: 0;
+  border: 1px solid var(--sv-hairline);
+  border-radius: var(--sv-radius);
+  background: var(--sv-surface);
+}
+
+table {
+  display: table;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+th,
+td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--sv-hairline);
+  color: var(--sv-text);
+  text-align: left;
+  vertical-align: top;
+  font-size: inherit;
+  line-height: 1.65;
+  word-break: normal;
+}
+
+th {
+  background: var(--sv-surface-soft);
+  color: var(--sv-text);
+  font-weight: 600;
+}
+
+tbody tr:nth-child(even) {
+  background: var(--sv-table-stripe);
+}
+
+tbody tr:last-child th,
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* Media and figures */
+figure {
+  margin: 20px 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border: 1px solid var(--sv-hairline);
+  border-radius: var(--sv-radius);
+  background: var(--sv-surface);
+}
+
+figcaption,
+.md-figcaption {
+  margin-top: 8px;
+  color: var(--sv-text-muted);
+  font-size: 0.8em;
+  line-height: 1.6;
+  text-align: center;
+}
+
+hr {
+  height: 1px;
+  margin: 30px 0;
+  padding: 0;
+  border: 0;
+  background: var(--sv-hairline);
+}
+
+hr.hr-dash,
+hr.hr-star,
+hr.hr-underscore {
+  height: 1px;
+  border: 0;
+  transform: none;
+}
+
+/* Keep doocs extensions readable without leaving the blog's design system. */
+.katex-inline,
+.katex-block {
+  max-width: 100%;
+  overflow-x: auto;
+  color: var(--sv-text);
+}
+
+.katex-block {
+  padding: 4px 0;
+  text-align: center;
+}
+
+.markup-highlight {
+  padding: 2px 4px;
+  border-radius: 3px;
+  background: var(--sv-accent);
+  color: #ffffff;
+}
+
+.markup-underline,
+.markup-wavyline {
+  color: inherit;
+  text-decoration-color: var(--sv-accent);
+}
+
+p.footnotes {
+  color: var(--sv-text-muted);
+  font-size: 0.8em;
+  line-height: 1.65;
+}
+
+@media screen and (max-width: 700px) {
+  #output .container > * {
+    margin: 17px 0;
+  }
+
+  #output .container h1,
+  #output .container h2 {
+    font-size: 22px;
+  }
+
+  #output .container h1 {
+    font-size: 16px;
+  }
+
+  #output .container h3 {
+    font-size: 19px;
+  }
+
+  #output .container h4 {
+    font-size: 17px;
+  }
+
+  #output .container pre.code__pre,
+  #output .container pre.hljs,
+  #output .container .hljs.code__pre {
+    margin: 17px 0;
+    font-size: 12px;
+  }
+
+  #output .container section[style*="overflow: auto"] {
+    margin: 17px 0;
+  }
+
+  #output .container pre.code__pre > code,
+  #output .container pre.hljs > code,
+  #output .container .hljs.code__pre > code {
+    padding: 12px 13px 13px;
+  }
+}
