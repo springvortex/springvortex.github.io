@@ -1,11 +1,11 @@
 <section class="post-comments" aria-labelledby="post-comments">
   <h2 id="post-comments">评论</h2>
   <div class="giscus-container" id="giscus-container"></div>
-  <p class="giscus-hint">评论由 GitHub Discussions 承载，需要 GitHub 账号登录。</p>
 </section>
 
 <script>
 ;(function () {
+  const giscusThemeBase = '{{ site.domainUrl | append: site.baseurl | append: "/static/css/giscus-" | escape }}'
   const container = document.getElementById('giscus-container')
   if (!container || container.querySelector('iframe.giscus-frame')) {
     return
@@ -13,8 +13,8 @@
 
   let loaded = false
 
-  function currentTheme() {
-    return window.blog && window.blog.darkTheme ? 'dark' : 'light'
+  function themeUrl(dark) {
+    return giscusThemeBase + (dark ? 'dark' : 'light') + '.css?t=' + window.blog.buildAt
   }
 
   function loadGiscus() {
@@ -36,7 +36,7 @@
     script.dataset.reactionsEnabled = '{{ site.giscus.reactionsEnabled | default: true }}'
     script.dataset.emitMetadata = '0'
     script.dataset.inputPosition = 'top'
-    script.dataset.theme = currentTheme()
+    script.dataset.theme = themeUrl(window.blog && window.blog.darkTheme)
     script.dataset.lang = 'zh-CN'
     script.dataset.loading = 'lazy'
     container.appendChild(script)
@@ -51,7 +51,7 @@
     frame.contentWindow.postMessage({
       giscus: {
         setConfig: {
-          theme: dark ? 'dark' : 'light'
+          theme: themeUrl(dark)
         }
       }
     }, 'https://giscus.app')

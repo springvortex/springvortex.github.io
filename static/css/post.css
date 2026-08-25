@@ -64,14 +64,6 @@
   border: 0;
 }
 
-.post-comments .giscus-hint {
-  margin-top: 8px;
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  line-height: 1.55;
-}
-
 .page-post .post h1,
 .page-post .post h2 {
   color: var(--text);
