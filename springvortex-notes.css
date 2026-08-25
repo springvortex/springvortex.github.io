@@ -186,6 +186,10 @@ blockquote p {
   letter-spacing: 0;
 }
 
+blockquote a {
+  word-break: break-all;
+}
+
 /* doocs renders list prefixes as text for WeChat compatibility. */
 ul,
 ol {
