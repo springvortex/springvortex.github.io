@@ -1,26 +1,18 @@
 <aside class="right-rail" aria-label="页面推荐信息">
   {%- if page.rail_featured_posts %}
+  {%- assign featured_posts = site.posts | where: "featured", true %}
+  {%- if featured_posts.size > 0 %}
   <section class="rail-panel" aria-labelledby="featured-posts">
     <h2 id="featured-posts">精选文章</h2>
     <ul>
-      {%- assign featured_posts = site.posts | where: "featured", true %}
-      {%- assign featured_count = 0 %}
-      {%- for post in featured_posts %}
-        {%- if featured_count >= 10 %}{% break %}{% endif %}
+      {%- for post in featured_posts limit: 10 %}
         <li>
           <a href="{{ site.baseurl | append: post.url }}" title="{{ post.title | escape }}"><span class="rail-name">{{ post.title }}</span></a>
         </li>
-        {%- assign featured_count = featured_count | plus: 1 %}
       {%- endfor %}
-      {%- if featured_count == 0 %}
-        {%- for post in site.posts limit: 10 %}
-        <li>
-          <a href="{{ site.baseurl | append: post.url }}" title="{{ post.title | escape }}"><span class="rail-name">{{ post.title }}</span></a>
-        </li>
-        {%- endfor %}
-      {%- endif %}
     </ul>
   </section>
+  {%- endif %}
   {%- endif %}
 
   {%- if page.rail_latest_posts %}
