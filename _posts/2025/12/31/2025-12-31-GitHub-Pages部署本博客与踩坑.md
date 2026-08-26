@@ -2,7 +2,6 @@
 layout: mypost
 title: GitHub Pages 部署本博客与踩坑
 categories: [ github, jekyll ]
-featured: true
 ---
 
 这篇博客已经内置 GitHub Pages 自动部署工作流：只要代码推送到 `main` 分支，Actions 会自动完成 Jekyll 构建、JS/CSS

@@ -37,6 +37,39 @@ menu:
   - title: 关于
     url: /pages/about.html
 
+# Recommended Reading
+recommendedReading:
+  - title: ClickHouse 零基础实战指南
+    url: https://uhaiin.com/clickhouse/
+  - title: 计算机网络 零基础实战指南
+    url: https://uhaiin.com/computer-network/
+  - title: Docker 与 Kubernetes 零基础实战指南
+    url: https://uhaiin.com/docker-kubernetes/
+  - title: Elasticsearch 零基础实战指南
+    url: https://uhaiin.com/elasticsearch/
+  - title: JVM 零基础实战指南
+    url: https://uhaiin.com/jvm/
+  - title: Kafka 零基础实战指南
+    url: https://uhaiin.com/kafka/
+  - title: Linux 零基础实战指南
+    url: https://uhaiin.com/linux/
+  - title: LLM 应用开发 零基础实战指南
+    url: https://uhaiin.com/llm/
+  - title: MongoDB 零基础实战指南
+    url: https://uhaiin.com/mongodb/
+  - title: MySQL 零基础实战指南
+    url: https://uhaiin.com/mysql/
+  - title: MySQL 8.0 源码与内核实战
+    url: https://uhaiin.com/mysql8/
+  - title: PostgreSQL 零基础实战指南
+    url: https://uhaiin.com/postgresql/
+  - title: Redis 零基础实战指南
+    url: https://uhaiin.com/redis/
+  - title: RocketMQ 零基础实战指南
+    url: https://uhaiin.com/rocketmq/
+  - title: Spring Boot 与 Spring Cloud 零基础实战指南
+    url: https://uhaiin.com/spring/
+
 # 点击页面文字冒出特效,不需要请设置为false
 extClickEffect: false
 # 数学公式支持，比较影响加载速度,不需要请设置为false

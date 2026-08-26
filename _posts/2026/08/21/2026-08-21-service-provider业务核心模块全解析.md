@@ -2,7 +2,6 @@
 layout: mypost
 title: service-provider 业务核心模块全解析
 categories: [ Microservices, MyBatis-Plus, MySQL ]
-featured: true
 ---
 
 > **代码环境**

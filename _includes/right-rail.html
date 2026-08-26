@@ -1,18 +1,15 @@
 <aside class="right-rail" aria-label="页面推荐信息">
-  {%- if page.rail_featured_posts %}
-  {%- assign featured_posts = site.posts | where: "featured", true %}
-  {%- if featured_posts.size > 0 %}
-  <section class="rail-panel" aria-labelledby="featured-posts">
-    <h2 id="featured-posts">精选文章</h2>
+  {%- if page.rail_recommended_reading and site.recommendedReading.size > 0 %}
+  <section class="rail-panel rail-recommended-reading" aria-labelledby="recommended-reading">
+    <h2 id="recommended-reading">推荐阅读</h2>
     <ul>
-      {%- for post in featured_posts limit: 10 %}
+      {%- for item in site.recommendedReading %}
         <li>
-          <a href="{{ site.baseurl | append: post.url }}" title="{{ post.title | escape }}"><span class="rail-name">{{ post.title }}</span></a>
+          <a href="{{ item.url | escape }}" title="{{ item.title | escape }}"><span class="rail-name">{{ item.title }}</span></a>
         </li>
       {%- endfor %}
     </ul>
   </section>
-  {%- endif %}
   {%- endif %}
 
   {%- if page.rail_latest_posts %}

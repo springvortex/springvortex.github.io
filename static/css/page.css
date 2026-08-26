@@ -281,6 +281,10 @@
   display: none;
 }
 
+.rail-recommended-reading {
+  display: none;
+}
+
 .right-rail h2 {
   color: var(--text);
   font-size: 14px;
@@ -598,6 +602,10 @@ html:has(body.search-body) {
     overscroll-behavior: contain;
     scrollbar-width: none;
     border-left: 1px solid var(--hairline);
+  }
+
+  .rail-recommended-reading {
+    display: block;
   }
 
   body.categories-body .right-rail {
