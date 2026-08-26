@@ -67,7 +67,7 @@ recommendedReading:
     url: https://uhaiin.com/redis/
   - title: RocketMQ 零基础实战指南
     url: https://uhaiin.com/rocketmq/
-  - title: Spring Boot 与 Spring Cloud 零基础实战指南
+  - title: Spring 零基础实战指南
     url: https://uhaiin.com/spring/
 
 # 点击页面文字冒出特效,不需要请设置为false
