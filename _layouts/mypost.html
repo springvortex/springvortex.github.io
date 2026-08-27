@@ -46,9 +46,6 @@
   <div class="post">
     {{ content }}
   </div>
-  {%- if site.extGiscus and page.date and page.comments != false and site.giscus.categoryId != blank -%}
-  {% include ext-giscus.html %}
-  {%- endif %}
 </main>
 {% include footer.html -%}
 {% include script.html -%}

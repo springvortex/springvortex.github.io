@@ -43,27 +43,6 @@
   margin-bottom: 4px;
 }
 
-.post-comments {
-  max-width: 720px;
-  margin-top: 34px;
-  border-top: 1px solid var(--text);
-  padding-top: 14px;
-}
-
-.post-comments h2 {
-  margin-bottom: 12px;
-  color: var(--text);
-  font-size: 19px;
-  font-weight: 650;
-  line-height: 1.35;
-}
-
-.post-comments .giscus-container iframe {
-  display: block;
-  width: 100%;
-  border: 0;
-}
-
 .page-post .post h1,
 .page-post .post h2 {
   color: var(--text);

@@ -4,7 +4,6 @@
   "type": "module",
   "scripts": {
     "popular": "node scripts/build-popular-posts.mjs",
-    "latest-comments": "node scripts/build-latest-comments.mjs",
     "minify": "node scripts/minify.mjs",
     "check": "node scripts/check_site.mjs"
   },

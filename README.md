@@ -22,7 +22,7 @@ SpringVortex Notes 是基于 Jekyll 4.4.1 的个人技术博客，内容集中�
 
 - 响应式首页、分类页、搜索页、书签页和关于页
 - 客户端搜索，同时匹配文章标题和正文，命中关键词高亮显示，不需要后端服务
-- 首页、分类页和搜索页桌面端右侧信息栏：首页展示 `_config.yml` 中 `recommendedReading` 配置的推荐阅读，并展示可跳回对应文章的最新评论；分类页展示最新文章和最新分类，搜索页展示常用分类
+- 首页、分类页和搜索页桌面端右侧信息栏：首页展示 `_config.yml` 中 `recommendedReading` 配置的推荐阅读；分类页展示最新文章和最新分类，搜索页展示常用分类
 - 搜索页桌面端热门搜索侧栏：先用文章数最多的 20 个分类占位，新搜索词逐个替换文章数最少的分类，始终保留 20 条
 - 首页桌面端热门文章侧栏：文章页记录打开次数，CI 随站点构建生成热门榜，不足 20 篇时用最新文章补足
 - 分类归档按 A-Z 排序；桌面端左侧固定分类索引，分类超多时索引内部滚动
@@ -32,7 +32,6 @@ SpringVortex Notes 是基于 Jekyll 4.4.1 的个人技术博客，内容集中�
 - 文章目录：桌面端固定在右侧，平板和手机通过按钮展开
 - 桌面端文章页保留左侧相关推荐和右侧目录
 - 文章二维码：展示文章标题、黑白二维码、保存图片和复制链接；导出的 PNG 使用文章标题命名，并在图片底部保留单行标题
-- 文章末尾 giscus 评论区：评论数据存放在仓库 GitHub Discussions，亮暗主题由本地自定义 giscus 主题文件同步
 - 代码高亮和默认可见的一键复制按钮
 - MathJax 数学公式和 Mermaid 图表按内容检测加载
 - 图片点击放大、懒加载、异步解码和尺寸预留
@@ -53,7 +52,7 @@ Markdown / Liquid / 静态资源
         v
 _site 静态产物
         |
-        |  Node 脚本生成最新评论 / 热门文章 JSON
+        |  Node 脚本生成热门文章 JSON
         |  esbuild 压缩自定义 JS / CSS / Service Worker
         v
 GitHub Pages 部署产物
@@ -69,12 +68,12 @@ GitHub Pages 部署产物
 | `_layouts/` | 通用页面布局和文章布局 |
 | `_includes/` | head、header、footer、主题初始化和可选功能组件 |
 | `_plugins/` | MD5 permalink、资源改写、分类排序、摘要处理和性能钩子 |
-| `static/css/` | 通用、页面、文章、giscus 主题和代码高亮样式 |
+| `static/css/` | 通用、页面、文章和代码高亮样式 |
 | `static/js/` | 站点交互、搜索和本地二维码 vendor 脚本 |
 | `static/font/` | 自托管 `consola.woff2` 字体 |
-| `static/json/` | 文章 manifest Liquid 模板；热门文章和最新评论为构建时生成产物 |
+| `static/json/` | 文章 manifest Liquid 模板；热门文章为构建时生成产物 |
 | `static/xml/` | RSS、sitemap 和搜索索引 Liquid 模板 |
-| `scripts/` | 评论索引、热门索引、生产压缩和站点质量检查脚本 |
+| `scripts/` | 热门索引、生产压缩和站点质量检查脚本 |
 | `.github/workflows/` | GitHub Pages 构建部署工作流 |
 | `service-worker.js` | PWA 预缓存、运行时缓存和离线导航 |
 | `source-assets/` | 源素材，不参与 Jekyll 构建 |
@@ -115,7 +114,7 @@ GitHub Pages 部署产物
 
 右下角操作顺序固定为回到顶部、文章二维码、切换主题、文章目录。二维码按钮只在文章页出现；回到顶部图标会等待页面滚动后出现。主题偏好保存在 `localStorage`，未手动选择前跟随系统。
 
-页面交互脚本集中在 `static/js/blog.js`，搜索逻辑在 `static/js/search.js`。样式按职责拆分为 `common.css`、`page.css`、`post.css`、`theme-dark.css`、giscus 主题和代码高亮配色。站点预加载自托管 `consola.woff2`，拉丁字符优先使用该字体，中文继续回退到系统中文字体。
+页面交互脚本集中在 `static/js/blog.js`，搜索逻辑在 `static/js/search.js`。样式按职责拆分为 `common.css`、`page.css`、`post.css`、`theme-dark.css` 和代码高亮配色。站点预加载自托管 `consola.woff2`，拉丁字符优先使用该字体，中文继续回退到系统中文字体。
 
 ## 本地开发
 
@@ -152,7 +151,7 @@ npm ci
 ./blog.sh build
 ```
 
-该命令会把 Jekyll 构建到 `dist`，生成热门文章索引，再压缩 `dist` 中的自定义 JS、CSS 和 `service-worker.js`。GitHub Actions 使用相同构建工具，但目的地为 `_site`，并额外生成最新评论索引、执行站点检查和依赖审计。
+该命令会把 Jekyll 构建到 `dist`，生成热门文章索引，再压缩 `dist` 中的自定义 JS、CSS 和 `service-worker.js`。GitHub Actions 使用相同构建工具，但目的地为 `_site`，并额外执行站点检查和依赖审计。
 
 ## 构建与压缩
 
@@ -161,7 +160,6 @@ npm ci
 ```bash
 bundle exec jekyll build --destination _site
 npm ci
-npm run latest-comments -- _site
 npm run popular -- _site
 npm run minify -- _site
 ```
@@ -170,7 +168,6 @@ npm run minify -- _site
 
 | 脚本 | 输出 | 规则 |
 |---|---|---|
-| [scripts/build-latest-comments.mjs](scripts/build-latest-comments.mjs) | `_site/static/json/latest-comments.json` | 通过 GitHub API 抓取 Discussions 及评论，只匹配标题为文章路径的 Discussion，按时间倒序保留 20 条；首页渲染前 10 条 |
 | [scripts/build-popular-posts.mjs](scripts/build-popular-posts.mjs) | `_site/static/json/popular-posts.json` | 读取文章 manifest 和 Abacus 打开次数，按访问量排序取 20 篇；不足时用最新文章补足 |
 | [scripts/check_site.mjs](scripts/check_site.mjs) | 终端检查结果 | 检查生成 HTML 的基础 SEO 和内部链接，调用 Ruby 校验 XML，并解析压缩后的 Service Worker |
 
@@ -186,8 +183,6 @@ npm run minify -- _site
 
 | 变量 | 用途 |
 |---|---|
-| `GITHUB_REPOSITORY` | 最新评论脚本默认使用 `springvortex/springvortex.github.io`，GitHub Actions 会自动提供 |
-| `GITHUB_TOKEN` | 可选；CI 中用于提高 GitHub API 配额和稳定性 |
 | `POPULAR_COUNTER_ENDPOINT` / `POPULAR_COUNTER_NAMESPACE` | 热门文章读取打开次数所需；未设置时生成最近文章兜底榜单 |
 
 ## 站点配置
@@ -202,7 +197,6 @@ npm run minify -- _site
 | `links` | 书签页数据源 |
 | `footerText` | 页脚内容，支持 HTML |
 | `pageViewEndpoint` / `pageViewNamespace` | 文章打开计数服务；当前使用 Abacus 兼容接口，只在 `uhaiin.com` 线上域名计数 |
-| `giscus` | 文章评论区配置；`categoryId` 为空时不输出评论区 |
 | `googleSiteVerification` 等 | 搜索平台验证码，留空时不输出标签 |
 | `exclude` | 排除 `CNAME`、README、脚本、依赖等非站点文件 |
 
@@ -214,18 +208,10 @@ npm run minify -- _site
 | `extMath` | `true` | MathJax 数学公式 |
 | `extMermaid` | `true` | Mermaid 图表 |
 | `extQrCode` | `true` | 文章二维码 |
-| `extGiscus` | `true` | 文章末尾 GitHub Discussions 评论；需要在 GitHub 开启 Discussions、安装 giscus App 并填写 `giscus.categoryId` |
 | `extThemeToggle` | `true` | 右下角主题按钮；关闭后主题仍跟随系统和已保存偏好 |
 | `extServiceWorker` | `true` | PWA 离线缓存 |
 
 文章目录、代码复制、图片预览和相关推荐当前是默认功能，没有独立开关。
-
-### 开启 giscus 评论
-
-1. 在 GitHub 仓库 Settings 中开启 Discussions。
-2. 为 `springvortex/springvortex.github.io` 安装 [giscus App](https://github.com/apps/giscus)。
-3. 打开 [giscus 配置页](https://giscus.app/zh-CN)，选择本仓库和 `Announcements` 分类，取得 `categoryId`。
-4. 把 `categoryId` 填入 `_config.yml` 的 `giscus.categoryId`。该值为空时文章页不输出评论区。
 
 ## 写文章
 
@@ -311,12 +297,11 @@ Mermaid 图表使用 `mermaid` 语言标识；构建后渲染为图表，不显�
 | `static/xml/search.xml` | 全文搜索索引 |
 | `static/json/posts.json` | 文章标题、URL、计数 key 和发布时间 manifest |
 | `static/json/popular-posts.json` | CI 生成的热门文章索引 |
-| `static/json/latest-comments.json` | CI 从 GitHub Discussions 生成的最新评论索引 |
 | `static/manifest.webmanifest` | PWA 安装信息 |
 
 搜索页会预取搜索索引，并用 `localStorage` 按内容指纹缓存；标题来自页面初始列表，正文内容来自搜索索引。
 
-Service Worker 会预缓存首页、核心 CSS/JS、自托管字体和头像，运行时缓存同源 GET 请求，跳过压缩包和 PDF 等下载资源；热门文章与最新评论 JSON 使用网络优先，避免读到旧榜单。离线导航失败时回退到已缓存首页。非 HTTPS 环境下只允许 `127.0.0.1` 注册，方便本地调试。
+Service Worker 会预缓存首页、核心 CSS/JS、自托管字体和头像，运行时缓存同源 GET 请求，跳过压缩包和 PDF 等下载资源；热门文章 JSON 使用网络优先，避免读到旧榜单。离线导航失败时回退到已缓存首页。非 HTTPS 环境下只允许 `127.0.0.1` 注册，方便本地调试。
 
 ## 第三方 CDN
 
@@ -340,7 +325,7 @@ Service Worker 会预缓存首页、核心 CSS/JS、自托管字体和头像，�
 3. `bundle install`
 4. 生产环境构建 Jekyll 到 `_site`
 5. `npm ci`
-6. 生成最新评论和热门文章 JSON
+6. 生成热门文章 JSON
 7. 压缩 `_site`
 8. 执行生成物检查和 npm audit
 9. 上传 Pages artifact 并部署
@@ -351,7 +336,7 @@ GitHub 仓库需要设置：
 Settings -> Pages -> Build and deployment -> Source -> GitHub Actions
 ```
 
-工作流有三种触发方式：推送 `main`、仓库 Discussion 出现新评论、Actions 页面手动触发。新增评论会重新构建站点并刷新首页最新评论。
+工作流有两种触发方式：推送 `main` 和 Actions 页面手动触发。
 
 ### 自定义域名
 
@@ -377,7 +362,6 @@ node --check static/js/blog.js
 node --check static/js/search.js
 npm ci
 JEKYLL_ENV=production bundle exec jekyll build --destination _site
-npm run latest-comments -- _site
 npm run popular -- _site
 npm run minify -- _site
 npm run check -- _site

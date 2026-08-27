@@ -19,8 +19,7 @@ const precacheUrls = [
 ]
 const downloadPattern = /\.(?:rar|zip|7z|pdf)$/i
 const networkOnlyPaths = [
-  baseUrl + '/static/json/popular-posts.json',
-  baseUrl + '/static/json/latest-comments.json'
+  baseUrl + '/static/json/popular-posts.json'
 ]
 
 self.addEventListener('install', function (event) {

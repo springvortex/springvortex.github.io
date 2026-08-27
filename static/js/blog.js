@@ -789,61 +789,6 @@ blog.addLoadEvent(function () {
     .catch(function () {})
 })
 
-// 首页最新评论：构建时从 GitHub Discussions 拉取
-blog.addLoadEvent(function () {
-  const list = document.getElementById('latest-comment-list')
-  const empty = document.getElementById('latest-comment-empty')
-  if (!list || !empty) {
-    return
-  }
-
-  fetch(blog.baseurl + '/static/json/latest-comments.json', {
-    cache: 'no-store',
-    credentials: 'omit'
-  })
-    .then(function (response) {
-      if (!response.ok) {
-        throw new Error('latest comments request failed')
-      }
-      return response.json()
-    })
-    .then(function (data) {
-      const comments = Array.isArray(data.comments) ? data.comments.slice(0, 10) : []
-      list.textContent = ''
-      empty.hidden = comments.length > 0
-      const rail = list.closest('.right-rail')
-
-      comments.forEach(function (comment) {
-        if (!comment.postUrl || !comment.author) {
-          return
-        }
-
-        const body = blog.trim(comment.body) || '评论'
-        const text = comment.author + '：' + body
-        const item = document.createElement('li')
-        const link = document.createElement('a')
-        link.href = blog.baseurl + comment.postUrl + '#post-comments'
-        link.title = text
-
-        const name = document.createElement('span')
-        name.className = 'rail-name'
-        name.textContent = text
-        link.appendChild(name)
-        item.appendChild(link)
-        list.appendChild(item)
-      })
-
-      if (rail) {
-        while (list.lastElementChild && rail.scrollHeight > rail.clientHeight) {
-          list.removeChild(list.lastElementChild)
-        }
-      }
-
-      empty.hidden = list.children.length > 0
-    })
-    .catch(function () {})
-})
-
 // 首页年份列表和分类列表手动分批展示
 blog.addLoadEvent(function () {
   const buttons = document.querySelectorAll('.list-post .load-more')

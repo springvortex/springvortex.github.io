@@ -78,8 +78,6 @@ extMath: true
 extMermaid: true
 # 文章二维码，不需要请设置为false
 extQrCode: true
-# 文章评论，基于 GitHub Discussions；categoryId 为空时不输出评论区
-extGiscus: true
 # 页面右下角主题切换按钮，不需要请设置为false
 extThemeToggle: true
 # PWA离线缓存，不需要请设置为false
@@ -87,13 +85,6 @@ extServiceWorker: true
 # 文章打开次数与首页热门文章；Abacus 兼容接口可替换为自己的计数服务
 pageViewEndpoint: 'https://abacus.jasoncameron.dev'
 pageViewNamespace: 'uhaiin.com'
-
-# giscus 评论配置
-giscus:
-  repo: 'springvortex/springvortex.github.io'
-  repoId: 'R_kgDOT-vqdw'
-  category: 'Announcements'
-  categoryId: 'DIC_kwDOT-vqd84DEBBF'
 
 # 书签
 links:
