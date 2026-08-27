@@ -629,6 +629,14 @@
   list-style: none;
 }
 
+.post-toc {
+  scrollbar-width: none;
+}
+
+.post-toc::-webkit-scrollbar {
+  display: none;
+}
+
 .post-toc-overlay {
   position: fixed;
   inset: 0;
